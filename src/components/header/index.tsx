@@ -1,7 +1,18 @@
-import { Col, Row, Segmented } from 'antd'
+import IonIcon from '@sentre/antd-ionicon'
+import {
+  Button,
+  Col,
+  Popover,
+  Row,
+  Segmented,
+  Switch,
+  Tooltip,
+  Typography,
+} from 'antd'
 import { TabId } from 'constant'
 import { type } from 'os'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 
 type HeaderProps = {
   tabId: TabId
@@ -10,6 +21,23 @@ type HeaderProps = {
 }
 
 const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
+  const [retailerMode, setRetailerMode] = useState(false)
+  const location = useLocation()
+  const history = useHistory()
+  useEffect(() => {
+    if (location.pathname.includes('retailer')) {
+      return setRetailerMode(true)
+    }
+    setRetailerMode(false)
+  }, [location.pathname])
+  const onSwitch = (checked: boolean) => {
+    console.log('check: ', checked)
+    if (checked) {
+      return history.push('/retailer')
+    }
+    history.push('/user')
+  }
+
   return (
     <Row>
       <Col>
@@ -29,7 +57,28 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           onChange={(value) => setTabId(TabId.BoostList)}
         />
       </Col>
-      <Col></Col>
+      <Col>
+        <Popover
+          placement="bottomRight"
+          content={
+            <Row>
+              <Col>
+                <Typography.Text>Retailer mode</Typography.Text>
+                <Switch checked={retailerMode} onChange={onSwitch} />
+              </Col>
+            </Row>
+          }
+          trigger="click"
+          overlayClassName="slippage"
+          overlayInnerStyle={{ borderRadius: 24 }}
+        >
+          <Button
+            style={{ marginRight: -7 }}
+            type="text"
+            icon={<IonIcon name="cog-outline" />}
+          />
+        </Popover>
+      </Col>
     </Row>
   )
 }

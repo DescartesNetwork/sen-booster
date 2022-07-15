@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-import { Col, Row } from 'antd'
-import Banner from 'components/banner'
+import { Col } from 'antd'
 import Header from 'components/header'
 import Booster from './booster'
 import Redeem from './redeem'
