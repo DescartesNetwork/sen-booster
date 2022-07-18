@@ -1,6 +1,7 @@
 import { Button, Col, Input, Row, Switch, Typography } from 'antd'
 import { useState } from 'react'
 import { MintSelection } from 'shared/antd/mint'
+import NftInputList from './nftInputList'
 
 const DATES = [
   '7 days',
@@ -97,6 +98,14 @@ const AddBooster = () => {
             <Typography.Title>Boost by NFT</Typography.Title>
             <Switch onChange={onSwitch} />
           </Col>
+          {!!useNFT && (
+            <Col>
+              <NftInputList
+                nftList={nfts}
+                onChange={(value: string[]) => setNfts(value)}
+              />
+            </Col>
+          )}
         </Row>
       </Col>
       <Col>
