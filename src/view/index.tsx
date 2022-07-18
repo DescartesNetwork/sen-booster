@@ -13,7 +13,6 @@ import { MintProvider } from '@sentre/senhub/dist'
 const View = () => {
   // const { setBackground } = useUI()
   const { appRoute } = useAppRouter()
-
   // useEffect(() => {
   //   setBackground({ light: , dark: BG_DARK })
   // }, [setBackground])
@@ -23,7 +22,7 @@ const View = () => {
       <Switch>
         <Route path={`${appRoute}/user`} component={User} />
         <Route path={`${appRoute}/retailer`} component={Retailer} />
-        <Route path={`${appRoute}/add-booster`} component={AddBooster} />
+        <Route path={`${appRoute}/create-booster`} component={AddBooster} />
         <Route path="*">
           <Redirect to={`${appRoute}/user`} />
         </Route>
