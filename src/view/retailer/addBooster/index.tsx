@@ -1,4 +1,5 @@
 import { Button, Col, Input, Row, Switch, Typography } from 'antd'
+import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
 import { useState } from 'react'
 import { MintSelection } from 'shared/antd/mint'
 import NftInputList from './nftInputList'
@@ -31,6 +32,7 @@ const AddBooster = () => {
   const [endTime, setEndTime] = useState('')
   const [payRate, setPayRate] = useState<PayRateState>(initialPayRate)
   const [nfts, setNfts] = useState<string[]>([])
+  const { initializeBooster, loading } = useInitializeBooster()
 
   const onChangePayRate = (value: string, index: string) => {
     const clonePayRate = { ...payRate }
@@ -110,7 +112,9 @@ const AddBooster = () => {
       </Col>
       <Col>
         <Button>Cancel</Button>
-        <Button>Add</Button>
+        <Button onClick={initializeBooster} loading={loading}>
+          Add
+        </Button>
       </Col>
     </Row>
   )
