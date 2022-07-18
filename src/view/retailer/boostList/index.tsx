@@ -2,16 +2,15 @@ import { useHistory } from 'react-router-dom'
 import { Button, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import RetailCard from './retailCard'
+import { useAppRouter } from 'hooks/useAppRouter'
 
 const BoostList = () => {
-  const history = useHistory()
+  const { pushHistory } = useAppRouter()
   return (
     <Row>
       <Col span={24}>
         <Filter />
-        <Button onClick={() => history.push('/add-booster')}>
-          Add booster
-        </Button>
+        <Button onClick={() => pushHistory('/add-booster')}>Add booster</Button>
       </Col>
       <Col>
         {[1, 2, 3].map((booster) => (

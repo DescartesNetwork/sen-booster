@@ -1,3 +1,4 @@
+import AddNewBoost from 'actions/addNewBoost'
 import { Button, Col, Input, Row, Switch, Typography } from 'antd'
 import { useState } from 'react'
 import { MintSelection } from 'shared/antd/mint'
@@ -109,8 +110,7 @@ const AddBooster = () => {
         </Row>
       </Col>
       <Col>
-        <Button>Cancel</Button>
-        <Button>Add</Button>
+        <AddNewBoost />
       </Col>
     </Row>
   )

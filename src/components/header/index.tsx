@@ -10,6 +10,7 @@ import {
   Typography,
 } from 'antd'
 import { TabId } from 'constant'
+import { useAppRouter } from 'hooks/useAppRouter'
 import { type } from 'os'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -21,9 +22,10 @@ type HeaderProps = {
 }
 
 const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
+  const { pushHistory } = useAppRouter()
   const [retailerMode, setRetailerMode] = useState(false)
   const location = useLocation()
-  const history = useHistory()
+
   useEffect(() => {
     if (location.pathname.includes('retailer')) {
       return setRetailerMode(true)
@@ -33,9 +35,9 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   const onSwitch = (checked: boolean) => {
     console.log('check: ', checked)
     if (checked) {
-      return history.push('/retailer')
+      return pushHistory('/retailer')
     }
-    history.push('/user')
+    pushHistory('/user')
   }
 
   return (
