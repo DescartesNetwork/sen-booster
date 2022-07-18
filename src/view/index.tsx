@@ -8,6 +8,7 @@ import { useAppRouter } from 'hooks/useAppRouter'
 
 import './index.less'
 import AddBooster from './retailer/addBooster'
+import { MintProvider } from '@sentre/senhub/dist'
 
 const View = () => {
   // const { setBackground } = useUI()

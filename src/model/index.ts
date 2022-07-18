@@ -2,6 +2,10 @@ import { configureStore } from '@reduxjs/toolkit'
 import { devTools, bigintSerializationMiddleware } from 'model/devTools'
 
 import main from 'model/main.controller'
+import booster from 'model/booster.controller'
+import searchPools from 'model/searchBoosters.controller'
+import order from 'model/order.controller'
+import ordersFilter from 'model/ordersFilter.controller'
 
 /**
  * Isolated store
@@ -12,6 +16,10 @@ const model = configureStore({
   devTools: devTools(process.env.REACT_APP_ID as string),
   reducer: {
     main,
+    booster,
+    searchPools,
+    order,
+    ordersFilter,
   },
 })
 
