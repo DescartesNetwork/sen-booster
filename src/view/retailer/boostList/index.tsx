@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom'
 import { Button, Col, Row } from 'antd'
-import Filter from 'components/filter'
+import Filter from 'components/orderFilterSet'
 import RetailCard from './retailCard'
 
 const BoostList = () => {

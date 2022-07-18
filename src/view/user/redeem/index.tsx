@@ -1,15 +1,17 @@
-import { Col, Layout, Row, Table } from 'antd'
-import BSTTable from 'components/bstTable'
-import Filter from 'components/filter'
+import { Col, Row } from 'antd'
+import OrderTable from 'components/orderTable'
+import OrderFilterSet from 'components/orderFilterSet'
+import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
-function Redeem() {
+const Redeem = () => {
+  const { filteredOrders } = useFilterOrder()
   return (
     <Row>
       <Col>
-        <Filter />
+        <OrderFilterSet />
       </Col>
       <Col>
-        <BSTTable />
+        <OrderTable dataSource={filteredOrders} />
       </Col>
     </Row>
   )
