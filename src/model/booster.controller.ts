@@ -39,13 +39,13 @@ export const getBooster = createAsyncThunk<
 >(`${NAME}/getBooster`, async ({ address }, { getState }) => {
   if (!account.isAddress(address)) throw new Error('Invalid pool address')
   const {
-    pools: { [address]: data },
+    booster: { [address]: data },
   } = getState()
   if (data) return { [address]: data }
 
   // const poolData = await window.balansol.getPoolData(address)
-  const BoosterData = {}
-  return { [address]: BoosterData }
+  const boosterData = {}
+  return { [address]: boosterData }
 })
 
 export const upsetBooster = createAsyncThunk<

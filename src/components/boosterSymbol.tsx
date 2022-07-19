@@ -1,9 +1,16 @@
-import { PublicKey } from '@solana/web3.js'
+import { AppState } from 'model'
+import { useSelector } from 'react-redux'
 
 type BoosterSymbolProps = {
-  pair: [PublicKey, PublicKey]
+  boosterAddress: string
 }
-const BoosterSymbol = ({ pair }: BoosterSymbolProps) => {
+const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
+  const { bidMint, askMint } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
+
+  console.log(bidMint, askMint)
+
   return <>Booster symbol</>
 }
 

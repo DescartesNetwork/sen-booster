@@ -20,14 +20,14 @@ const initialState: OrderState = {}
  */
 
 export const getOrders = createAsyncThunk(`${NAME}/getOrders`, async () => {
-  // const orders = await window.senBooster.getAllPoolData()
+  // const orders = await window.senExchange
   const orders: any = []
   let bulk: OrderState = {}
   for (const order of orders) {
     const orderData: any = order.account as OrderData
     const orderState = orderData.state as OrderState
     if (orderState['deleted']) continue
-    bulk[order.publicKey.toBase58()] = boosterData
+    bulk[order.publicKey.toBase58()] = orderData
   }
   return bulk
 })
@@ -39,13 +39,13 @@ export const getOrder = createAsyncThunk<
 >(`${NAME}/getOrder`, async ({ address }, { getState }) => {
   if (!account.isAddress(address)) throw new Error('Invalid pool address')
   const {
-    pools: { [address]: data },
+    order: { [address]: data },
   } = getState()
   if (data) return { [address]: data }
 
   // const poolData = await window.balansol.getPoolData(address)
-  const BoosterData = {}
-  return { [address]: BoosterData }
+  const orderData = {}
+  return { [address]: orderData }
 })
 
 export const upsetOrder = createAsyncThunk<
@@ -62,11 +62,11 @@ export const removeOrder = createAsyncThunk<
   OrderState,
   { address: string },
   { state: any }
->(`${NAME}/removeBooster`, async ({ address }, { getState }) => {
-  const { booster } = getState()
+>(`${NAME}/removeOrder`, async ({ address }, { getState }) => {
+  const { orders } = getState()
   if (!account.isAddress(address)) throw new Error('Invalid pool address')
-  if (!booster[address]) throw new Error('Pool address does not exist!')
-  const newBooster = { ...booster }
+  if (!orders[address]) throw new Error('Pool address does not exist!')
+  const newBooster = { ...orders }
   delete newBooster[address]
   return newBooster
 })

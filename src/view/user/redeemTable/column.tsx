@@ -5,7 +5,7 @@ import IonIcon from '@sentre/antd-ionicon'
 import { util } from '@sentre/senhub'
 import { MintSymbol } from 'shared/antd/mint'
 
-export const ORDER_COLUMNS = [
+export const REDEEM_COLUMNS = [
   {
     title: 'TIME',
     dataIndex: 'time',

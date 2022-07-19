@@ -1,12 +1,16 @@
-import { PublicKey } from '@solana/web3.js'
-
 import { Row, Typography } from 'antd'
+import { AppState } from 'model'
+import { useSelector } from 'react-redux'
 
-type BoosterSymbolProps = {
-  pair: [PublicKey, PublicKey]
+type BoosterNameProps = {
+  boosterAddress: string
 }
 
-const BoosterName = ({ pair }: BoosterSymbolProps) => {
+const BoosterName = ({ boosterAddress }: BoosterNameProps) => {
+  const { bidMint, askMint } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
+  console.log(bidMint, askMint)
   return (
     <Row>
       <Typography.Title level={3}>USDC.SNTRLP-SNTR</Typography.Title>

@@ -63,7 +63,6 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           }
           value={tabId}
           onChange={(value) => {
-            console.log('value:', value)
             setTabId(value)
           }}
         />
