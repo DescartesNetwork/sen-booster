@@ -1,5 +1,5 @@
 import AddNewBoost from 'actions/addNewBoost'
-import { Button, Col, Input, Row, Switch, Typography } from 'antd'
+import { Col, Input, Row, Switch, Typography } from 'antd'
 import { useState } from 'react'
 import { MintSelection } from 'shared/antd/mint'
 import NftInputList from './nftInputList'
@@ -73,6 +73,20 @@ const AddBooster = () => {
             <Input
               onChange={(value) => setBudget(value.target.value)}
               value={budget}
+            />
+          </Col>
+          <Col span={12}>
+            <Typography.Text>Start time</Typography.Text>
+            <Input
+              onChange={(value) => setStartTime(value.target.value)}
+              value={startTime}
+            />
+          </Col>
+          <Col span={12}>
+            <Typography.Text>End time</Typography.Text>
+            <Input
+              onChange={(value) => setEndTime(value.target.value)}
+              value={endTime}
             />
           </Col>
         </Row>

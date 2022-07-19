@@ -15,8 +15,8 @@ const Booster = () => {
         <SearchAndFilter />
       </Col>
       <Col>
-        {Object.values(listBoosters).map((booster) => (
-          <BoosterCard />
+        {Object.keys(listBoosters).map((boosterAddr) => (
+          <BoosterCard boosterAddr={boosterAddr} />
         ))}
       </Col>
     </Row>

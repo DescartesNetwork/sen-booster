@@ -6,13 +6,13 @@ import BoostList from './boostList'
 import OrderList from './orderList'
 
 function Retailer() {
-  const [tabId, setTabId] = useState<TabId>(TabId.Booster)
+  const [tabId, setTabId] = useState(TabId.BoostList)
   return (
     <Layout>
       <Col span={24}>
         <Header tabId={tabId} setTabId={setTabId} isRetailer={true} />
       </Col>
-      <Col>{tabId === TabId.Booster ? <BoostList /> : <OrderList />}</Col>
+      <Col>{tabId === TabId.BoostList ? <BoostList /> : <OrderList />}</Col>
     </Layout>
   )
 }

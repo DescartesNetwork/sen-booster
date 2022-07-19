@@ -12,7 +12,7 @@ export const ORDER_COLUMNS = [
     key: 'time',
   },
   {
-    title: 'TRANSACTION ID',
+    title: 'ORDER ID',
     dataIndex: 'transactionId',
     key: 'transactionId',
     render: (text: string) => (
@@ -33,7 +33,7 @@ export const ORDER_COLUMNS = [
     ),
   },
   {
-    title: 'FROM',
+    title: 'BUY-BACK',
     dataIndex: 'from',
     key: 'from',
     render: (text: string) => (
@@ -41,7 +41,7 @@ export const ORDER_COLUMNS = [
     ),
   },
   {
-    title: 'TO',
+    title: 'PAY',
     dataIndex: 'to',
     key: 'to',
     render: (text: string) => (
@@ -49,7 +49,7 @@ export const ORDER_COLUMNS = [
     ),
   },
   {
-    title: 'AMOUNT',
+    title: 'LOCK TIME',
     key: 'amount',
     dataIndex: 'amount',
     render: (text: string, record: any) => {
@@ -68,6 +68,12 @@ export const ORDER_COLUMNS = [
   },
   {
     title: 'STATUS',
+    key: 'status',
+    dataIndex: 'status',
+    render: (text: string) => <StatusTag tag="success" />,
+  },
+  {
+    title: 'ACTION',
     key: 'status',
     dataIndex: 'status',
     render: (text: string) => <StatusTag tag="success" />,

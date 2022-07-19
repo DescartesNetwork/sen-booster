@@ -9,12 +9,12 @@ import Layout from 'components/layout'
 import { TabId } from 'constant'
 
 function User() {
-  const [tabId, setTabId] = useState<TabId>(TabId.Booster)
+  const [tabId, setTabId] = useState(TabId.Booster)
 
   return (
     <Layout>
       <Col span={24}>
-        <Header tabId={tabId} setTabId={setTabId} isRetailer={false} />
+        <Header tabId={tabId} setTabId={setTabId} />
       </Col>
       <Col>{tabId === TabId.Booster ? <Booster /> : <Redeem />}</Col>
       <Col>

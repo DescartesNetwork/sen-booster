@@ -1,18 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { account } from '@senswap/sen-js'
-import { PublicKey } from '@solana/web3.js'
-
-enum State {
-  Uninitialized = 'uninitialized',
-}
-export type OrderData = {
-  authority: PublicKey
-  retailer: PublicKey
-  receiver: PublicKey
-  askAmount: number
-  lockTime: number
-  state: State
-}
+import { OrderData } from 'sen-exchange-core'
 
 /**
  * Interface & Utility
@@ -24,7 +12,7 @@ export type OrderState = Record<string, OrderData>
  * Store constructor
  */
 
-const NAME = 'boosters'
+const NAME = 'orders'
 const initialState: OrderState = {}
 
 /**
@@ -32,14 +20,14 @@ const initialState: OrderState = {}
  */
 
 export const getOrders = createAsyncThunk(`${NAME}/getOrders`, async () => {
-  // const pools = await window.senBooster.getAllPoolData()
-  const pools: any = []
+  // const orders = await window.senBooster.getAllPoolData()
+  const orders: any = []
   let bulk: OrderState = {}
-  for (const pool of pools) {
-    const boosterData: any = pool.account as OrderData
-    const poolState = boosterData.state as OrderState
-    if (poolState['deleted']) continue
-    bulk[pool.publicKey.toBase58()] = boosterData
+  for (const order of orders) {
+    const orderData: any = order.account as OrderData
+    const orderState = orderData.state as OrderState
+    if (orderState['deleted']) continue
+    bulk[order.publicKey.toBase58()] = boosterData
   }
   return bulk
 })

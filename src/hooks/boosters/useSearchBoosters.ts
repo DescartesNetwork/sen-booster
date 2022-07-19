@@ -8,7 +8,7 @@ import { BoosterState } from 'model/booster.controller'
 export const useSearchedBoosters = (pools: BoosterState) => {
   const [boostersSearched, setBoostersSearched] = useState<BoosterState>({})
   const searchInput = useSelector(
-    (state: AppState) => state.searchPools.searchInput,
+    (state: AppState) => state.searchBoosters.searchInput,
   )
   const { tokenProvider } = useMint()
 

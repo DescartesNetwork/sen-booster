@@ -28,7 +28,7 @@ const initialState: SearchState = {
 
 export const setFilterUserBooster = createAsyncThunk(
   `${NAME}/setFilterUserBooster`,
-  async ({ filterBooster }: { filterBooster: UserBoosterCategory }) => {
+  async (filterBooster: UserBoosterCategory) => {
     return {
       filterUserBooster: filterBooster,
     }

@@ -1,6 +1,9 @@
-import React from 'react'
+import { PublicKey } from '@solana/web3.js'
 
-const BoosterSymbol = () => {
+type BoosterSymbolProps = {
+  pair: [PublicKey, PublicKey]
+}
+const BoosterSymbol = ({ pair }: BoosterSymbolProps) => {
   return <>Booster symbol</>
 }
 

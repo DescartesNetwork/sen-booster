@@ -1,25 +1,28 @@
 import { Col, Row, Select } from 'antd'
 import { Mode, RetailerBoosterCategory, UserBoosterCategory } from 'constant'
-import { AppDispatch } from 'model'
+import { AppDispatch, AppState } from 'model'
 import { setFilterUserBooster } from 'model/searchBoosters.controller'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const { Option } = Select
 
 type FilterBoosterProps = {
   options: { key: string; value: any }[]
-  onFilter: (value: string) => void
+  onFilter: (value: any) => void
+  value: any
 }
 
-const Filter = ({ onFilter, options }: FilterBoosterProps) => {
+const Filter = ({ onFilter, options, value }: FilterBoosterProps) => {
   return (
     <Row>
       <Col>
         <Select
-          defaultValue={options[0]?.value}
+          value={value}
           style={{ width: 120 }}
-          onChange={onFilter}
+          onChange={(val) => {
+            onFilter(val)
+          }}
         >
           {options.map((val) => (
             <Option value={val.value}>{val.value}</Option>

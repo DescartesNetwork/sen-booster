@@ -9,20 +9,25 @@ import {
   Tooltip,
   Typography,
 } from 'antd'
-import { TabId } from 'constant'
+import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
+import { AppDispatch } from 'model'
+import { switchMode } from 'model/ordersFilter.controller'
 import { type } from 'os'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 
 type HeaderProps = {
   tabId: TabId
-  setTabId: (newValue: TabId) => void
+  setTabId: (newValue: any) => void
   isRetailer?: boolean
 }
 
 const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   const { pushHistory } = useAppRouter()
+  const dispatch = useDispatch<AppDispatch>()
+
   const [retailerMode, setRetailerMode] = useState(false)
   const location = useLocation()
 
@@ -33,10 +38,11 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
     setRetailerMode(false)
   }, [location.pathname])
   const onSwitch = (checked: boolean) => {
-    console.log('check: ', checked)
     if (checked) {
+      dispatch(switchMode(Mode.Retailer))
       return pushHistory('/retailer')
     }
+    dispatch(switchMode(Mode.User))
     pushHistory('/user')
   }
 
@@ -56,7 +62,10 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
                 ]
           }
           value={tabId}
-          onChange={(value) => setTabId(TabId.BoostList)}
+          onChange={(value) => {
+            console.log('value:', value)
+            setTabId(value)
+          }}
         />
       </Col>
       <Col>

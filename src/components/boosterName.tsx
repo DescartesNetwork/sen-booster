@@ -1,7 +1,12 @@
-import { Row, Typography } from 'antd'
-import React from 'react'
+import { PublicKey } from '@solana/web3.js'
 
-const BoosterName = () => {
+import { Row, Typography } from 'antd'
+
+type BoosterSymbolProps = {
+  pair: [PublicKey, PublicKey]
+}
+
+const BoosterName = ({ pair }: BoosterSymbolProps) => {
   return (
     <Row>
       <Typography.Title level={3}>USDC.SNTRLP-SNTR</Typography.Title>

@@ -1,9 +1,14 @@
 import { Col, Row } from 'antd'
+import { PublicKey } from '@solana/web3.js'
 
-const BoostPair = () => {
+type BoostPairProps = {
+  pair: [PublicKey, PublicKey]
+}
+
+const BoostPair = ({ pair }: BoostPairProps) => {
   return (
     <Row>
-      <Col>Token Pair</Col>
+      <Col>Boost Pair Data</Col>
     </Row>
   )
 }

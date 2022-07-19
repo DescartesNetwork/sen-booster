@@ -1,18 +1,26 @@
 import { Col, Row } from 'antd'
 import BoosterProcess from 'components/boosterProcess'
+import { AppState } from 'model'
+import { useSelector } from 'react-redux'
 import Manage from '../manage'
 import BoostPair from './boostPair'
 
-function RetailCard() {
+type RetailCardProps = {
+  boosterAddr: string
+}
+const RetailCard = ({ boosterAddr }: RetailCardProps) => {
+  const { bidMint, askMint, bidTotal, bidReserve } = useSelector(
+    (state: AppState) => state.booster[boosterAddr],
+  )
   return (
     <Row>
-      <BoostPair />
+      <BoostPair pair={[bidMint, askMint]} />
       <Col>Time and isBoost</Col>
       <Col>
-        <BoosterProcess />
+        <BoosterProcess bidReserve={bidReserve} budget={bidTotal} />
       </Col>
       <Col>
-        <Manage />
+        <Manage boosterAddr={boosterAddr} />
       </Col>
     </Row>
   )

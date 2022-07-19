@@ -1,7 +1,12 @@
+import { BN } from '@project-serum/anchor'
 import { Col, Row, Typography } from 'antd'
-import React from 'react'
 
-const BoosterProcess = () => {
+type BoosterProcessProps = {
+  bidReserve: BN
+  budget: BN
+}
+
+const BoosterProcess = ({ bidReserve, budget }: BoosterProcessProps) => {
   return (
     <Row>
       <Col>

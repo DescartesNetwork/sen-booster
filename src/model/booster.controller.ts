@@ -1,26 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { account } from '@senswap/sen-js'
-import { PublicKey } from '@solana/web3.js'
-
-export type BoosterData = {
-  authority: PublicKey
-  bidMint: PublicKey
-  askMint: PublicKey
-  askTreasury: PublicKey
-  bidTreasury: PublicKey
-  bidAmount: number
-  bidPrice: number
-  bidReserve: number
-  askAmount: number
-  startTime: number
-  endTime: number
-}
+import { RetailerData } from 'sen-exchange-core'
 
 /**
  * Interface & Utility
  */
 
-export type BoosterState = Record<string, BoosterData>
+export type BoosterState = Record<string, RetailerData>
 
 /**
  * Store constructor
@@ -38,7 +24,7 @@ export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
   const pools: any = []
   let bulk: BoosterState = {}
   for (const pool of pools) {
-    const boosterData: any = pool.account as BoosterData
+    const boosterData: any = pool.account as RetailerData
     const poolState = boosterData.state as BoosterState
     if (poolState['deleted']) continue
     bulk[pool.publicKey.toBase58()] = boosterData
@@ -64,7 +50,7 @@ export const getBooster = createAsyncThunk<
 
 export const upsetBooster = createAsyncThunk<
   BoosterState,
-  { address: string; data: BoosterData },
+  { address: string; data: RetailerData },
   { state: any }
 >(`${NAME}/upsetBooster`, async ({ address, data }) => {
   if (!account.isAddress(address)) throw new Error('Invalid pool address')
