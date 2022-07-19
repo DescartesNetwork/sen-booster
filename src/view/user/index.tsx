@@ -13,7 +13,7 @@ function User() {
 
   return (
     <Layout>
-      <Col span={24}>
+      <Col>
         <Header tabId={tabId} setTabId={setTabId} />
       </Col>
       <Col>{tabId === TabId.Booster ? <Booster /> : <Redeem />}</Col>
