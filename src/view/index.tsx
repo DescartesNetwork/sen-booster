@@ -5,10 +5,9 @@ import Retailer from './retailer'
 
 import { AppWatcher } from 'watcher'
 import { useAppRouter } from 'hooks/useAppRouter'
+import AddBooster from './retailer/addBooster'
 
 import './index.less'
-import AddBooster from './retailer/addBooster'
-import { MintProvider } from '@sentre/senhub/dist'
 
 const View = () => {
   // const { setBackground } = useUI()
