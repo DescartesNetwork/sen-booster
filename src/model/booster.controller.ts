@@ -29,6 +29,7 @@ export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
     if (poolState['deleted']) continue
     bulk[pool.publicKey.toBase58()] = boosterData
   }
+
   return bulk
 })
 

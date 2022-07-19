@@ -1,5 +1,5 @@
-import { Col, Image, Row } from 'antd'
-import Banner from 'static/images/booster_header_bg.png'
+import { Col, Row } from 'antd'
+import Banner from 'components/banner'
 
 type LayoutProps = {
   children: any
@@ -11,9 +11,9 @@ const Layout = ({ children }: LayoutProps) => {
       <Col span={16}>
         <Row gutter={[24, 24]}>
           <Col>
-            <Image src={Banner} preview={false} />
+            <Banner />
           </Col>
-          <Col>{children}</Col>
+          <Col span={24}>{children}</Col>
         </Row>
       </Col>
     </Row>

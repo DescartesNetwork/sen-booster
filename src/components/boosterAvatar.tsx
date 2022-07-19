@@ -3,11 +3,10 @@ import { AppState } from 'model'
 import { useSelector } from 'react-redux'
 import { MintSymbol } from 'shared/antd/mint'
 
-type BoosterSymbolProps = {
+type BoosterAvatarProps = {
   boosterAddress: string
 }
-
-const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
+const BoosterAvatar = ({ boosterAddress }: BoosterAvatarProps) => {
   const { bidMint, askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
@@ -21,4 +20,4 @@ const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
   )
 }
 
-export default BoosterSymbol
+export default BoosterAvatar

@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
-import BoosterName from 'components/boosterName'
 import BoosterSymbol from 'components/boosterSymbol'
+import BoosterAvatar from 'components/boosterAvatar'
 import BoosterProcess from '../../../../components/boosterProcess'
 import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
@@ -15,8 +15,8 @@ const BoosterCard = ({ boosterAddr }: BoosterCardProps) => {
       <Col span={24}>
         <Row>
           <Col>
+            <BoosterAvatar boosterAddress={boosterAddr} />
             <BoosterSymbol boosterAddress={boosterAddr} />
-            <BoosterName boosterAddress={boosterAddr} />
           </Col>
           <Col flex="auto">
             <BuyNow boosterAddr={boosterAddr} />

@@ -49,7 +49,7 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   }
 
   return (
-    <Row>
+    <Row justify="space-between">
       <Col>
         <Segmented
           options={isRetailer ? RETAILER_TABS : USER_TABS}
@@ -58,6 +58,10 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
         />
       </Col>
       <Col>
+        <Button ghost>
+          <IonIcon name="arrow-down-outline" />
+          FAQ
+        </Button>
         <Popover
           placement="bottomRight"
           content={
@@ -73,6 +77,7 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           overlayInnerStyle={{ borderRadius: 24 }}
         >
           <Button
+            ghost
             style={{ marginRight: -7 }}
             type="text"
             icon={<IonIcon name="cog-outline" />}

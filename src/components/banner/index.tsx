@@ -1,20 +1,49 @@
-import { Col, Row, Typography } from 'antd'
+import IonIcon from '@sentre/antd-ionicon'
+import { Col, Row, Image, Space, Typography } from 'antd'
+import BannerImage from 'static/images/header_banner.png'
 
-function Banner() {
+const Banner = () => {
   return (
     <Row>
-      <Col span={5}>
-        <Typography.Title>SenBooster</Typography.Title>
-      </Col>
       <Col>
-        <Typography.Text>
-          Those who deserve a distro! Allow Liquidity Provider can sell their LP
-          token to buy SNTR with a discount price. Allow appropriate control on
-          liquidity should or not be given to the DAO. Time Lock that gives you
-          Ammasador rights to Pool (Balanced Ecosystem Joining Budget) which
-          will go to the pool that generates the highest pool through through
-          the vote pool will be selected.
-        </Typography.Text>
+        <Image src={BannerImage} preview={false} style={{ borderRadius: 10 }} />
+      </Col>
+      <Col
+        style={{
+          position: 'absolute',
+          padding: 24,
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <Space direction="vertical">
+          <Typography.Title
+            level={2}
+            style={{ fontWeight: 800, color: '#0B358F' }}
+          >
+            100% OTC Market built on Smart Contracts
+          </Typography.Title>
+          <Space>
+            <Space>
+              <IonIcon
+                name="checkmark-circle"
+                style={{
+                  fontSize: 14,
+                }}
+              />
+              <Typography.Title level={5}> No Slippage</Typography.Title>
+            </Space>
+            <Space>
+              <IonIcon
+                name="checkmark-circle"
+                style={{
+                  fontSize: 14,
+                }}
+              />
+              <Typography.Title level={5}> No Price impact</Typography.Title>
+            </Space>
+          </Space>
+        </Space>
       </Col>
     </Row>
   )
