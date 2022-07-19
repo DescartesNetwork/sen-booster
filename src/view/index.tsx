@@ -5,7 +5,7 @@ import Retailer from './retailer'
 
 import { AppWatcher } from 'watcher'
 import { useAppRouter } from 'hooks/useAppRouter'
-import AddBooster from '../actions/addBooster'
+import AddBooster from '../actions/createBooster'
 
 import './index.less'
 

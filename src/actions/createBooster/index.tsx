@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Button, Card, Col, Row, Typography } from 'antd'
-import GeneralInfo from './generalInfo'
+import GeneralInfo, { GeneralRef } from './generalInfo'
 import BoostNFT from './boostNFT'
 import PayRate, { PayRateState } from './payRate'
 import ActionCancel from './actionCancel'
@@ -10,42 +10,12 @@ import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
 
 import './index.less'
 
-const initialPayRate = {
-  '7 days': 0,
-  '30 days': 0,
-  '60 days': 0,
-  '90 days': 0,
-  '120 days': 0,
-  '365 days': 0,
-}
-
-const DEFAULT_GENERAL_INFO = {
-  bidMint: '',
-  askMint: '',
-  budget: '',
-  startTime: 0,
-  endTime: 0,
-}
-export type GeneralData = {
-  bidMint: string
-  askMint: string
-  budget: string
-  startTime: number
-  endTime: number
-}
-
 const AddBooster = () => {
   const [visible, setVisible] = useState(false)
-  const [generalData, setGeneralInfo] =
-    useState<GeneralData>(DEFAULT_GENERAL_INFO)
-  const [payRate, setPayRate] = useState<PayRateState>(initialPayRate)
+  const generalRef = useRef<GeneralRef>({} as GeneralRef)
+  const [payRate, setPayRate] = useState<PayRateState>({})
   const [nfts, setNfts] = useState<string[]>([])
-  const { initializeBooster, loading } = useInitializeBooster({
-    bidMint: generalData.bidMint,
-    askMint: generalData.askMint,
-    bidTotal: generalData.budget,
-    payRate,
-  })
+  const { initializeBooster, loading } = useInitializeBooster()
 
   const onChangePayRate = (value: number, date: string) => {
     const nextPayRate = { ...payRate }
@@ -53,11 +23,10 @@ const AddBooster = () => {
     return setPayRate(nextPayRate)
   }
 
-  const onChange = (value: string | number, name: string) => {
-    return setGeneralInfo({ ...generalData, [name]: value })
+  const onCreateBooster = () => {
+    const generalData = generalRef.current.collect()
+    initializeBooster({ ...generalData, payRate })
   }
-  const disabled =
-    !generalData.askMint || !generalData.askMint || !generalData.budget
 
   return (
     <Row justify="center">
@@ -68,7 +37,7 @@ const AddBooster = () => {
               <Typography.Title level={4}>Add boosters</Typography.Title>
             </Col>
             <Col span={24}>
-              <GeneralInfo generalData={generalData} onChange={onChange} />
+              <GeneralInfo ref={generalRef} />
             </Col>
             <Col span={24}>
               <PayRate payRate={payRate} setPayRate={onChangePayRate} />
@@ -88,9 +57,8 @@ const AddBooster = () => {
                   <Button
                     size="large"
                     block
-                    onClick={initializeBooster}
+                    onClick={onCreateBooster}
                     loading={loading}
-                    disabled={disabled}
                   >
                     Add
                   </Button>

@@ -15,7 +15,7 @@ import {
   Upload,
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
-import { MintSelection, MintSymbol } from 'shared/antd/mint'
+import { MintSelection, MintSymbol } from '@sen-use/components'
 import { useMintAccount } from 'hooks/useMintAccount'
 
 type BuyNowProps = {

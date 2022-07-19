@@ -41,7 +41,7 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
                 value={
                   <InputNumber
                     placeholder="Input rate"
-                    value={payRate[date] ? payRate[date] : undefined}
+                    value={payRate[date]}
                     onChange={(val) => setPayRate(val, date)}
                   />
                 }

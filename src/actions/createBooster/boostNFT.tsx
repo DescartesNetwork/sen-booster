@@ -31,19 +31,19 @@ const BoostNFT = ({ nftList, onChange }: BoostNFTProps) => {
   const onInput = (val: string, idx: number) => {
     const nextNFTs = [...nftList]
     nextNFTs[idx] = val
-    onChange(nextNFTs)
+    return onChange(nextNFTs)
   }
 
   const onAddMore = () => {
     const nextNFTs = [...nftList]
     nextNFTs.push('')
-    onChange(nextNFTs)
+    return onChange(nextNFTs)
   }
 
   const onDelete = (index: number) => {
     const nextNFTs = [...nftList]
     nextNFTs.splice(index, 1)
-    onChange(nextNFTs)
+    return onChange(nextNFTs)
   }
 
   return (

@@ -3,7 +3,7 @@ import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
 
 import { util } from '@sentre/senhub'
-import { MintSymbol } from 'shared/antd/mint'
+import { MintSymbol } from '@sen-use/components'
 
 export const REDEEM_COLUMNS = [
   {

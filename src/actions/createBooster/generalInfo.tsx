@@ -2,19 +2,42 @@ import moment from 'moment'
 
 import { Col, DatePicker, Input, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
+import { MintSelection } from '@sen-use/components'
 import Content from './content'
 
-import { GeneralData } from './index'
-import { MintSelection } from 'shared/antd/mint'
 import { FORMAT_DATE } from 'constant'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 
-type GeneralInfoProps = {
-  generalData: GeneralData
-  onChange: (value: string | number, name: string) => void
+type GeneralData = {
+  bidMint: string
+  askMint: string
+  budget: string
+  startTime: number
+  endTime: number
+}
+export type GeneralRef = {
+  collect: () => GeneralData
 }
 
-const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
-  const { budget, bidMint, endTime, askMint, startTime } = generalData
+const GeneralInfo = forwardRef((_, ref) => {
+  const [bidMint, setBidMint] = useState('')
+  const [askMint, setAskMint] = useState('')
+  const [budget, setBudget] = useState('')
+  const [startTime, setStartTime] = useState<number>(0)
+  const [endTime, setEndTime] = useState<number>(0)
+
+  useImperativeHandle<any, GeneralRef>(ref, () => ({
+    collect: () => {
+      return {
+        bidMint,
+        askMint,
+        budget,
+        startTime,
+        endTime,
+      }
+    },
+  }))
+
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
@@ -28,7 +51,7 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
               value={
                 <MintSelection
                   value={bidMint}
-                  onChange={(val) => onChange(val, 'bidMint')}
+                  onChange={setBidMint}
                   placeholder="Select LP"
                 />
               }
@@ -40,7 +63,7 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
               value={
                 <MintSelection
                   value={askMint}
-                  onChange={(val) => onChange(val, 'askMint')}
+                  onChange={setAskMint}
                   placeholder="Select a token"
                 />
               }
@@ -51,8 +74,7 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
               label="Budget"
               value={
                 <Input
-                  onChange={(e) => onChange(e.target.value, e.target.name)}
-                  name="budget"
+                  onChange={(e) => setBudget(e.target.value)}
                   value={budget}
                   placeholder="Input the budget amount of pay token"
                 />
@@ -67,9 +89,7 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
                   placeholder="Select time"
                   suffixIcon={<IonIcon name="time-outline" />}
                   className="date-option"
-                  onChange={(date) =>
-                    onChange(date?.valueOf() || 0, 'startTime')
-                  }
+                  onChange={(date) => setStartTime(date?.valueOf() || 0)}
                   clearIcon={null}
                   value={startTime ? moment(startTime) : null}
                   showTime={{ showSecond: false }}
@@ -87,7 +107,7 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
                   placeholder="Select time"
                   suffixIcon={<IonIcon name="time-outline" />}
                   className="date-option"
-                  onChange={(date) => onChange(date?.valueOf() || 0, 'endTime')}
+                  onChange={(date) => setEndTime(date?.valueOf() || 0)}
                   clearIcon={null}
                   value={endTime ? moment(endTime) : null}
                   showTime={{ showSecond: false }}
@@ -101,6 +121,6 @@ const GeneralInfo = ({ generalData, onChange }: GeneralInfoProps) => {
       </Col>
     </Row>
   )
-}
+})
 
 export default GeneralInfo
