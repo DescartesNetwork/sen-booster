@@ -17,7 +17,7 @@ const {
 
 export const Page = () => {
   return (
-    <UIProvider appId={appId} antd>
+    <UIProvider appId={appId} style={{ paddingBottom: 24 }}>
       <WalletProvider>
         <AccountProvider>
           <MintProvider>

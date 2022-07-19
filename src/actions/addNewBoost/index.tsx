@@ -1,21 +1,21 @@
 import { useState } from 'react'
+
 import { Button, Col, Modal, Row } from 'antd'
+
 import { useAppRouter } from 'hooks/useAppRouter'
-import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
 
 const AddNewBoost = () => {
   const { pushHistory } = useAppRouter()
-  const { initializeBooster, loading } = useInitializeBooster()
   const [visibleCancelPopup, setVisibleCancelPopup] = useState(false)
 
   return (
-    <Row>
-      <Col>
-        <Button onClick={() => setVisibleCancelPopup(true)}>Cancel</Button>
-        <Button onClick={initializeBooster} loading={loading}>
-          Add
+    <Row gutter={[12, 12]}>
+      <Col xs={24} md={12}>
+        <Button block onClick={() => setVisibleCancelPopup(true)}>
+          Cancel
         </Button>
       </Col>
+      <Col xs={24} md={12}></Col>
       <Modal
         title="Are you sure you want to cancel?"
         visible={visibleCancelPopup}
