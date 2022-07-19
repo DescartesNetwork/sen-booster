@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useAccount, useWallet } from '@sentre/senhub'
+import { OrderData } from 'sen-exchange-core'
 
 import { AppState } from 'model'
-import { OrderData, OrderState } from 'model/order.controller'
+import { OrderState } from 'model/order.controller'
 
 export const useFilterOrder = () => {
   const [filteredOrders, setFilteredOrders] = useState<OrderData[]>([])

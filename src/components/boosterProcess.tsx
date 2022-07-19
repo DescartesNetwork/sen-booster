@@ -1,12 +1,18 @@
-import { BN } from '@project-serum/anchor'
 import { Col, Row, Typography } from 'antd'
+import { AppState } from 'model'
+import { useSelector } from 'react-redux'
 
 type BoosterProcessProps = {
-  bidReserve: BN
-  budget: BN
+  boosterAddress: string
 }
 
-const BoosterProcess = ({ bidReserve, budget }: BoosterProcessProps) => {
+const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
+  const { bidReserve, bidTotal } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
+
+  console.log(bidReserve, bidTotal)
+
   return (
     <Row>
       <Col>

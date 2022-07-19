@@ -2,10 +2,10 @@ import { Col, Row } from 'antd'
 import { PublicKey } from '@solana/web3.js'
 
 type BoostPairProps = {
-  pair: [PublicKey, PublicKey]
+  boosterAddr: string
 }
 
-const BoostPair = ({ pair }: BoostPairProps) => {
+const BoostPair = ({ boosterAddr }: BoostPairProps) => {
   return (
     <Row>
       <Col>Boost Pair Data</Col>

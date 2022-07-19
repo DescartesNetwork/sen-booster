@@ -1,7 +1,5 @@
 import { Col, Row } from 'antd'
 import BoosterProcess from 'components/boosterProcess'
-import { AppState } from 'model'
-import { useSelector } from 'react-redux'
 import Manage from '../manage'
 import BoostPair from './boostPair'
 
@@ -9,15 +7,12 @@ type RetailCardProps = {
   boosterAddr: string
 }
 const RetailCard = ({ boosterAddr }: RetailCardProps) => {
-  const { bidMint, askMint, bidTotal, bidReserve } = useSelector(
-    (state: AppState) => state.booster[boosterAddr],
-  )
   return (
     <Row>
-      <BoostPair pair={[bidMint, askMint]} />
+      <BoostPair boosterAddr={boosterAddr} />
       <Col>Time and isBoost</Col>
       <Col>
-        <BoosterProcess bidReserve={bidReserve} budget={bidTotal} />
+        <BoosterProcess boosterAddress={boosterAddr} />
       </Col>
       <Col>
         <Manage boosterAddr={boosterAddr} />

@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
-import OrderTable from 'components/orderTable'
+import OrderTable from 'view/retailer/orderTable'
 import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 function OrderList() {

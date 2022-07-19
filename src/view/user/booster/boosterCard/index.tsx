@@ -4,25 +4,19 @@ import BoosterSymbol from 'components/boosterSymbol'
 import BoosterProcess from '../../../../components/boosterProcess'
 import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
-import { useSelector } from 'react-redux'
-import { AppState } from 'model'
 
 type BoosterCardProps = {
   boosterAddr: string
 }
 
 const BoosterCard = ({ boosterAddr }: BoosterCardProps) => {
-  const { bidMint, askMint, bidTotal, bidReserve } = useSelector(
-    (state: AppState) => state.booster[boosterAddr],
-  )
-
   return (
     <Row>
       <Col span={24}>
         <Row>
           <Col>
-            <BoosterSymbol pair={[bidMint, askMint]} />
-            <BoosterName pair={[bidMint, askMint]} />
+            <BoosterSymbol boosterAddress={boosterAddr} />
+            <BoosterName boosterAddress={boosterAddr} />
           </Col>
           <Col flex="auto">
             <BuyNow boosterAddr={boosterAddr} />
@@ -33,7 +27,7 @@ const BoosterCard = ({ boosterAddr }: BoosterCardProps) => {
         <Statistics />
       </Col>
       <Col span={24}>
-        <BoosterProcess bidReserve={bidReserve} budget={bidTotal} />
+        <BoosterProcess boosterAddress={boosterAddr} />
       </Col>
     </Row>
   )

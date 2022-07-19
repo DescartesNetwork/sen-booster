@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd'
-import OrderTable from 'components/orderTable'
+import RedeemTable from 'view/user/redeemTable'
 import OrderFilterSet from 'components/orderFilterSet'
 import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
@@ -11,7 +11,7 @@ const Redeem = () => {
         <OrderFilterSet />
       </Col>
       <Col>
-        <OrderTable dataSource={filteredOrders} />
+        <RedeemTable dataSource={filteredOrders} />
       </Col>
     </Row>
   )
