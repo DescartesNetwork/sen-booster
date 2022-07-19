@@ -62,7 +62,7 @@ const AddBooster = () => {
   return (
     <Row justify="center">
       <Col xs={24} md={16} lg={10}>
-        <Card>
+        <Card bordered={false}>
           <Row gutter={[32, 32]}>
             <Col span={24}>
               <Typography.Title level={4}>Add boosters</Typography.Title>

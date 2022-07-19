@@ -5,7 +5,7 @@ import BN from 'bn.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { TOKEN } from 'constant'
-import { PayRateState } from 'view/retailer/addBooster/payRate'
+import { PayRateState } from 'actions/addBooster/payRate'
 import { notifyError, notifySuccess } from 'helper'
 
 type UseInitializeBoosterProps = {
