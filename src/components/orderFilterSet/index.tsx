@@ -1,15 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import { Col, Row } from 'antd'
 import { AppDispatch, AppState } from 'model'
-import { setTimeFilter, setTokenFilter } from 'model/ordersFilter.controller'
-import { useDispatch, useSelector } from 'react-redux'
 import Filter from '../filter'
 
+import { setTimeFilter, setTokenFilter } from 'model/ordersFilter.controller'
+
 const OrderFilterSet = () => {
-  const statusFilter = useSelector(
-    (state: AppState) => state.ordersFilter.status,
+  const { status, time, token } = useSelector(
+    (state: AppState) => state.ordersFilter,
   )
-  const timeFilter = useSelector((state: AppState) => state.ordersFilter.time)
-  const tokenFilter = useSelector((state: AppState) => state.ordersFilter.token)
   const dispatch = useDispatch<AppDispatch>()
 
   const onTokenFilter = (value: string) => {
@@ -27,15 +27,13 @@ const OrderFilterSet = () => {
   return (
     <Row>
       <Col>
-        Token{' '}
-        <Filter options={[]} onFilter={onTokenFilter} value={tokenFilter} />
+        Token <Filter options={[]} onFilter={onTokenFilter} value={token} />
       </Col>
       <Col>
-        Time <Filter options={[]} onFilter={onTimeFilter} value={timeFilter} />
+        Time <Filter options={[]} onFilter={onTimeFilter} value={time} />
       </Col>
       <Col>
-        Status{' '}
-        <Filter options={[]} onFilter={onStatusFilter} value={statusFilter} />
+        Status <Filter options={[]} onFilter={onStatusFilter} value={status} />
       </Col>
     </Row>
   )

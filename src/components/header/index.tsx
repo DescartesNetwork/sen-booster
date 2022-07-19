@@ -24,6 +24,16 @@ type HeaderProps = {
   isRetailer?: boolean
 }
 
+const RETAILER_TABS = [
+  { label: 'Booster', value: TabId.Booster },
+  { label: 'Redeem', value: TabId.Redeem },
+]
+
+const USER_TABS = [
+  { label: 'Booster', value: TabId.Booster },
+  { label: 'Redeem', value: TabId.Redeem },
+]
+
 const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   const { pushHistory } = useAppRouter()
   const dispatch = useDispatch<AppDispatch>()
@@ -37,6 +47,7 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
     }
     setRetailerMode(false)
   }, [location.pathname])
+
   const onSwitch = (checked: boolean) => {
     if (checked) {
       dispatch(switchMode(Mode.Retailer))
@@ -50,22 +61,9 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
     <Row>
       <Col>
         <Segmented
-          options={
-            !isRetailer
-              ? [
-                  { label: 'Booster', value: TabId.Booster },
-                  { label: 'Redeem', value: TabId.Redeem },
-                ]
-              : [
-                  { label: 'Boost list', value: TabId.BoostList },
-                  { label: 'Order list', value: TabId.OrderList },
-                ]
-          }
+          options={isRetailer ? RETAILER_TABS : USER_TABS}
           value={tabId}
-          onChange={(value) => {
-            console.log('value:', value)
-            setTabId(value)
-          }}
+          onChange={setTabId}
         />
       </Col>
       <Col>

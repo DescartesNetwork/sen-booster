@@ -7,9 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 const { Search } = Input
 
 const SearchBooster = () => {
-  const { searchInput } = useSelector((state: AppState) => state.searchBoosters)
-
   const dispatch = useDispatch<AppDispatch>()
+  const { searchInput } = useSelector((state: AppState) => state.searchBoosters)
 
   const onSearch = (value: string) => {
     dispatch(setSearchInput({ searchText: value }))
