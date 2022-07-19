@@ -1,9 +1,11 @@
+import React, { Fragment } from 'react'
+
 import { Button } from 'antd'
 import { useFreezeBooster } from 'hooks/actions/useFreezeBooster'
-import React, { Fragment } from 'react'
 
 const FreezeBoost = () => {
   const { freezeBooster, loading } = useFreezeBooster()
+  console.log(loading)
   return (
     <Fragment>
       Content here

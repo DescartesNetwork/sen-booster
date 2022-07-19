@@ -1,4 +1,7 @@
-import React, { Fragment, useMemo, useState } from 'react'
+import React, { Fragment, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { AppState } from 'model'
+import { util } from '@sentre/senhub'
 
 import {
   Button,
@@ -12,11 +15,8 @@ import {
   Upload,
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
-import { util } from '@sentre/senhub/dist'
 import { MintSelection, MintSymbol } from 'shared/antd/mint'
 import { useMintAccount } from 'hooks/useMintAccount'
-import { useSelector } from 'react-redux'
-import { AppState } from 'model'
 
 type BuyNowProps = {
   boosterAddr: string

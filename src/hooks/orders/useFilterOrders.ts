@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useAccount, useWallet } from '@sentre/senhub'
+import { useWallet } from '@sentre/senhub'
 import { OrderData } from 'sen-exchange-core'
 
 import { AppState } from 'model'

@@ -1,22 +1,13 @@
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+
 import IonIcon from '@sentre/antd-ionicon'
-import {
-  Button,
-  Col,
-  Popover,
-  Row,
-  Segmented,
-  Switch,
-  Tooltip,
-  Typography,
-} from 'antd'
+import { Button, Col, Popover, Row, Segmented, Switch, Typography } from 'antd'
 import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppDispatch } from 'model'
 import { switchMode } from 'model/ordersFilter.controller'
-import { type } from 'os'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
 
 type HeaderProps = {
   tabId: TabId

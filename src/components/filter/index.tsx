@@ -1,9 +1,4 @@
 import { Col, Row, Select } from 'antd'
-import { Mode, RetailerBoosterCategory, UserBoosterCategory } from 'constant'
-import { AppDispatch, AppState } from 'model'
-import { setFilterUserBooster } from 'model/searchBoosters.controller'
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 const { Option } = Select
 

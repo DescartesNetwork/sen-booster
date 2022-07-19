@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd'
 import FilterBooster from 'components/filter'
 import SearchBooster from 'components/searchInput'
-import { Mode, UserBoosterCategory } from 'constant'
+import { UserBoosterCategory } from 'constant'
 import { AppDispatch, AppState } from 'model'
 import { setFilterUserBooster } from 'model/searchBoosters.controller'
 import React from 'react'
