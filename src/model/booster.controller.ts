@@ -20,14 +20,11 @@ const initialState: BoosterState = {}
  */
 
 export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
-  // const pools = await window.senBooster.getAllPoolData()
-  const pools: any = []
+  const retailers = await window.senBooster.program.account.retailer.all()
   let bulk: BoosterState = {}
-  for (const pool of pools) {
-    const boosterData: any = pool.account as RetailerData
-    const poolState = boosterData.state as BoosterState
-    if (poolState['deleted']) continue
-    bulk[pool.publicKey.toBase58()] = boosterData
+  for (const retailer of retailers) {
+    const boosterData = retailer.account
+    bulk[retailer.publicKey.toBase58()] = boosterData
   }
 
   return bulk

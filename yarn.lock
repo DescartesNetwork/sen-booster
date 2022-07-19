@@ -1909,6 +1909,20 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
+"@sen-use/components@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-1.0.10.tgz#2f074b4d02dbceccfd03da3777cf6a56883201bc"
+  integrity sha512-la59GLqMtt9FrSba/KVb4VmkTveF/FIQb7n3xEQEsASRx+8hirXpP4vrTg7DrcTLJbJEmdHh+sHHDryUicJcTQ==
+
+"@sen-use/web3@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-1.0.10.tgz#716cc8975c1a3122d73bf6d87de3575f8875a0d7"
+  integrity sha512-e4Ie28rOBKbyASoZFpMwWso8Fyf22IFTs2tMkPht7te+JqbXmb8o5XnNR7UnEKo+7JSrF2HnlAx21H+ffzhr4Q==
+  dependencies:
+    "@project-serum/anchor" "^0.24.2"
+    bn.js "^5.2.1"
+    web3.storage "^4.2.0"
+
 "@sen-use/web3@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-1.0.9.tgz#2e984b5825ce7699f5d75736bb11408c39c6fa14"
@@ -11907,6 +11921,14 @@ react-base16-styling@^0.6.0:
     lodash.curry "^4.0.1"
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
+
+react-copy-to-clipboard@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"
+  integrity sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==
+  dependencies:
+    copy-to-clipboard "^3.3.1"
+    prop-types "^15.8.1"
 
 react-dev-utils@^12.0.1:
   version "12.0.1"

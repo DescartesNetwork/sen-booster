@@ -1,12 +1,6 @@
-import { BN } from 'bn.js'
-import { useSenExchange } from 'hooks/useSenExchange'
 import { useCallback, useState } from 'react'
 
-const DEFAULT_BID_MINT = '5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ' // SNTR
-const DEFAULT_ASK_MINT = '2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj' // USDC
-
 export const useApproveOrder = () => {
-  const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
   const approveOrder = useCallback(async () => {
@@ -18,7 +12,7 @@ export const useApproveOrder = () => {
     } finally {
       setLoading(false)
     }
-  }, [senExchange])
+  }, [])
 
   return { approveOrder, loading }
 }

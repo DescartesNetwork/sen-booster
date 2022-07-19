@@ -22,3 +22,8 @@ export enum RetailerBoosterCategory {
   BoostOnly = 'Boost only',
   ExpiredBooster = 'Expired booster',
 }
+
+export const FORMAT_DATE = 'MMM DD, YYYY HH:mm'
+
+export const TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDg4MzdCZUI2ODM5MTcwODZjQUI3OTU0MzI3ZTgwOWU1ZTlCZTc2NTEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU0NTU5NzI5MjAsIm5hbWUiOiJTZW50cmUifQ.Jf7oQOKMrBxp5morvs7DR_As4EU9Y5WybyuvY1teFN8'

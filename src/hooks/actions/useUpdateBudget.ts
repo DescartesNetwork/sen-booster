@@ -1,8 +1,6 @@
-import { useSenExchange } from 'hooks/useSenExchange'
 import { useCallback, useState } from 'react'
 
 export const useUpdateBudget = () => {
-  const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
   const updateBudget = useCallback(async () => {
@@ -14,7 +12,7 @@ export const useUpdateBudget = () => {
     } finally {
       setLoading(false)
     }
-  }, [senExchange])
+  }, [])
 
   return { updateBudget, loading }
 }

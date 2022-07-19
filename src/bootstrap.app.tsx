@@ -6,14 +6,14 @@ import {
   MintProvider,
 } from '@sentre/senhub'
 
-import './static/styles/dark.less'
-import './static/styles/light.less'
-import './static/styles/index.less'
-
 import View from 'view'
 
 import model from 'model'
 import configs from 'configs'
+
+import './static/styles/dark.less'
+import './static/styles/light.less'
+import './static/styles/index.less'
 
 const {
   manifest: { appId },
@@ -21,7 +21,11 @@ const {
 
 export const Page = () => {
   return (
-    <UIProvider appId={appId} antd={{ prefixCls: appId }}>
+    <UIProvider
+      appId={appId}
+      antd={{ prefixCls: appId }}
+      style={{ paddingBottom: 24 }}
+    >
       <WalletProvider>
         <AccountProvider>
           <MintProvider>

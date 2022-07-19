@@ -1,32 +1,62 @@
-import { BN } from 'bn.js'
-import { useSenExchange } from 'hooks/useSenExchange'
 import { useCallback, useState } from 'react'
+import { IPFS } from '@sen-use/web3'
+import { CID } from 'multiformats/cid'
+import BN from 'bn.js'
 
-const DEFAULT_BID_MINT = '5YwUkPdXLoujGkZuo9B4LsLKj3hdkDcfP4derpspifSJ' // SNTR
-const DEFAULT_ASK_MINT = '2z6Ci38Cx6PyL3tFrT95vbEeB3izqpoLdxxBkJk2euyj' // USDC
+import { useSenExchange } from 'hooks/useSenExchange'
+import { TOKEN } from 'constant'
+import { PayRateState } from 'actions/createBooster/payRate'
+import { notifyError, notifySuccess } from 'helper'
+
+type UseInitializeBoosterProps = {
+  payRate: PayRateState
+  bidMint: string
+  askMint: string
+  budget: string
+  startTime: number
+  endTime: number
+}
 
 export const useInitializeBooster = () => {
   const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
-  const initializeBooster = useCallback(async () => {
-    try {
-      setLoading(true)
-      await senExchange.initializeRetailer({
-        bidMint: DEFAULT_BID_MINT,
-        askMint: DEFAULT_ASK_MINT,
-        bidPrice: new BN(0),
-        bidTotal: new BN(0),
-        startTime: new BN(0),
-        endTime: new BN(0),
-      })
-      window.notify({ type: 'success', description: 'Create OKe' })
-    } catch (error: any) {
-      window.notify({ type: 'error', description: error.message })
-    } finally {
-      setLoading(false)
-    }
-  }, [senExchange])
+  const initializeBooster = useCallback(
+    async ({
+      bidMint,
+      askMint,
+      budget,
+      startTime,
+      endTime,
+      payRate,
+    }: UseInitializeBoosterProps) => {
+      try {
+        setLoading(true)
+        const ipfs = new IPFS(TOKEN)
+        const cid = await ipfs.set(payRate)
+        const {
+          multihash: { digest },
+        } = CID.parse(cid)
+
+        console.log(digest, 'pay rate buffer')
+
+        const { txId } = await senExchange.initializeRetailer({
+          bidMint,
+          askMint,
+          bidPrice: new BN(0),
+          bidTotal: new BN(budget),
+          startTime: new BN(startTime / 1000),
+          endTime: new BN(endTime / 1000),
+        })
+        return notifySuccess('Add new Booster', txId)
+      } catch (error: any) {
+        return notifyError(error)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [senExchange],
+  )
 
   return { initializeBooster, loading }
 }

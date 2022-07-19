@@ -1,9 +1,9 @@
 import { Button, Space, Typography } from 'antd'
 import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
+import { MintSymbol } from '@sen-use/components'
 
 import { util } from '@sentre/senhub'
-import { MintSymbol } from 'shared/antd/mint'
 
 export const ORDER_COLUMNS = [
   {
