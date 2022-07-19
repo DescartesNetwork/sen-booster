@@ -1,8 +1,6 @@
-import { useSenExchange } from 'hooks/useSenExchange'
 import { useCallback, useState } from 'react'
 
 export const useCancelOrder = () => {
-  const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
   const cancelOrder = useCallback(async () => {
@@ -14,7 +12,7 @@ export const useCancelOrder = () => {
     } finally {
       setLoading(false)
     }
-  }, [senExchange])
+  }, [])
 
   return { cancelOrder, loading }
 }

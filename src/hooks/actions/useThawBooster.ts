@@ -1,8 +1,6 @@
-import { useSenExchange } from 'hooks/useSenExchange'
 import { useCallback, useState } from 'react'
 
 export const useThawBooster = () => {
-  const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
   const thawBooster = useCallback(async () => {
@@ -14,7 +12,7 @@ export const useThawBooster = () => {
     } finally {
       setLoading(false)
     }
-  }, [senExchange])
+  }, [])
 
   return { thawBooster, loading }
 }
