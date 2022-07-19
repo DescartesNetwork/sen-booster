@@ -1,13 +1,13 @@
-import { useSenExchange } from 'hooks/useSenExchange'
+import { getBoosters } from 'model/booster.controller'
 import { Fragment, useCallback, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 export const BoostersWatcher = () => {
-  const { senExchange } = useSenExchange()
+  const dispatch = useDispatch()
 
   const fetchData = useCallback(async () => {
-    const boosters = await senExchange.program.account.retailer.all()
-    console.log('boosters', boosters)
-  }, [senExchange.program.account.retailer])
+    dispatch(getBoosters())
+  }, [dispatch])
 
   useEffect(() => {
     fetchData()
