@@ -19,8 +19,6 @@ const {
   manifest: { appId },
 } = configs
 
-console.log('app ID: ', appId)
-
 export const Page = () => {
   return (
     <UIProvider appId={appId} antd={{ prefixCls: appId }}>
