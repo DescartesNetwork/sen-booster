@@ -13,6 +13,8 @@ export const useFilterBoosters = (type: Mode) => {
     wallet: { address: walletAddress },
   } = useWallet()
 
+  console.log(setFilteredBoosters)
+
   const checkIsYourBoosters = useCallback(
     (address: string) =>
       boosters[address].authority.toBase58() === walletAddress,

@@ -1,24 +1,29 @@
+import { useSelector } from 'react-redux'
+
 import { Col, Row } from 'antd'
 import BoosterCard from './boosterCard'
 import SearchAndFilter from './searchAndFilter'
 
-import { Mode } from 'constant'
-import { useFilterBoosters } from 'hooks/boosters/useFilterBoosters'
-import { useSearchedBoosters } from 'hooks/boosters/useSearchBoosters'
+import { AppState } from 'model'
 
 const Booster = () => {
-  const { filteredBoosters } = useFilterBoosters(Mode.User)
-  const listBoosters = useSearchedBoosters(filteredBoosters)
+  // const { filteredBoosters } = useFilterBoosters(Mode.User)
+  // const listBoosters = useSearchedBoosters(filteredBoosters)
+  const boosters = useSelector((state: AppState) => state.booster)
 
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       <Col span={24}>
         <SearchAndFilter />
       </Col>
-      <Col>
-        {Object.keys(listBoosters).map((boosterAddr) => (
-          <BoosterCard boosterAddr={boosterAddr} />
-        ))}
+      <Col span={24}>
+        <Row gutter={[16, 16]}>
+          {Object.keys(boosters).map((boosterAddr) => (
+            <Col span={24}>
+              <BoosterCard boosterAddr={boosterAddr} />
+            </Col>
+          ))}
+        </Row>
       </Col>
     </Row>
   )

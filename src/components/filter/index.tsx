@@ -12,7 +12,12 @@ const Filter = ({ onFilter, options, value }: FilterBoosterProps) => {
   return (
     <Row>
       <Col>
-        <Select value={value} style={{ width: 120 }} onChange={onFilter}>
+        <Select
+          value={value}
+          style={{ width: 120 }}
+          onChange={onFilter}
+          placement="bottomRight"
+        >
           {options.map((val) => (
             <Option value={val.value}>{val.value}</Option>
           ))}

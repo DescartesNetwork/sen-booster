@@ -10,6 +10,7 @@ export const useFilterOrder = () => {
   const [filteredOrders, setFilteredOrders] = useState<OrderData[]>([])
   const orders = useSelector((state: AppState) => state.order)
   // const ordersFilterSet = useSelector((state: AppState) => state.ordersFilter)
+  console.log(setFilteredOrders)
   const {
     wallet: { address: walletAddress },
   } = useWallet()

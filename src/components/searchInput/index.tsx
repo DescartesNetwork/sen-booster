@@ -1,10 +1,11 @@
-import { Col, Row, Input } from 'antd'
-import { AppDispatch, AppState } from 'model'
-import { setSearchInput } from 'model/searchBoosters.controller'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-const { Search } = Input
+import IonIcon from '@sentre/antd-ionicon'
+import { Col, Row, Input, Button } from 'antd'
+
+import { AppDispatch, AppState } from 'model'
+import { setSearchInput } from 'model/searchBoosters.controller'
 
 const SearchBooster = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -16,17 +17,34 @@ const SearchBooster = () => {
 
   return (
     <Row>
-      <Col>
-        <Search
+      <Col span={24}>
+        <Input
+          placeholder="Search LP, token"
           value={searchInput}
-          placeholder="input search text"
-          allowClear
-          enterButton="Search"
-          size="large"
-          onSearch={onSearch}
-          onChange={(e) =>
-            dispatch(setSearchInput({ searchText: e.target.value }))
+          prefix={
+            searchInput ? (
+              <Button
+                type="text"
+                style={{
+                  width: 'auto',
+                  height: 'auto',
+                  background: 'transparent',
+                  marginLeft: -7,
+                }}
+                onClick={() => onSearch('')}
+                icon={<IonIcon name="close-outline" />}
+              />
+            ) : (
+              <IonIcon
+                style={{ fontSize: '24px', marginLeft: -5 }}
+                name="search-outline"
+              />
+            )
           }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onSearch(e.target.value)
+          }}
+          style={{ height: '32px' }}
         />
       </Col>
     </Row>
