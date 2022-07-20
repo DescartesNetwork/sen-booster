@@ -1,5 +1,8 @@
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { utilsBN } from '@sen-use/web3'
 import moment from 'moment'
+import BN from 'bn.js'
 
 import { Card, Col, Row, Typography } from 'antd'
 import { MintSymbol } from '@sen-use/components'
@@ -10,8 +13,8 @@ import SpaceVertical from './spaceVertical'
 
 import { FORMAT_DATE } from 'constant'
 import { AppState } from 'model'
-import { useMemo } from 'react'
-import BN from 'bn.js'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+import BoosterProcess from 'components/boosterProcess'
 
 type RetailCardProps = {
   boosterAddr: string
@@ -20,6 +23,8 @@ type RetailCardProps = {
 const RetailCard = ({ boosterAddr }: RetailCardProps) => {
   const { askMint, bidMint, startTime, endTime, bidTotal, askReceived } =
     useSelector((state: AppState) => state.booster[boosterAddr])
+
+  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   const percentPayed = useMemo(() => {
     const numAskReceived = askReceived.toNumber()
@@ -37,7 +42,7 @@ const RetailCard = ({ boosterAddr }: RetailCardProps) => {
                 <Col>
                   <SpaceVertical
                     label="Buy-back"
-                    mintAddress={bidMint.toBase58()}
+                    mintAddress={askMint.toBase58()}
                   />
                 </Col>
                 <Col>
@@ -47,7 +52,7 @@ const RetailCard = ({ boosterAddr }: RetailCardProps) => {
                   <SpaceVertical
                     align="end"
                     label="Pay"
-                    mintAddress={askMint.toBase58()}
+                    mintAddress={bidMint.toBase58()}
                   />
                 </Col>
               </Row>
@@ -85,34 +90,7 @@ const RetailCard = ({ boosterAddr }: RetailCardProps) => {
               </Row>
             </Col>
             <Col span={24}>
-              <Row>
-                <Col flex="auto">
-                  <SpaceVertical
-                    label="Process"
-                    value={
-                      <Typography.Text>
-                        {numeric(askReceived.toString()).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
-                        <Typography.Text type="secondary">
-                          ({percentPayed}%)
-                        </Typography.Text>
-                      </Typography.Text>
-                    }
-                  />
-                </Col>
-                <Col>
-                  <SpaceVertical
-                    label="Budget"
-                    align="end"
-                    value={
-                      <Typography.Text>
-                        {numeric(bidTotal.toString()).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
-                      </Typography.Text>
-                    }
-                  />
-                </Col>
-              </Row>
+              <BoosterProcess boosterAddress={boosterAddr} />
             </Col>
           </Row>
         </Col>

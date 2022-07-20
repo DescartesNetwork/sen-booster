@@ -1,12 +1,14 @@
-import { utils } from '@senswap/sen-js'
-import { useMint, util } from '@sentre/senhub'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { utilsBN } from '@sen-use/web3'
+import { util } from '@sentre/senhub'
+import { numeric } from '@sentre/senhub/dist/shared/util'
 
 import { MintSymbol } from '@sen-use/components'
-import { Col, Progress, Row, Typography } from 'antd'
+import { Col, Progress, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 type BoosterProcessProps = {
   boosterAddress: string
@@ -16,23 +18,16 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
   const { bidReserve, bidTotal, bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [processedAmount, setProcessAmount] = useState(0)
-  const [bidTotalAmount, setBidTotalAmount] = useState(0)
-  const [processedRatio, setProcessedRatio] = useState(0)
-  const { getDecimals } = useMint()
+  const [processedAmount, setProcessAmount] = useState('')
+  const [bidTotalAmount, setBidTotalAmount] = useState('')
+  const [processedRatio, setProcessedRatio] = useState('')
+  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   const getProcessedInfos = useCallback(async () => {
-    const bidDecimal = await getDecimals(bidMint.toBase58())
-    const bidReserveNum = Number(
-      utils.undecimalize(BigInt(bidReserve.toString()), bidDecimal),
-    )
-    const bidTotalNum = Number(
-      utils.undecimalize(BigInt(bidTotal.toString()), bidDecimal),
-    )
-    setProcessAmount(bidTotalNum - bidReserveNum)
-    setProcessedRatio(bidReserveNum / bidTotalNum)
-    setBidTotalAmount(bidTotalNum)
-  }, [bidMint, bidReserve, bidTotal, getDecimals])
+    setProcessAmount(utilsBN.undecimalize(bidTotal.sub(bidReserve), bidDecimal))
+    setProcessedRatio(bidReserve.div(bidTotal).toString())
+    setBidTotalAmount(utilsBN.undecimalize(bidTotal, bidDecimal))
+  }, [bidDecimal, bidReserve, bidTotal])
 
   useEffect(() => {
     getProcessedInfos()
@@ -43,19 +38,23 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Row justify="space-between">
           <Col flex="auto">
-            <Typography.Text>Process</Typography.Text>
-            <Typography.Title level={5}>
-              {processedAmount}
-              <MintSymbol mintAddress={bidMint.toBase58()} />(
-              {util.numeric(processedRatio).format('0,0.[00]%')})
-            </Typography.Title>
+            <Space direction="vertical">
+              <Typography.Text type="secondary">Process</Typography.Text>
+              <Typography.Text>
+                {numeric(processedAmount).format('0.0,[0000]')}{' '}
+                <MintSymbol mintAddress={bidMint.toBase58()} />(
+                {util.numeric(processedRatio).format('0,0.[00]%')})
+              </Typography.Text>
+            </Space>
           </Col>
           <Col style={{ textAlign: 'right' }}>
-            <Typography.Text>Budget</Typography.Text>
-            <Typography.Title level={5}>
-              {bidTotalAmount}
-              <MintSymbol mintAddress={bidMint.toBase58()} />
-            </Typography.Title>
+            <Space direction="vertical">
+              <Typography.Text type="secondary">Budget</Typography.Text>
+              <Typography.Text>
+                {numeric(bidTotalAmount).format('0.0,[0000]')}{' '}
+                <MintSymbol mintAddress={bidMint.toBase58()} />
+              </Typography.Text>
+            </Space>
           </Col>
         </Row>
       </Col>

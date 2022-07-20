@@ -50,8 +50,8 @@ const GeneralInfo = forwardRef((_, ref) => {
               label="Buy-back"
               value={
                 <MintSelection
-                  value={bidMint}
-                  onChange={setBidMint}
+                  value={askMint}
+                  onChange={setAskMint}
                   placeholder="Select LP"
                 />
               }
@@ -62,8 +62,8 @@ const GeneralInfo = forwardRef((_, ref) => {
               label="Pay"
               value={
                 <MintSelection
-                  value={askMint}
-                  onChange={setAskMint}
+                  value={bidMint}
+                  onChange={setBidMint}
                   placeholder="Select a token"
                 />
               }
