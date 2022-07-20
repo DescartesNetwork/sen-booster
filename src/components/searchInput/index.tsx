@@ -5,8 +5,6 @@ import { setSearchInput } from 'model/searchBoosters.controller'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-const { Search } = Input
-
 const SearchBooster = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { searchInput } = useSelector((state: AppState) => state.searchBoosters)
@@ -17,7 +15,7 @@ const SearchBooster = () => {
 
   return (
     <Row>
-      <Col>
+      <Col span={24}>
         <Input
           placeholder="Search LP, token"
           value={searchInput}
@@ -44,7 +42,7 @@ const SearchBooster = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             onSearch(e.target.value)
           }}
-          style={{ borderRadius: '24px', height: '32px' }}
+          style={{ height: '32px' }}
         />
       </Col>
     </Row>

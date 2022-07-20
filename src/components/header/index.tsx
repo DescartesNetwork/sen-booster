@@ -55,6 +55,7 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           options={isRetailer ? RETAILER_TABS : USER_TABS}
           value={tabId}
           onChange={setTabId}
+          size="large"
         />
       </Col>
       <Col>
@@ -63,7 +64,7 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           FAQ
         </Button>
         <Popover
-          placement="bottomRight"
+          placement="topRight"
           content={
             <Row>
               <Col>

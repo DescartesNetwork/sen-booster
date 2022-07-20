@@ -17,7 +17,7 @@ const SearchAndFilter = () => {
   }
   return (
     <Row>
-      <Col span={8}>
+      <Col span={8} style={{ marginRight: 12 }}>
         <SearchBooster />
       </Col>
       <Col>

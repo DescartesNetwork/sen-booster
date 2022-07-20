@@ -1,10 +1,13 @@
 input {
-  padding: 9px 12px !important;
-  height: 40px !important;
-  background: #ebeded !important;
-  color: #212433 !important;
-  border: none !important;
+  border-radius: 8px;
 }
+
+.sen_booster-segmented-item-selected {
+  border-radius: 8px;
+  border: 1px solid rgba(15, 181, 184, 0.3);
+  color: #0FB5B8 !important;
+}
+
 .sen_booster-input-number {
   width: 100% !important;
   border: none !important;
@@ -33,10 +36,11 @@ input {
 }
 
 #dark {
+  .sen_booster-segmented-item-selected {
+    border: 1px solid rgba(15, 181, 184, 0.2);
+  }
   input {
-    background-color: #232324 !important;
-    color: #f4f4f5 !important;
-    border: 1px solid #373947 !important;
+    border-radius: 8px;
   }
   .date-option {
     background-color: #232324 !important ;

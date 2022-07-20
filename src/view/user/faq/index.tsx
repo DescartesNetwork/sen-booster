@@ -1,4 +1,4 @@
-import { Col, Collapse, Row, Space, Typography } from 'antd'
+import { Col, Collapse, Row, Typography } from 'antd'
 
 const { Panel } = Collapse
 
