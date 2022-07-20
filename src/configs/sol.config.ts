@@ -18,7 +18,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.devnet.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-    senExchangeProgram: '2ZtYYHQYffL7ZfbUJwMwY2hoVnqarwkqKBbz5wregkLR',
+    senExchangeProgram: 'AWkQmDswtbkPTUAgFzg7MxiaqrrwbnvJ4X8XL8dex4HE',
   },
 
   /**
@@ -28,7 +28,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.testnet.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-    senExchangeProgram: '',
+    senExchangeProgram: 'AWkQmDswtbkPTUAgFzg7MxiaqrrwbnvJ4X8XL8dex4HE',
   },
 
   /**
@@ -38,7 +38,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.mainnet-beta.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-    senExchangeProgram: '',
+    senExchangeProgram: 'AWkQmDswtbkPTUAgFzg7MxiaqrrwbnvJ4X8XL8dex4HE',
   },
 }
 
