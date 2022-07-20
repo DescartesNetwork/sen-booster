@@ -13,6 +13,7 @@ export const useSearchedBoosters = (pools: BoosterState) => {
   const { tokenProvider } = useMint()
 
   const search = useCallback(async () => {}, [])
+  console.log(setBoostersSearched, searchInput, tokenProvider, search)
 
   useEffect(() => {}, [])
 

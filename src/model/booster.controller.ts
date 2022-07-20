@@ -26,6 +26,7 @@ export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
     const boosterData = retailer.account
     bulk[retailer.publicKey.toBase58()] = boosterData
   }
+
   return bulk
 })
 

@@ -1,14 +1,49 @@
-import { Col, Row } from 'antd'
-import React from 'react'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
+import moment from 'moment'
 
-const Statistics = () => {
+import { Space, Typography } from 'antd'
+
+import { AppState } from 'model'
+
+type StatisticsProps = {
+  boosterAddress: string
+}
+
+const Statistics = ({ boosterAddress }: StatisticsProps) => {
+  const { endTime } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
+  // const {} = useEngageBoosterInfos(boosterAddress)
+  const yourBoughtAmount = useMemo(() => {
+    return 1
+  }, [])
+
+  const totalValuePaid = useMemo(() => {
+    return 3
+  }, [])
+
   return (
-    <Row>
-      <Col>Buy back</Col>
-      <Col>Your bought</Col>
-      <Col>Total value paid</Col>
-      <Col>End date</Col>
-    </Row>
+    <Space size={48}>
+      <Space direction="vertical">
+        <Typography.Text>Buy-back</Typography.Text>
+        <Typography.Title level={4}>102.5%</Typography.Title>
+      </Space>
+      <Space direction="vertical">
+        <Typography.Text>Your bought</Typography.Text>
+        <Typography.Title level={5}>{yourBoughtAmount}</Typography.Title>
+      </Space>
+      <Space direction="vertical">
+        <Typography.Text>Total value paid</Typography.Text>
+        <Typography.Title level={5}>{totalValuePaid}</Typography.Title>
+      </Space>
+      <Space direction="vertical">
+        <Typography.Text>End date</Typography.Text>
+        <Typography.Title level={5}>
+          {moment(endTime.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
+        </Typography.Title>
+      </Space>
+    </Space>
   )
 }
 

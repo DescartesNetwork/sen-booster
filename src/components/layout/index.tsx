@@ -7,11 +7,15 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <Row gutter={[24, 24]}>
-      <Col span={24}>
-        <Banner />
+    <Row justify="center">
+      <Col span={16}>
+        <Row gutter={[24, 24]}>
+          <Col span={24}>
+            <Banner />
+          </Col>
+          <Col span={24}>{children}</Col>
+        </Row>
       </Col>
-      {children}
     </Row>
   )
 }

@@ -36,7 +36,7 @@
 // Card
 @card-radius: @border-radius-base * 3;
 @card-actions-background: @NEUTRAL100;
-@card-background: @NEUTRAL90;
+@card-background: @CARD_DARK;
 @card-shadow: @DARK_SHADOW2;
 
 // Modal
@@ -50,24 +50,14 @@
 @drawer-bg: @NEUTRAL100;
 
 // Button
-@btn-font-weight: 700;
-@btn-shadow: unset;
-@btn-primary-shadow: unset;
-@btn-text-shadow: unset;
 @btn-default-border: @NEUTRAL80;
-// @btn-default-ghost-color: @NEUTRAL10;
-@btn-default-ghost-border: @PRIMARY;
-@btn-primary-color: @NEUTRAL05;
-@btn-disable-color: @NEUTRAL60;
 @btn-disable-bg: @NEUTRAL80;
-@btn-default-ghost-color: @PRIMARY;
-@btn-default-ghost-border: @PRIMARY;
-@btn-border-radius-base: 8px;
-@btn-primary-bg: @PRIMARY;
+@btn-default-ghost-color: @NEUTRAL05;
+@btn-default-ghost-border: @NEUTRAL80;
 
-// Input
-@input-placeholder-color: @NEUTRAL40;
-@input-disabled-bg: @TRANSPARENT;
+//Input
+@input-color: @NEUTRAL05;
+@input-bg: @NEUTRAL100;
 
 // Divider
 @divider-color: @NEUTRAL80;
@@ -77,18 +67,8 @@
 // Checkbox
 @checkbox-border-radius: @border-radius-base - 4;
 
-// Patch
-.@{ant-prefix}-layout {
-  background: unset;
-}
-
-.@{ant-prefix}-card {
-  box-shadow: @DARK_SHADOW1;
-  .glass {
-    background-color: color(~`('@{card-background}99') `);
-    backdrop-filter: blur(4px);
-  }
-}
-
 //Table
 @table-bg: @TRANSPARENT;
+
+//Popover
+@popover-bg: @NEUTRAL100;
