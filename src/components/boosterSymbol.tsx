@@ -1,7 +1,9 @@
-import { Space } from 'antd'
-import { AppState } from 'model'
 import { useSelector } from 'react-redux'
-import { MintSymbol } from 'shared/antd/mint'
+
+import { MintSymbol } from '@sen-use/components'
+import { Space } from 'antd'
+
+import { AppState } from 'model'
 
 type BoosterSymbolProps = {
   boosterAddress: string

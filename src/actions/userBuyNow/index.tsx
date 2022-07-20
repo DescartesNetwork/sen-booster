@@ -53,7 +53,9 @@ const BuyNow = ({ boosterAddr }: BuyNowProps) => {
   return (
     <Row>
       <Col flex="auto">
-        <Button onClick={() => setIsModalVisible(true)}>Buy Now</Button>
+        <Button type="primary" onClick={() => setIsModalVisible(true)}>
+          Buy Now
+        </Button>
       </Col>
       <Modal
         title="Buy Token"

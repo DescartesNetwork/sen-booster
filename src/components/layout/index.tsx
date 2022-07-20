@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutProps) => {
     <Row justify="center">
       <Col span={16}>
         <Row gutter={[24, 24]}>
-          <Col>
+          <Col span={24}>
             <Banner />
           </Col>
           <Col span={24}>{children}</Col>
