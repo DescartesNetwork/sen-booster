@@ -3,26 +3,34 @@ import Filter from 'components/orderFilterSet'
 import RetailCard from './retailCard'
 
 import { useAppRouter } from 'hooks/useAppRouter'
-import { useFilterBoosters } from 'hooks/boosters/useFilterBoosters'
-import { useSearchedBoosters } from 'hooks/boosters/useSearchBoosters'
-import { Mode } from 'constant'
+import { useSelector } from 'react-redux'
+import { AppState } from 'model'
 
 const BoostList = () => {
   const { pushHistory } = useAppRouter()
-  const { filteredBoosters } = useFilterBoosters(Mode.Retailer)
-  const listBoosters = useSearchedBoosters(filteredBoosters)
+  const boosters = useSelector((state: AppState) => state.booster)
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Filter />
-        <Button onClick={() => pushHistory('/create-booster')}>
-          Add booster
-        </Button>
+        <Row>
+          <Col flex="auto">
+            <Filter />
+          </Col>
+          <Col>
+            <Button onClick={() => pushHistory('/create-booster')}>
+              Add booster
+            </Button>
+          </Col>
+        </Row>
       </Col>
-      <Col>
-        {Object.keys(listBoosters).map((boosterAddr) => (
-          <RetailCard boosterAddr={boosterAddr} />
-        ))}
+      <Col span={24}>
+        <Row gutter={[24, 24]}>
+          {Object.keys(boosters).map((boosterAddr) => (
+            <Col xs={24} md={12} key={boosterAddr}>
+              <RetailCard boosterAddr={boosterAddr} />
+            </Col>
+          ))}
+        </Row>
       </Col>
     </Row>
   )
