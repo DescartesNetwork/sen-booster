@@ -1,9 +1,11 @@
-import IonIcon from '@sentre/antd-ionicon'
-import { Col, Row, Input, Button } from 'antd'
-import { AppDispatch, AppState } from 'model'
-import { setSearchInput } from 'model/searchBoosters.controller'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import IonIcon from '@sentre/antd-ionicon'
+import { Col, Row, Input, Button } from 'antd'
+
+import { AppDispatch, AppState } from 'model'
+import { setSearchInput } from 'model/searchBoosters.controller'
 
 const SearchBooster = () => {
   const dispatch = useDispatch<AppDispatch>()
