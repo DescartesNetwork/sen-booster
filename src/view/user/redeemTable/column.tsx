@@ -1,12 +1,9 @@
-import BN from 'bn.js'
-import { util } from '@sentre/senhub'
-
 import { Button, Space, Typography } from 'antd'
 import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
 
-import BidColumn from 'components/bidColumn'
-import AskColumn from 'components/askColumn'
+import { util } from '@sentre/senhub'
+import { MintSymbol } from '@sen-use/components'
 
 export const REDEEM_COLUMNS = [
   {
@@ -16,45 +13,64 @@ export const REDEEM_COLUMNS = [
   },
   {
     title: 'ORDER ID',
-    dataIndex: 'pubkey',
-    render: (orderId: string) => (
+    dataIndex: 'transactionId',
+    key: 'transactionId',
+    render: (text: string) => (
       <Space align="baseline">
         <Typography.Text
-          onClick={() => window.open(util.explorer(orderId), '_blank')}
+          onClick={() => window.open(util.explorer(text), '_blank')}
           style={{ fontWeight: 700, cursor: 'pointer' }}
         >
-          {util.shortenAddress(orderId, 8, '...')}
+          {util.shortenAddress(text, 8, '...')}
         </Typography.Text>
         <Button
           type="text"
           size="small"
-          onClick={() => window.open(util.explorer(orderId), '_blank')}
+          onClick={() => window.open(util.explorer(text), '_blank')}
           icon={<IonIcon name="open-outline" />}
         />
       </Space>
     ),
   },
   {
-    title: 'PAY',
-    dataIndex: 'pubkey',
-    render: (orderId: string) => <BidColumn orderId={orderId} />,
+    title: 'BUY-BACK',
+    dataIndex: 'from',
+    key: 'from',
+    render: (text: string) => (
+      <Typography.Text>{util.shortenAddress(text, 8, '...')}</Typography.Text>
+    ),
   },
   {
-    title: 'RECEIVE',
-    dataIndex: 'pubkey',
-    render: (orderId: string) => <AskColumn orderId={orderId} />,
+    title: 'PAY',
+    dataIndex: 'to',
+    key: 'to',
+    render: (text: string) => (
+      <Typography.Text>{util.shortenAddress(text, 8, '...')}</Typography.Text>
+    ),
   },
   {
     title: 'LOCK TIME',
-    dataIndex: 'lockTime',
-    render: (lockTime: BN) => {
-      return <Typography.Text>{lockTime.toString()} days</Typography.Text>
+    key: 'amount',
+    dataIndex: 'amount',
+    render: (text: string, record: any) => {
+      const amountUi = util.numeric(text).format('0,0.[0000]')
+      return (
+        <Typography.Text
+          style={{ color: record.isReceive ? '#14E041' : '#D72311' }}
+        >
+          <Space size={4}>
+            {record.isReceive ? `+${amountUi}` : `-${amountUi}`}{' '}
+            <MintSymbol mintAddress={record.mint} />
+          </Space>
+        </Typography.Text>
+      )
     },
   },
   {
     title: 'STATUS',
-    dataIndex: 'state',
-    render: (state: string) => <StatusTag tag="success" />,
+    key: 'status',
+    dataIndex: 'status',
+    render: (text: string) => <StatusTag tag="success" />,
   },
   {
     title: 'ACTION',

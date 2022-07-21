@@ -35,7 +35,7 @@ export const useBuy = () => {
         setLoading(false)
       }
     },
-    [],
+    [senExchange],
   )
 
   return { buy, loading }
