@@ -9,13 +9,13 @@ import { TOKEN } from 'constant'
 import { PayRateState } from 'actions/createBooster/payRate'
 
 type PayRateDisplayProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const PayRateDisplay = ({ boosterAddr }: PayRateDisplayProps) => {
+const PayRateDisplay = ({ boosterAddress }: PayRateDisplayProps) => {
   const [payRate, setPayRate] = useState<PayRateState>({})
   const metadata = useSelector(
-    (state: AppState) => state.booster[boosterAddr].metadata,
+    (state: AppState) => state.booster[boosterAddress].metadata,
   )
 
   const getPayRate = useCallback(async () => {

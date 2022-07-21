@@ -17,12 +17,12 @@ import useMintDecimals from 'shared/hooks/useMintDecimals'
 import BoosterProcess from 'components/boosterProcess'
 
 type RetailCardProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const RetailCard = ({ boosterAddr }: RetailCardProps) => {
+const RetailCard = ({ boosterAddress }: RetailCardProps) => {
   const { askMint, bidMint, startTime, endTime, bidTotal, askReceived } =
-    useSelector((state: AppState) => state.booster[boosterAddr])
+    useSelector((state: AppState) => state.booster[boosterAddress])
 
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
@@ -120,14 +120,14 @@ const RetailCard = ({ boosterAddr }: RetailCardProps) => {
                   />
                 </Col>
                 <Col span={24}>
-                  <BoosterProcess boosterAddress={boosterAddr} />
+                  <BoosterProcess boosterAddress={boosterAddress} />
                 </Col>
               </Row>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
-          <Manage boosterAddr={boosterAddr} />
+          <Manage boosterAddress={boosterAddress} />
         </Col>
       </Row>
     </Card>

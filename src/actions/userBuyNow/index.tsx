@@ -29,7 +29,7 @@ import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
 
 type BuyNowProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -47,9 +47,9 @@ const DATES = [
   { name: '365 days', value: 365 },
 ]
 
-const BuyNow = ({ boosterAddr }: BuyNowProps) => {
+const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidPrice } = useSelector(
-    (state: AppState) => state.booster[boosterAddr],
+    (state: AppState) => state.booster[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [imageUrl, setImageUrl] = useState<string>()
@@ -66,7 +66,7 @@ const BuyNow = ({ boosterAddr }: BuyNowProps) => {
 
   const onBuy = () => {
     buy({
-      retailer: new PublicKey(boosterAddr),
+      retailer: new PublicKey(boosterAddress),
       bidAmount: new BN(1),
       bidPrice: bidPrice,
       lockTime: new BN(7),
@@ -266,10 +266,10 @@ const BuyNow = ({ boosterAddr }: BuyNowProps) => {
           <Col span={24}>
             {/* <EstimatedInfo receivedToken={receivedToken} ratioBuyBack={} /> */}
             {/* pending for payrate */}
-            <EstimatedInfo boosterAddr={boosterAddr} />
+            <EstimatedInfo boosterAddress={boosterAddress} />
           </Col>
           <Col span={24}>
-            <Button style={{ width: '100%' }} onClick={onBuy}>
+            <Button block onClick={onBuy}>
               Buy
             </Button>
           </Col>

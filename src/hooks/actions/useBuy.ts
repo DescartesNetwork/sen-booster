@@ -3,6 +3,7 @@ import { PublicKey } from '@solana/web3.js'
 import BN from 'bn.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
+import { notifyError, notifySuccess } from 'helper'
 
 type BuyProps = {
   retailer: PublicKey
@@ -25,12 +26,9 @@ export const useBuy = () => {
           bidPrice,
           lockTime,
         })
-        window.notify({
-          type: 'success',
-          description: txId,
-        })
+        notifySuccess('success', txId)
       } catch (error: any) {
-        window.notify({ type: 'error', description: error.message })
+        notifyError(error.message)
       } finally {
         setLoading(false)
       }

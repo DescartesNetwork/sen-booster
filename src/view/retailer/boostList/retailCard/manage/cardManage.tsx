@@ -17,13 +17,13 @@ import { FORMAT_DATE } from 'constant'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 type CardManageProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const CardManage = ({ boosterAddr }: CardManageProps) => {
+const CardManage = ({ boosterAddress }: CardManageProps) => {
   const [copied, setCopied] = useState('')
   const { bidMint, askMint, bidTotal, startTime, endTime } = useSelector(
-    (state: AppState) => state.booster[boosterAddr],
+    (state: AppState) => state.booster[boosterAddress],
   )
 
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
@@ -138,7 +138,7 @@ const CardManage = ({ boosterAddr }: CardManageProps) => {
         </Col>
         <Col span={24} />
         <Col span={24}>
-          <PayRateDisplay boosterAddr={boosterAddr} />
+          <PayRateDisplay boosterAddress={boosterAddress} />
         </Col>
       </Row>
     </Card>
