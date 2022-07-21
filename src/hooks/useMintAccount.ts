@@ -5,17 +5,17 @@ import { useAccount, useWallet } from '@sentre/senhub'
 import { SOL_ADDRESS } from 'constant/sol'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 
-export const useMintAccount = (accountAddr: string) => {
+export const useMintAccount = (accountAddress: string) => {
   const { accounts } = useAccount()
   const { wallet } = useWallet()
 
   const { amount, mint } = useMemo(() => {
     // sol account
-    if (accountAddr === wallet.address)
+    if (accountAddress === wallet.address)
       return { amount: wallet.lamports, mint: SOL_ADDRESS }
     // spl token account
-    return accounts[accountAddr] || {}
-  }, [accountAddr, accounts, wallet.address, wallet.lamports])
+    return accounts[accountAddress] || {}
+  }, [accountAddress, accounts, wallet.address, wallet.lamports])
 
   const decimals = useMintDecimals(mint) || 0
   const mintInfo = useMemo(() => {

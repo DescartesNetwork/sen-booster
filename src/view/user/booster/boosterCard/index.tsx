@@ -6,10 +6,10 @@ import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
 
 type BoosterCardProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const BoosterCard = ({ boosterAddr }: BoosterCardProps) => {
+const BoosterCard = ({ boosterAddress }: BoosterCardProps) => {
   const isNFT = true
   return (
     <Card>
@@ -18,22 +18,22 @@ const BoosterCard = ({ boosterAddr }: BoosterCardProps) => {
           <Row justify="space-between">
             <Col flex="auto">
               <Space size={16}>
-                <BoosterAvatar boosterAddress={boosterAddr} />
-                <BoosterSymbol boosterAddress={boosterAddr} />
+                <BoosterAvatar boosterAddress={boosterAddress} />
+                <BoosterSymbol boosterAddress={boosterAddress} />
                 {isNFT && <Tag>Boost</Tag>}
               </Space>
             </Col>
 
             <Col>
-              <BuyNow boosterAddr={boosterAddr} />
+              <BuyNow boosterAddress={boosterAddress} />
             </Col>
           </Row>
         </Col>
         <Col span={24}>
-          <Statistics boosterAddress={boosterAddr} />
+          <Statistics boosterAddress={boosterAddress} />
         </Col>
         <Col span={24}>
-          <BoosterProcess boosterAddress={boosterAddr} />
+          <BoosterProcess boosterAddress={boosterAddress} />
         </Col>
       </Row>
     </Card>

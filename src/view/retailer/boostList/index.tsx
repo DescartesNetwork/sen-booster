@@ -18,10 +18,10 @@ const BoostList = () => {
 
   const myBooster = useMemo(() => {
     const boosterAddresses: string[] = []
-    for (const boosterAddr in boosters) {
-      const { authority } = boosters[boosterAddr]
+    for (const boosterAddress in boosters) {
+      const { authority } = boosters[boosterAddress]
       if (authority.toBase58() === walletAddress)
-        boosterAddresses.push(boosterAddr)
+        boosterAddresses.push(boosterAddress)
     }
     return boosterAddresses
   }, [boosters, walletAddress])
@@ -42,9 +42,9 @@ const BoostList = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[24, 24]}>
-          {myBooster.map((boosterAddr) => (
-            <Col xs={24} md={12} key={boosterAddr}>
-              <RetailCard boosterAddr={boosterAddr} />
+          {myBooster.map((boosterAddress) => (
+            <Col xs={24} md={12} key={boosterAddress}>
+              <RetailCard boosterAddress={boosterAddress} />
             </Col>
           ))}
         </Row>

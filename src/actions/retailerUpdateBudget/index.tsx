@@ -8,14 +8,16 @@ import { AppState } from 'model'
 import { MintSymbol } from '@sen-use/components/dist'
 
 type RetailerUpdateBudgetProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
-const RetailerUpdateBudget = ({ boosterAddr }: RetailerUpdateBudgetProps) => {
+const RetailerUpdateBudget = ({
+  boosterAddress,
+}: RetailerUpdateBudgetProps) => {
   const bidTotal = useSelector(
-    (state: AppState) => state.booster[boosterAddr].bidTotal,
+    (state: AppState) => state.booster[boosterAddress].bidTotal,
   )
   const bidMint = useSelector(
-    (state: AppState) => state.booster[boosterAddr].bidMint,
+    (state: AppState) => state.booster[boosterAddress].bidMint,
   )
   const [budget, setBudget] = useState(bidTotal.toString())
   const { updateBudget } = useUpdateBudget()

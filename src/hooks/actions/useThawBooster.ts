@@ -1,14 +1,16 @@
 import { useCallback, useState } from 'react'
 
+import { notifyError, notifySuccess } from 'helper'
+
 export const useThawBooster = () => {
   const [loading, setLoading] = useState(false)
 
   const thawBooster = useCallback(async () => {
     try {
       setLoading(true)
-      window.notify({ type: 'success', description: 'Thaw OKe' })
+      notifySuccess('success', 'Thaw OKe')
     } catch (error: any) {
-      window.notify({ type: 'error', description: error.message })
+      notifyError(error.message)
     } finally {
       setLoading(false)
     }

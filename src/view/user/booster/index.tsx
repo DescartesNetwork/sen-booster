@@ -18,9 +18,9 @@ const Booster = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          {Object.keys(boosters).map((boosterAddr) => (
+          {Object.keys(boosters).map((boosterAddress) => (
             <Col span={24}>
-              <BoosterCard boosterAddr={boosterAddr} />
+              <BoosterCard boosterAddress={boosterAddress} />
             </Col>
           ))}
         </Row>
