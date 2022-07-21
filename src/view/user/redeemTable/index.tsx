@@ -4,7 +4,7 @@ import { Col, Row, Table } from 'antd'
 import { REDEEM_COLUMNS } from './column'
 
 type RedeemTableProps = {
-  dataSource: OrderData[]
+  dataSource: (OrderData & { pubkey: string })[]
 }
 
 const RedeemTable = ({ dataSource }: RedeemTableProps) => {

@@ -1,5 +1,6 @@
 import { Fragment, FunctionComponent } from 'react'
 import { BoostersWatcher } from './boosters.watcher'
+import { OrdersWatcher } from './orders.watcher'
 
 export const AppWatcher: FunctionComponent = (props) => {
   // const [loading, setLoading] = useState(false)
@@ -8,6 +9,7 @@ export const AppWatcher: FunctionComponent = (props) => {
   return (
     <Fragment>
       <BoostersWatcher />
+      <OrdersWatcher />
       {props.children}
     </Fragment>
   )
