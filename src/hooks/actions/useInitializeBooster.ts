@@ -13,6 +13,7 @@ type UseInitializeBoosterProps = {
   bidMint: string
   askMint: string
   budget: string
+  askTotal: number
   startTime: number
   endTime: number
 }
@@ -27,6 +28,7 @@ export const useInitializeBooster = () => {
       bidMint,
       askMint,
       budget,
+      askTotal,
       startTime,
       endTime,
       payRate,
@@ -35,15 +37,16 @@ export const useInitializeBooster = () => {
         setLoading(true)
         const ipfs = new IPFS(TOKEN)
         const { digest } = await ipfs.set(payRate)
-        const decimal = await getDecimals(bidMint)
+        const bidDecimal = await getDecimals(bidMint)
+        const askDecimal = await getDecimals(askMint)
         const startAfter = startTime - Date.now()
         const endAfter = endTime - Date.now()
 
         const { txId } = await senExchange.initializeRetailer({
           bidMint,
           askMint,
-          bidPrice: new BN(0),
-          bidTotal: utilsBN.decimalize(budget, decimal),
+          bidTotal: utilsBN.decimalize(budget, bidDecimal),
+          askTotal: utilsBN.decimalize(askTotal, askDecimal),
           startAfter: new BN(startAfter / 1000),
           endAfter: new BN(endAfter / 1000),
           metadata: digest,

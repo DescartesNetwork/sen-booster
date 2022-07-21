@@ -129,7 +129,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                     {numeric(utilsBN.undecimalize(bidTotal, bidDecimal)).format(
                       '0.0,[000]',
                     )}{' '}
-                    <MintSymbol mintAddress={askMint.toBase58()} />
+                    <MintSymbol mintAddress={askMint} />
                   </Typography.Text>
                 }
               />

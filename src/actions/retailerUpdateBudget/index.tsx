@@ -28,7 +28,7 @@ const RetailerUpdateBudget = ({
         <Space direction="vertical" style={{ width: '100%' }}>
           <Typography.Text>Amount</Typography.Text>
           <Input
-            prefix={<MintSymbol mintAddress={bidMint.toBase58()} />}
+            prefix={<MintSymbol mintAddress={bidMint} />}
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
             className="input-budget"

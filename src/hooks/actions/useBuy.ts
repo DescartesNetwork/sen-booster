@@ -8,8 +8,8 @@ import { notifyError, notifySuccess } from 'helper'
 type BuyProps = {
   retailer: PublicKey
   bidAmount: BN
-  bidPrice: BN
-  lockTime: BN
+  askAmount: BN
+  lockTimeRange: BN
 }
 
 export const useBuy = () => {
@@ -17,14 +17,14 @@ export const useBuy = () => {
   const [loading, setLoading] = useState(false)
 
   const buy = useCallback(
-    async ({ retailer, bidAmount, bidPrice, lockTime }: BuyProps) => {
+    async ({ retailer, bidAmount, askAmount, lockTimeRange }: BuyProps) => {
       try {
         setLoading(true)
         const { txId } = await senExchange.initializeOrder({
           retailer,
           bidAmount,
-          bidPrice,
-          lockTime,
+          askAmount,
+          lockTimeRange,
         })
         notifySuccess('success', txId)
       } catch (error: any) {

@@ -97,7 +97,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     value={
                       <Typography.Text>
                         {numeric(askReceived.toString()).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
+                        <MintSymbol mintAddress={askMint} />
                         <Typography.Text type="secondary">
                           ({percentPayed}%)
                         </Typography.Text>
@@ -114,7 +114,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                         {numeric(
                           utilsBN.undecimalize(bidTotal, bidDecimal),
                         ).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
+                        <MintSymbol mintAddress={askMint} />
                       </Typography.Text>
                     }
                   />
