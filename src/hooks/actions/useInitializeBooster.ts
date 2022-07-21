@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
-import { IPFS } from '@sen-use/web3'
+import { IPFS, utilsBN } from '@sen-use/web3'
+import { useMint } from '@sentre/senhub'
 import BN from 'bn.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
@@ -19,6 +20,7 @@ type UseInitializeBoosterProps = {
 export const useInitializeBooster = () => {
   const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
+  const { getDecimals } = useMint()
 
   const initializeBooster = useCallback(
     async ({
@@ -33,7 +35,7 @@ export const useInitializeBooster = () => {
         setLoading(true)
         const ipfs = new IPFS(TOKEN)
         const { digest } = await ipfs.set(payRate)
-
+        const decimal = await getDecimals(bidMint)
         const startAfter = startTime - Date.now()
         const endAfter = endTime - Date.now()
 
@@ -41,7 +43,7 @@ export const useInitializeBooster = () => {
           bidMint,
           askMint,
           bidPrice: new BN(0),
-          bidTotal: new BN(budget),
+          bidTotal: utilsBN.decimalize(budget, decimal),
           startAfter: new BN(startAfter / 1000),
           endAfter: new BN(endAfter / 1000),
           metadata: digest,
@@ -53,7 +55,7 @@ export const useInitializeBooster = () => {
         setLoading(false)
       }
     },
-    [senExchange],
+    [getDecimals, senExchange],
   )
 
   return { initializeBooster, loading }

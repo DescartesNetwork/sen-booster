@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { util } from '@sentre/senhub'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { utilsBN } from '@sen-use/web3'
 import moment from 'moment'
 
 import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
@@ -13,6 +14,7 @@ import PayRateDisplay from './payRateDisplay'
 
 import { AppState } from 'model'
 import { FORMAT_DATE } from 'constant'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 type CardManageProps = {
   boosterAddr: string
@@ -23,6 +25,8 @@ const CardManage = ({ boosterAddr }: CardManageProps) => {
   const { bidMint, askMint, bidTotal, startTime, endTime } = useSelector(
     (state: AppState) => state.booster[boosterAddr],
   )
+
+  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   const onCopy = async (mintAddress: string) => {
     setCopied(mintAddress)
@@ -44,16 +48,16 @@ const CardManage = ({ boosterAddr }: CardManageProps) => {
                 value={
                   <Space>
                     <Typography.Text>
-                      {shortenAddress(bidMint.toBase58())}
+                      {shortenAddress(askMint.toBase58())}
                     </Typography.Text>
                     <Tooltip
                       title="Copied"
-                      visible={copied === bidMint.toBase58()}
+                      visible={copied === askMint.toBase58()}
                     >
-                      <CopyToClipboard text={bidMint.toBase58()}>
+                      <CopyToClipboard text={askMint.toBase58()}>
                         <Button
                           type="text"
-                          onClick={() => onCopy(bidMint.toBase58())}
+                          onClick={() => onCopy(askMint.toBase58())}
                           icon={<IonIcon name="copy-outline" />}
                         />
                       </CopyToClipboard>
@@ -68,16 +72,16 @@ const CardManage = ({ boosterAddr }: CardManageProps) => {
                 value={
                   <Space>
                     <Typography.Text>
-                      {shortenAddress(askMint.toBase58())}
+                      {shortenAddress(bidMint.toBase58())}
                     </Typography.Text>
                     <Tooltip
                       title="Copied"
-                      visible={copied === askMint.toBase58()}
+                      visible={copied === bidMint.toBase58()}
                     >
-                      <CopyToClipboard text={askMint.toBase58()}>
+                      <CopyToClipboard text={bidMint.toBase58()}>
                         <Button
                           type="text"
-                          onClick={() => onCopy(askMint.toBase58())}
+                          onClick={() => onCopy(bidMint.toBase58())}
                           icon={<IonIcon name="copy-outline" />}
                         />
                       </CopyToClipboard>
@@ -122,7 +126,9 @@ const CardManage = ({ boosterAddr }: CardManageProps) => {
                 label="Budget"
                 value={
                   <Typography.Text>
-                    {numeric(bidTotal.toString()).format('0.0,[000]')}{' '}
+                    {numeric(utilsBN.undecimalize(bidTotal, bidDecimal)).format(
+                      '0.0,[000]',
+                    )}{' '}
                     <MintSymbol mintAddress={askMint.toBase58()} />
                   </Typography.Text>
                 }
