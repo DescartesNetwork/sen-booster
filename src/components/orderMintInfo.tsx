@@ -4,6 +4,7 @@ import BN from 'bn.js'
 
 import { Space, Typography } from 'antd'
 import { MintAvatar, MintSymbol } from '@sen-use/components'
+
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 const OrderMintInfo = ({

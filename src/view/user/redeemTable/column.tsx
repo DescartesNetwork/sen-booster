@@ -1,20 +1,12 @@
 import BN from 'bn.js'
+import { util } from '@sentre/senhub'
 
 import { Button, Space, Typography } from 'antd'
 import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
 
-import { util } from '@sentre/senhub'
 import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
-
-// retailer: web3.PublicKey;
-//     authority: web3.PublicKey;
-//     bidPrice: BN;
-//     bidAmount: BN;
-//     lockTime: BN;
-//     state: never;
-//     metadata: number[];
 
 export const REDEEM_COLUMNS = [
   {

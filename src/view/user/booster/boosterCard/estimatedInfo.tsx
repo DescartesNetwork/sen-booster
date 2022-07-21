@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { MintSymbol } from '@sen-use/components'
 import { Col, Row, Typography } from 'antd'
+
 import { AppState } from 'model'
 import { useUI } from '@sentre/senhub'
 
@@ -13,11 +14,12 @@ const EstimatedInfo = ({ boosterAddr }: EstimatedInfoProps) => {
   const {
     ui: { theme },
   } = useUI()
-  const { askMint, bidPrice, bidMint } = useSelector(
+  const { bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddr],
   )
   const [buyBack, setBuyBack] = useState('0')
   const [receiveAmount, setReceiveAmount] = useState('0')
+  console.log(setBuyBack, setReceiveAmount)
 
   return (
     <Row
@@ -50,7 +52,7 @@ const EstimatedInfo = ({ boosterAddr }: EstimatedInfoProps) => {
       </Col>
       <Col span={24}>
         <Row>
-          <Col flex="1">
+          <Col flex="auto">
             <Typography.Text>Estimated received</Typography.Text>
           </Col>
           <Col>

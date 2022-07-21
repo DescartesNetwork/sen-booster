@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { AppState } from 'model'
 import { util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
+import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload'
 
 import {
   Button,
@@ -21,12 +21,12 @@ import {
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
+import IonIcon from '@sentre/antd-ionicon'
 
 import { useMintAccount } from 'hooks/useMintAccount'
 import { useBuy } from 'hooks/actions/useBuy'
-import IonIcon from '@sentre/antd-ionicon'
-import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload'
 import { notifyError, notifySuccess } from 'helper'
+import { AppState } from 'model'
 
 type BuyNowProps = {
   boosterAddr: string
@@ -56,16 +56,15 @@ const BuyNow = ({ boosterAddr }: BuyNowProps) => {
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
-  const mintAccount = useMintAccount(askMint.toBase58())
   const [lockTime, setLockTime] = useState(7)
   const { buy } = useBuy()
+  const mintAccount = useMintAccount(askMint.toBase58())
 
   const onChange = (e: RadioChangeEvent) => {
     setLockTime(e.target.value)
   }
 
   const onBuy = () => {
-    console.log('thong tin buy: ', boosterAddr, amount, lockTime)
     buy({
       retailer: new PublicKey(boosterAddr),
       bidAmount: new BN(1),
