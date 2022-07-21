@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { utilsBN } from '@sen-use/web3'
 import { util } from '@sentre/senhub'
@@ -15,23 +14,16 @@ type BoosterProcessProps = {
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidTotal, bidMint } = useSelector(
+  const { bidReserve, bidTotal, bidMint, askReceived } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [processedAmount, setProcessAmount] = useState('')
-  const [bidTotalAmount, setBidTotalAmount] = useState('')
-  const [processedRatio, setProcessedRatio] = useState('')
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
-  const getProcessedInfos = useCallback(async () => {
-    setProcessAmount(utilsBN.undecimalize(bidTotal.sub(bidReserve), bidDecimal))
-    setProcessedRatio(bidReserve.div(bidTotal).toString())
-    setBidTotalAmount(utilsBN.undecimalize(bidTotal, bidDecimal))
-  }, [bidDecimal, bidReserve, bidTotal])
-
-  useEffect(() => {
-    getProcessedInfos()
-  }, [getProcessedInfos])
+  const percentage = askReceived.div(bidTotal).toString()
+  const processAmount = utilsBN.undecimalize(
+    bidTotal.sub(bidReserve),
+    bidDecimal,
+  )
 
   return (
     <Row>
@@ -41,9 +33,9 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
             <Space direction="vertical">
               <Typography.Text type="secondary">Process</Typography.Text>
               <Typography.Text>
-                {numeric(processedAmount).format('0.0,[0000]')}{' '}
+                {numeric(processAmount).format('0.0,[0000]')}{' '}
                 <MintSymbol mintAddress={bidMint.toBase58()} />(
-                {util.numeric(processedRatio).format('0,0.[00]%')})
+                {util.numeric(percentage).format('0,0.[00]%')})
               </Typography.Text>
             </Space>
           </Col>
@@ -51,7 +43,9 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
             <Space direction="vertical">
               <Typography.Text type="secondary">Budget</Typography.Text>
               <Typography.Text>
-                {numeric(bidTotalAmount).format('0.0,[0000]')}{' '}
+                {numeric(utilsBN.undecimalize(bidTotal, bidDecimal)).format(
+                  '0.0,[0000]',
+                )}{' '}
                 <MintSymbol mintAddress={bidMint.toBase58()} />
               </Typography.Text>
             </Space>

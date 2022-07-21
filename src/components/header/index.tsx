@@ -16,8 +16,8 @@ type HeaderProps = {
 }
 
 const RETAILER_TABS = [
-  { label: 'Booster', value: TabId.Booster },
-  { label: 'Redeem', value: TabId.Redeem },
+  { label: 'Booster', value: TabId.BoostList },
+  { label: 'Redeem', value: TabId.OrderList },
 ]
 
 const USER_TABS = [
