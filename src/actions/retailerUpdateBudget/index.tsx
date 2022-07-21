@@ -10,15 +10,18 @@ import { utilsBN } from '@sen-use/web3'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 type RetailerUpdateBudgetProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
-const RetailerUpdateBudget = ({ boosterAddr }: RetailerUpdateBudgetProps) => {
+const RetailerUpdateBudget = ({
+  boosterAddress,
+}: RetailerUpdateBudgetProps) => {
   const [budget, setBudget] = useState<string>()
+
   const bidTotal = useSelector(
-    (state: AppState) => state.booster[boosterAddr].bidTotal,
+    (state: AppState) => state.booster[boosterAddress].bidTotal,
   )
   const bidMint = useSelector(
-    (state: AppState) => state.booster[boosterAddr].bidMint,
+    (state: AppState) => state.booster[boosterAddress].bidMint,
   )
   const { updateBudget } = useUpdateBudget()
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0

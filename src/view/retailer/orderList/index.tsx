@@ -6,7 +6,6 @@ import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 function OrderList() {
   const { filteredOrders } = useFilterOrder()
 
-  console.log(filteredOrders, 'pools')
   return (
     <Row>
       <Col>

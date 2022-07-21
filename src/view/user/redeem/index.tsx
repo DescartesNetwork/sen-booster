@@ -5,6 +5,7 @@ import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 const Redeem = () => {
   const { filteredOrders } = useFilterOrder()
+
   return (
     <Row>
       <Col>

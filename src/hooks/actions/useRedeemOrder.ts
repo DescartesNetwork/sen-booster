@@ -1,14 +1,16 @@
 import { useCallback, useState } from 'react'
 
+import { notifyError, notifySuccess } from 'helper'
+
 export const useRedeemOrder = () => {
   const [loading, setLoading] = useState(false)
 
   const redeemOrder = useCallback(async () => {
     try {
       setLoading(true)
-      window.notify({ type: 'success', description: 'Freeze OKe' })
+      notifySuccess('success', 'Freeze OKe')
     } catch (error: any) {
-      window.notify({ type: 'error', description: error.message })
+      notifyError(error.message)
     } finally {
       setLoading(false)
     }

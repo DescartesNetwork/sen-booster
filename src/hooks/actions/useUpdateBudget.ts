@@ -1,14 +1,16 @@
 import { useCallback, useState } from 'react'
 
+import { notifyError, notifySuccess } from 'helper'
+
 export const useUpdateBudget = () => {
   const [loading, setLoading] = useState(false)
 
   const updateBudget = useCallback(async () => {
     try {
       setLoading(true)
-      window.notify({ type: 'success', description: 'Update OKe' })
+      notifySuccess('success', 'Update OKe')
     } catch (error: any) {
-      window.notify({ type: 'error', description: error.message })
+      notifyError(error.message)
     } finally {
       setLoading(false)
     }
