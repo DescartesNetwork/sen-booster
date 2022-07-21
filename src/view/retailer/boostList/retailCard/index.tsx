@@ -90,7 +90,39 @@ const RetailCard = ({ boosterAddr }: RetailCardProps) => {
               </Row>
             </Col>
             <Col span={24}>
-              <BoosterProcess boosterAddress={boosterAddr} />
+              <Row gutter={[8, 8]}>
+                <Col flex="auto">
+                  <SpaceVertical
+                    label="Process"
+                    value={
+                      <Typography.Text>
+                        {numeric(askReceived.toString()).format('0.0,[000]')}{' '}
+                        <MintSymbol mintAddress={askMint.toBase58()} />
+                        <Typography.Text type="secondary">
+                          ({percentPayed}%)
+                        </Typography.Text>
+                      </Typography.Text>
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SpaceVertical
+                    label="Budget"
+                    align="end"
+                    value={
+                      <Typography.Text>
+                        {numeric(
+                          utilsBN.undecimalize(bidTotal, bidDecimal),
+                        ).format('0.0,[000]')}{' '}
+                        <MintSymbol mintAddress={askMint.toBase58()} />
+                      </Typography.Text>
+                    }
+                  />
+                </Col>
+                <Col span={24}>
+                  <BoosterProcess boosterAddress={boosterAddr} />
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>
