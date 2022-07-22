@@ -28,7 +28,7 @@ export const useBuy = () => {
         })
         notifySuccess('success', txId)
       } catch (error: any) {
-        notifyError(error.message)
+        notifyError(error)
       } finally {
         setLoading(false)
       }

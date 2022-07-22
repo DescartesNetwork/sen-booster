@@ -15,6 +15,7 @@ type GeneralData = {
   startTime: number
   endTime: number
 }
+
 export type GeneralRef = {
   collect: () => GeneralData
 }

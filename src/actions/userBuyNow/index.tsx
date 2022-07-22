@@ -1,8 +1,10 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { util } from '@sentre/senhub'
+import { useMint, util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
+import { IPFS } from '@sen-use/web3'
+import { fetchCGK } from '@sentre/senhub/dist/shared/util'
 
 import {
   Button,
@@ -23,6 +25,8 @@ import NftUpload from './nftUpload'
 import { useBuy } from 'hooks/actions/useBuy'
 import { AppState } from 'model'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
+import { TOKEN } from 'constant'
+import { notifyError } from 'helper'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -38,15 +42,74 @@ const DATES = [
 ]
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const { askMint } = useSelector(
+  const { askMint, metadata, bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
+  const [loading, setLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
   const [lockTime, setLockTime] = useState(7)
+  const [payRates, setPayRates] = useState<Record<string, number>>({})
+  const [estimatedReceive, setEstimatedReceive] = useState(0)
+  const [nftAddresses, setNFTAddresses] = useState<string[]>([])
   const { buy } = useBuy()
+  const { tokenProvider } = useMint()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
+
+  const buyBack = useMemo(() => {
+    if (Object.keys(payRates).length === 0) return 100
+    return payRates[`${lockTime} days`]
+  }, [lockTime, payRates])
+
+  const getBuyBack = useCallback(async () => {
+    try {
+      setLoading(true)
+      const ipfs = new IPFS(TOKEN)
+      console.log('before get ipfs', ipfs)
+      const payRate: any = await ipfs.get(metadata)
+      console.log('payRate: ', payRate)
+      if (payRate) setPayRates(payRate)
+    } catch (error: any) {
+      return notifyError(error)
+    } finally {
+      setLoading(false)
+    }
+  }, [metadata])
+
+  const estimateReceive = useCallback(async () => {
+    try {
+      setLoading(true)
+      const bidMintInfo = await tokenProvider.findByAddress(bidMint.toBase58())
+      const bidTicket = bidMintInfo?.extensions?.coingeckoId
+      const { price: bidPrice } = await fetchCGK(bidTicket)
+      const askMintInfo = await tokenProvider.findByAddress(askMint.toBase58())
+      const askTicket = askMintInfo?.extensions?.coingeckoId
+      const { price: askPrice } = await fetchCGK(askTicket)
+      let receiveAmount = 0
+      if (bidPrice || askPrice)
+        receiveAmount = (amount * askPrice * buyBack) / (bidPrice * 100)
+      setEstimatedReceive(receiveAmount)
+    } catch (error: any) {
+      return notifyError(error)
+    } finally {
+      setLoading(false)
+    }
+  }, [amount, askMint, bidMint, buyBack, tokenProvider])
+
+  const onSelectNFT = (nftAddress: string) => {
+    const currentNFTList = [...nftAddresses]
+    currentNFTList.push(nftAddress)
+    setNFTAddresses(currentNFTList)
+  }
+
+  useEffect(() => {
+    getBuyBack()
+  }, [getBuyBack])
+
+  useEffect(() => {
+    estimateReceive()
+  }, [estimateReceive])
 
   const onChange = (e: RadioChangeEvent) => {
     setLockTime(e.target.value)
@@ -55,13 +118,11 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const onBuy = () => {
     buy({
       retailer: new PublicKey(boosterAddress),
-      bidAmount: new BN(1),
-      askAmount: new BN(1),
-      lockTimeRange: new BN(7),
+      bidAmount: new BN(amount),
+      askAmount: new BN(estimatedReceive),
+      lockTimeRange: new BN(lockTime),
     })
   }
-
-  console.log('lockTime: ', lockTime)
 
   return (
     <Row>
@@ -168,16 +229,14 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
           {useBoost && (
             <Col>
-              <NftUpload />
+              <NftUpload onSelectNFT={onSelectNFT} />
             </Col>
           )}
           <Col span={24}>
-            {/* <EstimatedInfo receivedToken={receivedToken} ratioBuyBack={} /> */}
-            {/* pending for payrate */}
             <EstimatedInfo
+              estimatedReceive={estimatedReceive}
               boosterAddress={boosterAddress}
-              selectedLockTime={lockTime}
-              payAmount={amount}
+              buyBack={buyBack}
             />
           </Col>
           <Col span={24}>

@@ -21,17 +21,18 @@ type RetailCardProps = {
 }
 
 const RetailCard = ({ boosterAddress }: RetailCardProps) => {
-  const { askMint, bidMint, startTime, endTime, bidTotal, askReceived } =
-    useSelector((state: AppState) => state.booster[boosterAddress])
+  const { askMint, bidMint, startTime, endTime, bidTotal } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
 
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
-  const percentPayed = useMemo(() => {
-    const numAskReceived = askReceived.toNumber()
-    if (!numAskReceived) return 0
-    const percent = askReceived.div(bidTotal).mul(new BN(100))
-    return percent.toNumber()
-  }, [askReceived, bidTotal])
+  // const percentPayed = useMemo(() => {
+  //   const numAskReceived = askReceived.toNumber()
+  //   if (!numAskReceived) return 0
+  //   const percent = askReceived.div(bidTotal).mul(new BN(100))
+  //   return percent.toNumber()
+  // }, [askReceived, bidTotal])
   return (
     <Card bordered={false}>
       <Row gutter={[24, 24]}>
@@ -96,10 +97,10 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="Process"
                     value={
                       <Typography.Text>
-                        {numeric(askReceived.toString()).format('0.0,[000]')}{' '}
+                        {/* {numeric(askReceived.toString()).format('0.0,[000]')}{' '} */}
                         <MintSymbol mintAddress={askMint} />
                         <Typography.Text type="secondary">
-                          ({percentPayed}%)
+                          {/* ({percentPayed}%) */}
                         </Typography.Text>
                       </Typography.Text>
                     }

@@ -1,69 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { IPFS } from '@sen-use/web3'
+import { util } from '@sentre/senhub'
 
 import { MintSymbol } from '@sen-use/components'
 import { Card, Col, Row, Typography } from 'antd'
 
 import { AppState } from 'model'
-import { TOKEN } from 'constant'
-import { fetchMulCGK, notifyError } from 'helper'
-import { useMint } from '@sentre/senhub'
-import { fetchCGK } from '@sentre/senhub/dist/shared/util'
 
 type EstimatedInfoProps = {
+  estimatedReceive: number
   boosterAddress: string
-  selectedLockTime: number
-  payAmount: number
+  buyBack: number
 }
 const EstimatedInfo = ({
+  estimatedReceive,
   boosterAddress,
-  selectedLockTime,
-  payAmount,
+  buyBack,
 }: EstimatedInfoProps) => {
-  const { metadata, bidMint, askMint } = useSelector(
+  const { bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [loading, setLoading] = useState(false)
-  const [payRates, setPayRates] = useState<Record<string, number>>({})
-  const [estimatedReceive, setEstimatedReceive] = useState(0)
-  const { tokenProvider } = useMint()
-
-  const getBuyBack = useCallback(async () => {
-    try {
-      setLoading(true)
-      const ipfs = new IPFS(TOKEN)
-      const payRate: any = await ipfs.get(metadata)
-      if (payRate) setPayRates(payRate)
-    } catch (error: any) {
-      return notifyError(error)
-    } finally {
-      setLoading(false)
-    }
-  }, [metadata])
-
-  useEffect(() => {
-    getBuyBack()
-  }, [getBuyBack])
-
-  const buyBack = useMemo(() => {
-    if (Object.keys(payRates).length === 0) return 100
-    return payRates[`${selectedLockTime} days`]
-  }, [payRates, selectedLockTime])
-
-  const estimateReceive = useCallback(async () => {
-    const bidMintInfo = await tokenProvider.findByAddress(bidMint.toBase58())
-    const bidTicket = bidMintInfo?.extensions?.coingeckoId
-    const { price: bidPrice } = await fetchCGK(bidTicket)
-    const askMintInfo = await tokenProvider.findByAddress(askMint.toBase58())
-    const askTicket = askMintInfo?.extensions?.coingeckoId
-    const { price: askPrice } = await fetchCGK(askTicket)
-    const receiveAmount = (payAmount * askPrice) / bidPrice
-  }, [askMint, bidMint, tokenProvider])
-
-  useEffect(() => {
-    estimateReceive()
-  }, [estimateReceive])
 
   return (
     <Card style={{ borderRadius: 8 }} bodyStyle={{ padding: '12px 16px' }}>
@@ -95,7 +51,7 @@ const EstimatedInfo = ({
             </Col>
             <Col>
               <Typography.Title level={5}>
-                {/* {receiveAmount} */}
+                {util.numeric(estimatedReceive).format('0,0.[00]a')}{' '}
                 <MintSymbol mintAddress={bidMint} />
               </Typography.Title>
             </Col>
