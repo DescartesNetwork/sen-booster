@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { IPFS, utilsBN } from '@sen-use/web3'
-import * as anchor from '@project-serum/anchor'
+import { web3 } from '@project-serum/anchor'
 import BN from 'bn.js'
 import { Transaction } from '@solana/web3.js'
 
@@ -54,8 +54,8 @@ export const useInitializeBooster = () => {
         const endAfter = endTime - Date.now()
         const { provider } = senExchange
         const trans = new Transaction()
-        const retailer = anchor.web3.Keypair.generate()
-        const signers: anchor.web3.Keypair[] = [retailer]
+        const retailer = web3.Keypair.generate()
+        const signers: web3.Keypair[] = [retailer]
 
         const { tx: txInitRetailer } = await senExchange.initializeRetailer({
           bidMint,
@@ -71,15 +71,13 @@ export const useInitializeBooster = () => {
         trans.add(txInitRetailer)
 
         for (const collection of collections) {
-          const voucherPrinter = anchor.web3.Keypair.generate()
+          const voucherPrinter = web3.Keypair.generate()
           const { tx: txPrintVoucher } =
             await senExchange.initializeVoucherPrinter({
               collection,
-              discount: new anchor.BN(
-                utilsBN.decimalize(DISCOUNT, DECIMAL_DISCOUNT),
-              ),
+              discount: utilsBN.decimalize(DISCOUNT, DECIMAL_DISCOUNT),
               retailer: retailer.publicKey,
-              total: new anchor.BN(MAX_AMOUNT_VOUCHER),
+              total: new BN(MAX_AMOUNT_VOUCHER),
               voucherPrinter,
               sendAndConfirm: false,
             })

@@ -40,9 +40,9 @@ const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
     return onChange(nextCollections)
   }
 
-  const onDelete = (index: number) => {
+  const onDelete = (idx: number) => {
     const nextCollections = [...collections]
-    nextCollections.splice(index, 1)
+    nextCollections.splice(idx, 1)
     return onChange(nextCollections)
   }
 

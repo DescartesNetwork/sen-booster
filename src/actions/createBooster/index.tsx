@@ -43,10 +43,7 @@ const AddBooster = () => {
               <PayRate payRate={payRate} setPayRate={onChangePayRate} />
             </Col>
             <Col span={24}>
-              <BoostNFT
-                collections={collections}
-                onChange={(value: string[]) => setCollections(value)}
-              />
+              <BoostNFT collections={collections} onChange={setCollections} />
             </Col>
             <Col span={24}>
               <Row gutter={[12, 12]}>

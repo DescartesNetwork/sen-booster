@@ -1,5 +1,6 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { utilsBN } from '@sen-use/web3'
+import { IPFS, utilsBN } from '@sen-use/web3'
 import { util } from '@sentre/senhub'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
@@ -8,23 +9,40 @@ import { Col, Progress, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { TOKEN } from 'constant'
+import { Metadata } from 'hooks/actions/useInitializeBooster'
 
 type BoosterProcessProps = {
   boosterAddress: string
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidTotal, bidMint, askTotal } = useSelector(
+  const [budget, setBudget] = useState<string>('0')
+  const { bidReserve, bidMint, askTotal, metadata, askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const askDecimal = useMintDecimals(askMint.toBase58()) || 0
 
-  const percentage =
-    bidTotal.toString() === '0' ? 0 : askTotal.div(bidTotal).toString()
-  const processAmount = utilsBN.undecimalize(
-    bidTotal.sub(bidReserve),
-    bidDecimal,
-  )
+  const processAmount =
+    Number(budget) - Number(utilsBN.undecimalize(bidReserve, bidDecimal))
+
+  const percentage = useMemo(() => {
+    if (budget === '0') return 0
+    const numAskTotal = utilsBN.undecimalize(askTotal, askDecimal)
+    return Number(numAskTotal) / Number(budget)
+  }, [askDecimal, askTotal, budget])
+
+  const fetchBudget = useCallback(async () => {
+    const ipfs = new IPFS(TOKEN)
+    const data: Metadata = await ipfs.get(metadata)
+    if (!data.budget) return setBudget('0')
+    return setBudget(data.budget)
+  }, [metadata])
+
+  useEffect(() => {
+    fetchBudget()
+  }, [fetchBudget])
 
   return (
     <Row>
@@ -44,9 +62,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
             <Space direction="vertical">
               <Typography.Text type="secondary">Budget</Typography.Text>
               <Typography.Text>
-                {numeric(utilsBN.undecimalize(bidTotal, bidDecimal)).format(
-                  '0.0,[0000]',
-                )}{' '}
+                {numeric(budget).format('0.0,[0000]')}{' '}
                 <MintSymbol mintAddress={bidMint.toBase58()} />
               </Typography.Text>
             </Space>
@@ -56,7 +72,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Progress
           strokeColor={'#0FB5B8'}
-          percent={80}
+          percent={percentage / 100}
           showInfo={false}
           status="active"
         />

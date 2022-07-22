@@ -16,8 +16,8 @@ type HeaderProps = {
 }
 
 const RETAILER_TABS = [
-  { label: 'Booster', value: TabId.BoostList },
-  { label: 'Redeem', value: TabId.OrderList },
+  { label: 'Booster list', value: TabId.BoostList },
+  { label: 'Order list', value: TabId.OrderList },
 ]
 
 const USER_TABS = [
@@ -78,7 +78,6 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
           overlayInnerStyle={{ borderRadius: 24 }}
         >
           <Button
-            ghost
             style={{ marginRight: -7 }}
             type="text"
             icon={<IonIcon name="cog-outline" />}
