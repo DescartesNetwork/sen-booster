@@ -16,8 +16,6 @@ const OrderTable = ({ dataSource }: OrderTableProps) => {
           dataSource={dataSource}
           rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
-          scroll={{ x: 1000 }}
-          // loading={isLoading}
         />
       </Col>
     </Row>
