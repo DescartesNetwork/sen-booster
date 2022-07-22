@@ -48,7 +48,7 @@ const DATES = [
 ]
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const { askMint, bidPrice } = useSelector(
+  const { askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -65,12 +65,12 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   }
 
   const onBuy = () => {
-    buy({
-      retailer: new PublicKey(boosterAddress),
-      bidAmount: new BN(1),
-      bidPrice: bidPrice,
-      lockTime: new BN(7),
-    })
+    // buy({
+    //   retailer: new PublicKey(boosterAddress),
+    //   bidAmount: new BN(1),
+    //   bidPrice: bidPrice,
+    //   lockTime: new BN(7),
+    // })
   }
 
   const beforeUpload = (file: RcFile) => {

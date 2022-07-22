@@ -14,12 +14,13 @@ type BoosterProcessProps = {
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidTotal, bidMint, askReceived } = useSelector(
+  const { bidReserve, bidTotal, bidMint, askTotal } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
-  const percentage = askReceived.div(bidTotal).toString()
+  const percentage =
+    bidTotal.toString() === '0' ? 0 : askTotal.div(bidTotal).toString()
   const processAmount = utilsBN.undecimalize(
     bidTotal.sub(bidReserve),
     bidDecimal,

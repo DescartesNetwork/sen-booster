@@ -1,19 +1,13 @@
-import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { utilsBN } from '@sen-use/web3'
 import moment from 'moment'
-import BN from 'bn.js'
 
 import { Card, Col, Row, Typography } from 'antd'
-import { MintSymbol } from '@sen-use/components'
 import IonIcon from '@sentre/antd-ionicon'
-import { numeric } from '@sentre/senhub/dist/shared/util'
 import Manage from './manage'
 import SpaceVertical from './spaceVertical'
 
 import { FORMAT_DATE } from 'constant'
 import { AppState } from 'model'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 import BoosterProcess from 'components/boosterProcess'
 
 type RetailCardProps = {
@@ -21,17 +15,10 @@ type RetailCardProps = {
 }
 
 const RetailCard = ({ boosterAddress }: RetailCardProps) => {
-  const { askMint, bidMint, startTime, endTime, bidTotal, askReceived } =
-    useSelector((state: AppState) => state.booster[boosterAddress])
+  const { askMint, bidMint, startTime, endTime } = useSelector(
+    (state: AppState) => state.booster[boosterAddress],
+  )
 
-  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
-
-  const percentPayed = useMemo(() => {
-    const numAskReceived = askReceived.toNumber()
-    if (!numAskReceived) return 0
-    const percent = askReceived.div(bidTotal).mul(new BN(100))
-    return percent.toNumber()
-  }, [askReceived, bidTotal])
   return (
     <Card bordered={false}>
       <Row gutter={[24, 24]}>
@@ -90,39 +77,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
               </Row>
             </Col>
             <Col span={24}>
-              <Row gutter={[8, 8]}>
-                <Col flex="auto">
-                  <SpaceVertical
-                    label="Process"
-                    value={
-                      <Typography.Text>
-                        {numeric(askReceived.toString()).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
-                        <Typography.Text type="secondary">
-                          ({percentPayed}%)
-                        </Typography.Text>
-                      </Typography.Text>
-                    }
-                  />
-                </Col>
-                <Col>
-                  <SpaceVertical
-                    label="Budget"
-                    align="end"
-                    value={
-                      <Typography.Text>
-                        {numeric(
-                          utilsBN.undecimalize(bidTotal, bidDecimal),
-                        ).format('0.0,[000]')}{' '}
-                        <MintSymbol mintAddress={askMint.toBase58()} />
-                      </Typography.Text>
-                    }
-                  />
-                </Col>
-                <Col span={24}>
-                  <BoosterProcess boosterAddress={boosterAddress} />
-                </Col>
-              </Row>
+              <BoosterProcess boosterAddress={boosterAddress} />
             </Col>
           </Row>
         </Col>

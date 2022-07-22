@@ -12,8 +12,8 @@ import {
 import { useState } from 'react'
 
 type BoostNFTProps = {
-  nftList: string[]
-  onChange: (nftList: string[]) => void
+  collections: string[]
+  onChange: (collections: string[]) => void
 }
 
 const Explanation = () => (
@@ -25,25 +25,25 @@ const Explanation = () => (
   </Typography.Text>
 )
 
-const BoostNFT = ({ nftList, onChange }: BoostNFTProps) => {
+const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
   const [isBoostNFT, setIsBoostNFT] = useState(false)
 
   const onInput = (val: string, idx: number) => {
-    const nextNFTs = [...nftList]
-    nextNFTs[idx] = val
-    return onChange(nextNFTs)
+    const nextCollections = [...collections]
+    nextCollections[idx] = val
+    return onChange(nextCollections)
   }
 
   const onAddMore = () => {
-    const nextNFTs = [...nftList]
-    nextNFTs.push('')
-    return onChange(nextNFTs)
+    const nextCollections = [...collections]
+    nextCollections.push('')
+    return onChange(nextCollections)
   }
 
   const onDelete = (index: number) => {
-    const nextNFTs = [...nftList]
-    nextNFTs.splice(index, 1)
-    return onChange(nextNFTs)
+    const nextCollections = [...collections]
+    nextCollections.splice(index, 1)
+    return onChange(nextCollections)
   }
 
   return (
@@ -60,7 +60,7 @@ const BoostNFT = ({ nftList, onChange }: BoostNFTProps) => {
         <Switch size="small" onChange={setIsBoostNFT} />
       </Col>
       {isBoostNFT &&
-        nftList.map((val, idx) => (
+        collections.map((val, idx) => (
           <Col key={idx} span={24}>
             <Row gutter={[4, 4]}>
               <Col span={22}>
