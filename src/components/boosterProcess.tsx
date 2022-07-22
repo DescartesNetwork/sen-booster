@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { utilsBN } from '@sen-use/web3'
+import { IPFS, utilsBN } from '@sen-use/web3'
 import { util } from '@sentre/senhub'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
@@ -9,29 +9,40 @@ import { Col, Progress, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { TOKEN } from 'constant'
+import { Metadata } from 'hooks/actions/useInitializeBooster'
 
 type BoosterProcessProps = {
   boosterAddress: string
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidTotal, bidMint } = useSelector(
+  const [budget, setBudget] = useState<string>('0')
+  const { bidReserve, bidMint, askTotal, metadata, askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [processedAmount, setProcessAmount] = useState('')
-  const [bidTotalAmount, setBidTotalAmount] = useState('')
-  const [processedRatio, setProcessedRatio] = useState('')
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const askDecimal = useMintDecimals(askMint.toBase58()) || 0
 
-  const getProcessedInfos = useCallback(async () => {
-    setProcessAmount(utilsBN.undecimalize(bidTotal.sub(bidReserve), bidDecimal))
-    setProcessedRatio(bidReserve.div(bidTotal).toString())
-    setBidTotalAmount(utilsBN.undecimalize(bidTotal, bidDecimal))
-  }, [bidDecimal, bidReserve, bidTotal])
+  const processAmount =
+    Number(budget) - Number(utilsBN.undecimalize(bidReserve, bidDecimal))
+
+  const percentage = useMemo(() => {
+    if (budget === '0') return 0
+    const numAskTotal = utilsBN.undecimalize(askTotal, askDecimal)
+    return Number(numAskTotal) / Number(budget)
+  }, [askDecimal, askTotal, budget])
+
+  const fetchBudget = useCallback(async () => {
+    const ipfs = new IPFS(TOKEN)
+    const data: Metadata = await ipfs.get(metadata)
+    if (!data.budget) return setBudget('0')
+    return setBudget(data.budget)
+  }, [metadata])
 
   useEffect(() => {
-    getProcessedInfos()
-  }, [getProcessedInfos])
+    fetchBudget()
+  }, [fetchBudget])
 
   return (
     <Row>
@@ -41,9 +52,9 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
             <Space direction="vertical">
               <Typography.Text type="secondary">Process</Typography.Text>
               <Typography.Text>
-                {numeric(processedAmount).format('0.0,[0000]')}{' '}
-                <MintSymbol mintAddress={bidMint} />(
-                {util.numeric(processedRatio).format('0,0.[00]%')})
+                {numeric(processAmount).format('0.0,[0000]')}{' '}
+                <MintSymbol mintAddress={bidMint.toBase58()} />(
+                {util.numeric(percentage).format('0,0.[00]%')})
               </Typography.Text>
             </Space>
           </Col>
@@ -51,8 +62,8 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
             <Space direction="vertical">
               <Typography.Text type="secondary">Budget</Typography.Text>
               <Typography.Text>
-                {numeric(bidTotalAmount).format('0.0,[0000]')}{' '}
-                <MintSymbol mintAddress={bidMint} />
+                {numeric(budget).format('0.0,[0000]')}{' '}
+                <MintSymbol mintAddress={bidMint.toBase58()} />
               </Typography.Text>
             </Space>
           </Col>
@@ -61,7 +72,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Progress
           strokeColor={'#0FB5B8'}
-          percent={80}
+          percent={percentage / 100}
           showInfo={false}
           status="active"
         />

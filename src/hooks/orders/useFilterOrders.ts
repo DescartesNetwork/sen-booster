@@ -19,8 +19,8 @@ export const useFilterOrder = () => {
     (address: string) => orders[address].authority.toBase58() === walletAddress,
     [orders, walletAddress],
   )
-
-  const filterListOrders = useCallback(async (pools: OrderState) => {}, [])
+  console.log(orders, 'orders')
+  const filterListOrders = useCallback(async (pools: OrderState) => pools, [])
 
   useEffect(() => {
     filterListOrders(orders)

@@ -14,7 +14,7 @@ const AddBooster = () => {
   const [visible, setVisible] = useState(false)
   const generalRef = useRef<GeneralRef>({} as GeneralRef)
   const [payRate, setPayRate] = useState<PayRateState>({})
-  const [nfts, setNfts] = useState<string[]>([])
+  const [collections, setCollections] = useState<string[]>([])
   const { initializeBooster, loading } = useInitializeBooster()
 
   const onChangePayRate = (value: number, date: string) => {
@@ -25,7 +25,7 @@ const AddBooster = () => {
 
   const onCreateBooster = () => {
     const generalData = generalRef.current.collect()
-    initializeBooster({ ...generalData, payRate })
+    initializeBooster({ ...generalData, payRate, collections })
   }
 
   return (
@@ -43,10 +43,7 @@ const AddBooster = () => {
               <PayRate payRate={payRate} setPayRate={onChangePayRate} />
             </Col>
             <Col span={24}>
-              <BoostNFT
-                nftList={nfts}
-                onChange={(value: string[]) => setNfts(value)}
-              />
+              <BoostNFT collections={collections} onChange={setCollections} />
             </Col>
             <Col span={24}>
               <Row gutter={[12, 12]}>

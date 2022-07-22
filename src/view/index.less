@@ -5,7 +5,7 @@ input {
 .sen_booster-segmented-item-selected {
   border-radius: 8px;
   border: 1px solid rgba(15, 181, 184, 0.3);
-  color: #0FB5B8 !important;
+  color: #0fb5b8 !important;
 }
 
 .sen_booster-input-number {
@@ -53,6 +53,52 @@ input {
   background: #ebeded !important;
   height: 40px !important;
   color: #7a7b85 !important;
+}
+// css table
+.sen_booster-table-thead {
+  & > tr > th {
+    border-bottom: none !important;
+    &::before {
+      display: none;
+    }
+  }
+  & > tr:first-child > th:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+  & > tr:last-child > th:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+  th {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400 !important;
+    color: #7a7b85 !important;
+  }
+}
+
+.sen_booster-table-tbody {
+  & > tr > td {
+    border-bottom: none !important;
+    cursor: pointer !important;
+    .action-icon {
+      font-size: 24px;
+    }
+  }
+  & > tr.sen_booster-table-row-level-0:hover > td {
+    background-color: #ffefef !important;
+  }
+  .even-row {
+    background-color: #f4f4f5 !important;
+  }
+  .odd-row {
+    background-color: #f9f9fa !important;
+  }
+  & > tr > td:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+  & > tr > td:last-child {
+    border-radius: 0 8px 8px 0;
+  }
 }
 
 #dark {
