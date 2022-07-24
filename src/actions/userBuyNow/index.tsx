@@ -23,35 +23,26 @@ import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
 import NftUpload from './nftUpload'
 
-import { useBuy } from 'hooks/actions/useBuy'
 import { AppState } from 'model'
-import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
-import { TOKEN } from 'constant'
+import { DATES, TOKEN } from 'constant'
 import { notifyError } from 'helper'
+
+import { useBuy } from 'hooks/actions/useBuy'
+import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 
 type BuyNowProps = {
   boosterAddress: string
 }
 
-const DATES = [
-  { name: '7 days', value: 7 },
-  { name: '30 days', value: 30 },
-  { name: '60 days', value: 60 },
-  { name: '90 days', value: 90 },
-  { name: '120 days', value: 120 },
-  { name: '365 days', value: 365 },
-]
-
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, metadata, bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [loading, setLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
-  const [lockTime, setLockTime] = useState(7)
+  const [lockTime, setLockTime] = useState(DATES[0].value)
   const [payRates, setPayRates] = useState<Record<string, number>>({})
   const [estimatedReceive, setEstimatedReceive] = useState(0)
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
@@ -67,21 +58,16 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
 
   const getBuyBack = useCallback(async () => {
     try {
-      setLoading(true)
       const ipfs = new IPFS(TOKEN)
       const metaInfo: any = await ipfs.get(metadata)
-      console.log('mataData info: ', metaInfo)
       if (metaInfo.info) setPayRates(metaInfo.info)
     } catch (error: any) {
       return notifyError(error)
-    } finally {
-      setLoading(false)
     }
   }, [metadata])
 
   const estimateReceive = useCallback(async () => {
     try {
-      setLoading(true)
       const bidMintInfo = await tokenProvider.findByAddress(bidMint.toBase58())
       const bidTicket = bidMintInfo?.extensions?.coingeckoId
       const { price: bidPrice } = await fetchCGK(bidTicket)
@@ -89,13 +75,13 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       const askTicket = askMintInfo?.extensions?.coingeckoId
       const { price: askPrice } = await fetchCGK(askTicket)
       let receiveAmount = 0
+
       if (bidPrice || askPrice)
         receiveAmount = (amount * askPrice * buyBack) / (bidPrice * 100)
+
       setEstimatedReceive(receiveAmount)
     } catch (error: any) {
       return notifyError(error)
-    } finally {
-      setLoading(false)
     }
   }, [amount, askMint, bidMint, buyBack, tokenProvider])
 
@@ -125,8 +111,6 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       askAmount: new BN(estimatedReceive),
     })
   }
-
-  console.log('voucherPrinter', voucherPrinters)
 
   return (
     <Row>
@@ -164,7 +148,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                       Available:{' '}
                       {util.numeric(mintInfo.balance).format('0,0.[00]a')}{' '}
-                      <MintSymbol mintAddress={askMint.toBase58()} />
+                      <MintSymbol mintAddress={askMint} />
                     </Typography.Text>
                   </Col>
                 </Row>
@@ -201,7 +185,11 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                 <Typography.Text>Lock time</Typography.Text>
               </Col>
               <Col span={24}>
-                <Radio.Group defaultValue={7} size="middle" onChange={onChange}>
+                <Radio.Group
+                  defaultValue={DATES[0].value}
+                  size="middle"
+                  onChange={onChange}
+                >
                   <Row gutter={[6, 6]}>
                     {DATES.map((val, idx) => (
                       <Col xs={12} md={8} key={idx}>

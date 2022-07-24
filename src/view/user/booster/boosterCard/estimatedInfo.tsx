@@ -21,8 +21,6 @@ const EstimatedInfo = ({
     (state: AppState) => state.booster[boosterAddress],
   )
 
-  console.log('estimated info: ', estimatedReceive, boosterAddress, buyBack)
-
   return (
     <Card style={{ borderRadius: 8 }} bodyStyle={{ padding: '12px 16px' }}>
       <Row gutter={[8, 8]}>

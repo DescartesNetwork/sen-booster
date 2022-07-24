@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useWallet } from '@sentre/senhub'
 
 import { Col, Modal, Row, Tooltip, Typography, Image, Menu, Space } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import CardNFT from './cardNFT'
 
 import useOwnerNFT from 'hooks/useOwnerNFT'
-import { useWallet } from '@sentre/senhub'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
+
 import { MetadataDataType } from 'lib/metaplex'
 import { getMetaData } from 'helper'
 
@@ -31,7 +32,7 @@ const NftUpload = ({
   const [visibleNftModal, setVisibleNftModal] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
   const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
-  const [ownerNFTsByCollections, setOwnerNFTsByCollections] = useState<
+  const [ownerNFTsByVouchers, setOwnerNFTsByVouchers] = useState<
     MetadataDataType[]
   >([])
   const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
@@ -40,7 +41,7 @@ const NftUpload = ({
   } = useWallet()
   const { nfts } = useOwnerNFT(address)
 
-  let getOwnerNFTsByCollections = useCallback(() => {
+  let getOwnerNFTsByVouchers = useCallback(() => {
     if (!voucherPrinters.length || !nfts) return []
     const acceptedCollections = voucherPrinters.map((val) =>
       val.collection.toBase58(),
@@ -56,12 +57,13 @@ const NftUpload = ({
         listNFTs.push(nft)
       }
     })
-    setOwnerNFTsByCollections(listNFTs)
+
+    setOwnerNFTsByVouchers(listNFTs)
   }, [nfts, selectedNFTs, voucherPrinters])
 
   useEffect(() => {
-    getOwnerNFTsByCollections()
-  }, [getOwnerNFTsByCollections])
+    getOwnerNFTsByVouchers()
+  }, [getOwnerNFTsByVouchers])
 
   const getCollectionMenu = useCallback(async () => {
     const collectionsInfo = await Promise.all(
@@ -84,10 +86,10 @@ const NftUpload = ({
   const handleNFTInfo = (nftAddress: string, nftImage: string) => {
     onSelectNFT(nftAddress, currentNFTIdx)
     //Remove selected NFT from list
-    const currentOwnerNFTsByCollections = [...ownerNFTsByCollections].filter(
+    const currentOwnerNFTsByVouchers = [...ownerNFTsByVouchers].filter(
       (val) => val.mint !== nftAddress,
     )
-    setOwnerNFTsByCollections(currentOwnerNFTsByCollections)
+    setOwnerNFTsByVouchers(currentOwnerNFTsByVouchers)
     const currentImageUrls = [...imageUrls]
     currentImageUrls[currentNFTIdx] = nftImage
     setImageUrls(currentImageUrls)
@@ -151,8 +153,8 @@ const NftUpload = ({
         width={692}
       >
         <Row gutter={[24, 24]} className="scrollbar" style={{ maxHeight: 240 }}>
-          {!!ownerNFTsByCollections.length ? (
-            ownerNFTsByCollections.map((nft) => (
+          {!!ownerNFTsByVouchers.length ? (
+            ownerNFTsByVouchers.map((nft) => (
               <Col
                 xs={12}
                 md={8}
@@ -171,8 +173,6 @@ const NftUpload = ({
               <Menu
                 onClick={() => {}}
                 style={{ borderRight: 'none' }}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
                 mode="inline"
                 items={collectionMenu}
               />

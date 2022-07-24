@@ -3,7 +3,6 @@ import { useUI, util } from '@sentre/senhub'
 
 import { Card, Row, Col, Typography, Image } from 'antd'
 
-// import IMAGE_DEFAULT from 'static/images/system/nft.jpeg'
 import useNftMetaData from 'hooks/useNFTMetaData'
 
 export type CardNFTProps = {
