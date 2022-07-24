@@ -1,4 +1,10 @@
+import { account } from '@senswap/sen-js'
 import { DataLoader, util } from '@sentre/senhub'
+import configs from 'configs'
+
+const {
+  sol: { metaplexNFT },
+} = configs
 
 export const notifySuccess = (content: string, txId: string) => {
   return window.notify({
@@ -28,4 +34,19 @@ export const fetchMulCGK = async (
     result[key] = data[key].usd
   }
   return result
+}
+
+export const getMetaData = async (mintAddress: string) => {
+  if (!account.isAddress(mintAddress)) {
+    return undefined
+  }
+  try {
+    const metadata = await DataLoader.load('getNftMetadata' + mintAddress, () =>
+      metaplexNFT.getNftMetadata(mintAddress),
+    )
+
+    return metadata
+  } catch (error: any) {
+    return undefined
+  }
 }

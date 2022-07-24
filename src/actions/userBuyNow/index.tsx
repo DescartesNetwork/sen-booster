@@ -15,6 +15,7 @@ import {
   Radio,
   RadioChangeEvent,
   Row,
+  Space,
   Switch,
   Typography,
 } from 'antd'
@@ -27,6 +28,7 @@ import { AppState } from 'model'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { TOKEN } from 'constant'
 import { notifyError } from 'helper'
+import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -53,9 +55,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [payRates, setPayRates] = useState<Record<string, number>>({})
   const [estimatedReceive, setEstimatedReceive] = useState(0)
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
-  const { buy } = useBuy()
+  const { buy, loading: buyLoading } = useBuy()
   const { tokenProvider } = useMint()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
+  const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
 
   const buyBack = useMemo(() => {
     if (Object.keys(payRates).length === 0) return 100
@@ -66,10 +69,9 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     try {
       setLoading(true)
       const ipfs = new IPFS(TOKEN)
-      console.log('before get ipfs', ipfs)
-      const payRate: any = await ipfs.get(metadata)
-      console.log('payRate: ', payRate)
-      if (payRate) setPayRates(payRate)
+      const metaInfo: any = await ipfs.get(metadata)
+      console.log('mataData info: ', metaInfo)
+      if (metaInfo.info) setPayRates(metaInfo.info)
     } catch (error: any) {
       return notifyError(error)
     } finally {
@@ -97,9 +99,9 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     }
   }, [amount, askMint, bidMint, buyBack, tokenProvider])
 
-  const onSelectNFT = (nftAddress: string) => {
+  const onSelectNFT = (nftAddress: string, idx: number) => {
     const currentNFTList = [...nftAddresses]
-    currentNFTList.push(nftAddress)
+    currentNFTList[idx] = nftAddress
     setNFTAddresses(currentNFTList)
   }
 
@@ -119,10 +121,12 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     buy({
       retailer: new PublicKey(boosterAddress),
       bidAmount: new BN(amount),
-      askAmount: new BN(estimatedReceive),
       lockTimeRange: new BN(lockTime),
+      askAmount: new BN(estimatedReceive),
     })
   }
+
+  console.log('voucherPrinter', voucherPrinters)
 
   return (
     <Row>
@@ -216,12 +220,15 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               <Col span={24}>
                 <Row justify="end">
                   <Col>
-                    <Typography.Text>Boost</Typography.Text>
-                    <Switch
-                      size="small"
-                      checked={useBoost}
-                      onChange={() => setUseBoost(!useBoost)}
-                    />
+                    <Space size={8}>
+                      <Typography.Text>Boost</Typography.Text>
+                      <Switch
+                        disabled={!voucherPrinters.length}
+                        size="small"
+                        checked={useBoost}
+                        onChange={() => setUseBoost(!useBoost)}
+                      />
+                    </Space>
                   </Col>
                 </Row>
               </Col>
@@ -229,7 +236,11 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
           {useBoost && (
             <Col>
-              <NftUpload onSelectNFT={onSelectNFT} />
+              <NftUpload
+                onSelectNFT={onSelectNFT}
+                boosterAddress={boosterAddress}
+                selectedNFTs={nftAddresses}
+              />
             </Col>
           )}
           <Col span={24}>
@@ -240,7 +251,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
-            <Button block onClick={onBuy}>
+            <Button block onClick={onBuy} loading={buyLoading}>
               Buy
             </Button>
           </Col>
