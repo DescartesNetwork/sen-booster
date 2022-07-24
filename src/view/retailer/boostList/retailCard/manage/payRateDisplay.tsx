@@ -7,21 +7,23 @@ import { Col, Row, Space, Typography } from 'antd'
 import { AppState } from 'model'
 import { TOKEN } from 'constant'
 import { PayRateState } from 'actions/createBooster/payRate'
+import { Metadata } from 'hooks/actions/useInitializeBooster'
 
 type PayRateDisplayProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const PayRateDisplay = ({ boosterAddr }: PayRateDisplayProps) => {
+const PayRateDisplay = ({ boosterAddress }: PayRateDisplayProps) => {
   const [payRate, setPayRate] = useState<PayRateState>({})
   const metadata = useSelector(
-    (state: AppState) => state.booster[boosterAddr].metadata,
+    (state: AppState) => state.booster[boosterAddress].metadata,
   )
 
   const getPayRate = useCallback(async () => {
     const ipfs = new IPFS(TOKEN)
-    const data: PayRateState = await ipfs.get(metadata)
-    return setPayRate(data)
+    const data: Metadata = await ipfs.get(metadata)
+    if (!data.payRate) return setPayRate({})
+    return setPayRate(data.payRate)
   }, [metadata])
 
   useEffect(() => {

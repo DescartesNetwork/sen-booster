@@ -10,10 +10,10 @@ import CardManage from './cardManage'
 const { TabPane } = Tabs
 
 type ManageProps = {
-  boosterAddr: string
+  boosterAddress: string
 }
 
-const Manage = ({ boosterAddr }: ManageProps) => {
+const Manage = ({ boosterAddress }: ManageProps) => {
   const [visible, setVisible] = useState(false)
 
   const isFreeze = useMemo(() => {
@@ -35,12 +35,12 @@ const Manage = ({ boosterAddr }: ManageProps) => {
       >
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <CardManage boosterAddr={boosterAddr} />
+            <CardManage boosterAddress={boosterAddress} />
           </Col>
           <Col span={24}>
             <Tabs>
               <TabPane tab="Budget" key="budget">
-                <RetailerUpdateBudge boosterAddr={boosterAddr} />
+                <RetailerUpdateBudge boosterAddress={boosterAddress} />
               </TabPane>
               <TabPane tab="Freeze/Thaw" key="freeze-thaw">
                 {isFreeze ? <ThawBoost /> : <FreezeBoost />}

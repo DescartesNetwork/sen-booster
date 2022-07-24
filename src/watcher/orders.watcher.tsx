@@ -1,6 +1,7 @@
-import { getOrders } from 'model/order.controller'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+
+import { getOrders } from 'model/order.controller'
 
 export const OrdersWatcher = () => {
   const dispatch = useDispatch()
