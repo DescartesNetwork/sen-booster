@@ -35,7 +35,7 @@ export const getBooster = createAsyncThunk<
   { address: string },
   { state: any }
 >(`${NAME}/getBooster`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
+  if (!account.isAddress(address)) throw new Error('Invalid booster address')
   const {
     booster: { [address]: data },
   } = getState()
@@ -51,7 +51,7 @@ export const upsetBooster = createAsyncThunk<
   { address: string; data: RetailerData },
   { state: any }
 >(`${NAME}/upsetBooster`, async ({ address, data }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
+  if (!account.isAddress(address)) throw new Error('Invalid booster address')
   if (!data) throw new Error('Data is empty')
   return { [address]: data }
 })
@@ -62,8 +62,8 @@ export const removeBooster = createAsyncThunk<
   { state: any }
 >(`${NAME}/removeBooster`, async ({ address }, { getState }) => {
   const { booster } = getState()
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
-  if (!booster[address]) throw new Error('Pool address does not exist!')
+  if (!account.isAddress(address)) throw new Error('Invalid booster address')
+  if (!booster[address]) throw new Error('Booster address does not exist!')
   const newBooster = { ...booster }
   delete newBooster[address]
   return newBooster

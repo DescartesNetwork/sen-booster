@@ -1,21 +1,27 @@
+import { useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
+import { useUI } from '@sentre/senhub'
 
 import User from './user'
 import Retailer from './retailer'
+import AddBooster from '../actions/createBooster'
 
 import { AppWatcher } from 'watcher'
 import { useAppRouter } from 'hooks/useAppRouter'
-import AddBooster from '../actions/createBooster'
-
-import './index.less'
 import { AppLoader } from 'appLoader'
 
+import BG_DARK from 'static/images/BG_DARK.png'
+import BG_LIGHT from 'static/images/BG_LIGHT.png'
+
+import './index.less'
+
 const View = () => {
-  // const { setBackground } = useUI()
+  const { setBackground } = useUI()
   const { appRoute } = useAppRouter()
-  // useEffect(() => {
-  //   setBackground({ light: , dark: BG_DARK })
-  // }, [setBackground])
+
+  useEffect(() => {
+    setBackground({ light: BG_LIGHT, dark: BG_DARK })
+  }, [setBackground])
 
   return (
     <AppLoader>

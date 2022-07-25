@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
 import IonIcon from '@sentre/antd-ionicon'
-import { Button, Col, Popover, Row, Segmented, Switch, Typography } from 'antd'
+import {
+  Button,
+  Col,
+  Popover,
+  Row,
+  Segmented,
+  Space,
+  Switch,
+  Typography,
+} from 'antd'
 import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppDispatch } from 'model'
@@ -49,8 +58,8 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   }
 
   return (
-    <Row justify="space-between">
-      <Col>
+    <Row>
+      <Col flex="auto">
         <Segmented
           options={isRetailer ? RETAILER_TABS : USER_TABS}
           value={tabId}
@@ -59,30 +68,30 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
         />
       </Col>
       <Col>
-        <Button ghost>
-          <IonIcon name="arrow-down-outline" />
-          FAQ
-        </Button>
-        <Popover
-          placement="topRight"
-          content={
-            <Row>
-              <Col>
+        <Space size={12}>
+          {!retailerMode && (
+            <Button icon={<IonIcon name="arrow-down-outline" />} ghost>
+              FAQ
+            </Button>
+          )}
+          <Popover
+            placement="topRight"
+            content={
+              <Space>
                 <Typography.Text>Retailer mode</Typography.Text>
-                <Switch checked={retailerMode} onChange={onSwitch} />
-              </Col>
-            </Row>
-          }
-          trigger="click"
-          overlayClassName="slippage"
-          overlayInnerStyle={{ borderRadius: 24 }}
-        >
-          <Button
-            style={{ marginRight: -7 }}
-            type="text"
-            icon={<IonIcon name="cog-outline" />}
-          />
-        </Popover>
+                <Switch
+                  size="small"
+                  checked={retailerMode}
+                  onChange={onSwitch}
+                />
+              </Space>
+            }
+            trigger="click"
+            overlayClassName="slippage"
+          >
+            <Button ghost icon={<IonIcon name="cog-outline" />} />
+          </Popover>
+        </Space>
       </Col>
     </Row>
   )
