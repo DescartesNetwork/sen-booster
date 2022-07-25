@@ -57,19 +57,6 @@ export const upsetOrder = createAsyncThunk<
   return { [address]: data }
 })
 
-export const removeOrder = createAsyncThunk<
-  OrderState,
-  { address: string },
-  { state: any }
->(`${NAME}/removeOrder`, async ({ address }, { getState }) => {
-  const { orders } = getState()
-  if (!account.isAddress(address)) throw new Error('Invalid order address')
-  if (!orders[address]) throw new Error('Order address does not exist!')
-  const newOrders = { ...orders }
-  delete newOrders[address]
-  return newOrders
-})
-
 /**
  * Usual procedure
  */
@@ -88,8 +75,7 @@ const slice = createSlice({
       .addCase(
         upsetOrder.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(removeOrder.fulfilled, (state, { payload }) => payload),
+      ),
 })
 
 export default slice.reducer

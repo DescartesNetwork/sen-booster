@@ -29,7 +29,6 @@ export const getVoucherPrinters = createAsyncThunk(
       const voucherPrinterData = printerVoucher.account
       bulk[printerVoucher.publicKey.toBase58()] = voucherPrinterData
     }
-
     return bulk
   },
 )
