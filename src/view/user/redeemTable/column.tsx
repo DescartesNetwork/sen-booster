@@ -1,5 +1,6 @@
 import BN from 'bn.js'
 import { util } from '@sentre/senhub'
+import moment from 'moment'
 
 import { Button, Space, Typography } from 'antd'
 import StatusTag from './statusTag'
@@ -7,16 +8,24 @@ import IonIcon from '@sentre/antd-ionicon'
 
 import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
+import RedeemActions from 'components/redeemAction'
+import { RedeemDataSource } from 'constant'
 
 export const REDEEM_COLUMNS = [
   {
     title: 'TIME',
-    dataIndex: 'time',
-    key: 'time',
+    dataIndex: 'lastUpdate',
+    render: (time: string) => {
+      return (
+        <Typography.Text>
+          {moment(Number(time) * 1000).format('MMM DD, YYYY HH:mm')}
+        </Typography.Text>
+      )
+    },
   },
   {
     title: 'ORDER ID',
-    dataIndex: 'pubkey',
+    dataIndex: 'orderId',
     render: (orderId: string) => (
       <Space align="baseline">
         <Typography.Text
@@ -36,12 +45,12 @@ export const REDEEM_COLUMNS = [
   },
   {
     title: 'PAY',
-    dataIndex: 'pubkey',
+    dataIndex: 'orderId',
     render: (orderId: string) => <BidColumn orderId={orderId} />,
   },
   {
     title: 'RECEIVE',
-    dataIndex: 'pubkey',
+    dataIndex: 'orderId',
     render: (orderId: string) => <AskColumn orderId={orderId} />,
   },
   {
@@ -57,9 +66,10 @@ export const REDEEM_COLUMNS = [
     render: (state: string) => <StatusTag tag="success" />,
   },
   {
-    title: 'ACTION',
-    key: 'status',
-    dataIndex: 'status',
-    render: (text: string) => <StatusTag tag="success" />,
+    title: 'ACTIONS',
+    dataIndex: 'state',
+    render: (state: string, { orderId }: RedeemDataSource) => (
+      <RedeemActions orderState={state} orderAddress={orderId} />
+    ),
   },
 ]

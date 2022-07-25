@@ -1,13 +1,14 @@
-import { OrderData } from 'sen-exchange-core'
-
 import { Col, Row, Table } from 'antd'
 import { REDEEM_COLUMNS } from './column'
 
+import { RedeemDataSource } from 'constant'
+
 type RedeemTableProps = {
-  dataSource: (OrderData & { pubkey: string })[]
+  dataSource: RedeemDataSource[]
 }
 
 const RedeemTable = ({ dataSource }: RedeemTableProps) => {
+  console.log('dataSource: ', dataSource)
   return (
     <Row>
       <Col span={24}>

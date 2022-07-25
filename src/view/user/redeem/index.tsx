@@ -1,4 +1,7 @@
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useWallet } from '@sentre/senhub'
+import { utilsBN } from '@sen-use/web3'
 
 import { Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
@@ -6,11 +9,27 @@ import OrderFilterSet from 'components/orderFilterSet'
 // import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 import { AppState } from 'model'
+import { RedeemDataSource } from 'constant'
 
 const Redeem = () => {
-  // const { filteredOrders } = useFilterOrder()
+  const {
+    wallet: { address },
+  } = useWallet()
   const orders = useSelector((state: AppState) => state.order)
-
+  const dataSource = useMemo(() => {
+    const orderList: RedeemDataSource[] = []
+    for (const key in orders) {
+      if (orders[key].authority.toBase58() === address) {
+        orderList.push({
+          lastUpdate: utilsBN.undecimalize(orders[key].lastUpdate, 0),
+          orderId: key,
+          lockTime: utilsBN.undecimalize(orders[key].lockTime, 0),
+          state: Object.keys(orders[key].state)[0],
+        })
+      }
+    }
+    return orderList
+  }, [address, orders])
   return (
     <Card>
       <Row gutter={[16, 16]}>
@@ -18,12 +37,7 @@ const Redeem = () => {
           <OrderFilterSet />
         </Col>
         <Col span={24}>
-          <RedeemTable
-            dataSource={Object.keys(orders).map((val) => ({
-              pubkey: val,
-              ...orders[val],
-            }))}
-          />
+          <RedeemTable dataSource={dataSource} />
         </Col>
       </Row>
     </Card>
