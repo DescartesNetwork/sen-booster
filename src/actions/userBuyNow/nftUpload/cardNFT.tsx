@@ -3,7 +3,7 @@ import { useUI, util } from '@sentre/senhub'
 
 import { Card, Row, Col, Typography, Image } from 'antd'
 
-import useNftMetaData from 'hooks/useNFTMetaData'
+import useNftMetaData from 'hooks/nft/useNFTMetaData'
 
 export type CardNFTProps = {
   nftAddress: string

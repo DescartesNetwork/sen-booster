@@ -5,8 +5,8 @@ import { Col, Modal, Row, Tooltip, Typography, Image, Menu, Space } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import CardNFT from './cardNFT'
 
-import useOwnerNFT from 'hooks/useOwnerNFT'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
+import useOwnerNFT from 'hooks/nft/useOwnerNFT'
 
 import { MetadataDataType } from 'lib/metaplex'
 import { getMetaData } from 'helper'
