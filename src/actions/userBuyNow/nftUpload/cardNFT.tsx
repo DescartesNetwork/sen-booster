@@ -5,7 +5,7 @@ import { Card, Row, Col, Typography, Image } from 'antd'
 
 import useNftMetaData from 'hooks/nft/useNFTMetaData'
 
-export type CardNFTProps = {
+type CardNFTProps = {
   nftAddress: string
   onSelect: (mintAddress: string, nftImage: string) => void
   isSelected?: boolean

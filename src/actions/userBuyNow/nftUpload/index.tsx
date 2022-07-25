@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useWallet } from '@sentre/senhub'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Col, Modal, Row, Tooltip, Typography, Image, Menu, Space } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import CardNFT from './cardNFT'
 
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
-import useOwnerNFT from 'hooks/nft/useOwnerNFT'
 
-import { MetadataDataType } from 'lib/metaplex'
 import { getMetaData } from 'helper'
+import { useNFTByVoucher } from 'hooks/useNFTByVoucher'
 
 type NftUploadProps = {
   onSelectNFT: (nftAddress: string, idx: number) => void
@@ -32,38 +30,12 @@ const NftUpload = ({
   const [visibleNftModal, setVisibleNftModal] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
   const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
-  const [ownerNFTsByVouchers, setOwnerNFTsByVouchers] = useState<
-    MetadataDataType[]
-  >([])
   const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
-  const {
-    wallet: { address },
-  } = useWallet()
-  const { nfts } = useOwnerNFT(address)
+  const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
 
-  const getOwnerNFTsByVouchers = useCallback(() => {
-    if (!voucherPrinters.length || !nfts) return []
-    const acceptedCollections = voucherPrinters.map((val) =>
-      val.collection.toBase58(),
-    )
-    let listNFTs: MetadataDataType[] = []
-
-    nfts?.forEach((nft: MetadataDataType) => {
-      if (
-        nft.collection &&
-        !selectedNFTs.includes(nft.mint) &&
-        acceptedCollections.includes(nft.collection.key)
-      ) {
-        listNFTs.push(nft)
-      }
-    })
-
-    setOwnerNFTsByVouchers(listNFTs)
-  }, [nfts, selectedNFTs, voucherPrinters])
-
-  useEffect(() => {
-    getOwnerNFTsByVouchers()
-  }, [getOwnerNFTsByVouchers])
+  const unselectedOwnerNFTs = useMemo(() => {
+    return ownerNFTsByVouchers.filter((val) => !selectedNFTs.includes(val.mint))
+  }, [ownerNFTsByVouchers, selectedNFTs])
 
   const getCollectionMenu = useCallback(async () => {
     const collectionsInfo = await Promise.all(
@@ -86,10 +58,6 @@ const NftUpload = ({
   const handleNFTInfo = (nftAddress: string, nftImage: string) => {
     onSelectNFT(nftAddress, currentNFTIdx)
     //Remove selected NFT from list
-    const currentOwnerNFTsByVouchers = [...ownerNFTsByVouchers].filter(
-      (val) => val.mint !== nftAddress,
-    )
-    setOwnerNFTsByVouchers(currentOwnerNFTsByVouchers)
     const currentImageUrls = [...imageUrls]
     currentImageUrls[currentNFTIdx] = nftImage
     setImageUrls(currentImageUrls)
@@ -153,8 +121,8 @@ const NftUpload = ({
         width={692}
       >
         <Row gutter={[24, 24]} className="scrollbar" style={{ maxHeight: 240 }}>
-          {!!ownerNFTsByVouchers.length ? (
-            ownerNFTsByVouchers.map((nft) => (
+          {!!unselectedOwnerNFTs.length ? (
+            unselectedOwnerNFTs.map((nft) => (
               <Col
                 xs={12}
                 md={8}

@@ -1,10 +1,8 @@
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useMint, util } from '@sentre/senhub'
+import { util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
-import { IPFS } from '@sen-use/web3'
-import { fetchCGK } from '@sentre/senhub/dist/shared/util'
 
 import {
   Button,
@@ -24,80 +22,48 @@ import { MintSelection, MintSymbol } from '@sen-use/components'
 import NftUpload from './nftUpload'
 
 import { AppState } from 'model'
-import { DATES, TOKEN } from 'constant'
-import { notifyError } from 'helper'
+import { LOCK_TIME_OPTIONS } from 'constant'
 
 import { useBuy } from 'hooks/actions/useBuy'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
+import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
+import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 
 type BuyNowProps = {
   boosterAddress: string
 }
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const { askMint, metadata, bidMint } = useSelector(
+  const { askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
-  const [lockTime, setLockTime] = useState(DATES[0].value)
-  const [payRates, setPayRates] = useState<Record<string, number>>({})
-  const [estimatedReceive, setEstimatedReceive] = useState(0)
+  const [lockTime, setLockTime] = useState(LOCK_TIME_OPTIONS[0])
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
   const { buy, loading: buyLoading } = useBuy()
-  const { tokenProvider } = useMint()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
   const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
+  const { payRate } = useMetaBooster(boosterAddress)
 
   const buyBack = useMemo(() => {
-    if (Object.keys(payRates).length === 0) return 100
-    return payRates[`${lockTime} days`]
-  }, [lockTime, payRates])
+    if (Object.keys(payRate).length === 0) return 100
+    return payRate[lockTime.name]
+  }, [lockTime, payRate])
 
-  const getPayRates = useCallback(async () => {
-    try {
-      const ipfs = new IPFS(TOKEN)
-      const metaInfo: any = await ipfs.get(metadata)
-      if (metaInfo.info) setPayRates(metaInfo.info)
-    } catch (error: any) {
-      return notifyError(error)
-    }
-  }, [metadata])
-
-  const estimateReceive = useCallback(async () => {
-    try {
-      const bidMintInfo = await tokenProvider.findByAddress(bidMint.toBase58())
-      const bidTicket = bidMintInfo?.extensions?.coingeckoId
-      const { price: bidPrice } = await fetchCGK(bidTicket)
-      const askMintInfo = await tokenProvider.findByAddress(askMint.toBase58())
-      const askTicket = askMintInfo?.extensions?.coingeckoId
-      const { price: askPrice } = await fetchCGK(askTicket)
-      let receiveAmount = 0
-
-      if (bidPrice || askPrice)
-        receiveAmount = (amount * askPrice * buyBack) / (bidPrice * 100)
-
-      setEstimatedReceive(receiveAmount)
-    } catch (error: any) {
-      return notifyError(error)
-    }
-  }, [amount, askMint, bidMint, buyBack, tokenProvider])
+  const estimatedReceive = useEstimatedReceive({
+    boosterAddress,
+    amount,
+    buyBack,
+  })
 
   const onSelectNFT = (nftAddress: string, idx: number) => {
     const currentNFTList = [...nftAddresses]
     currentNFTList[idx] = nftAddress
     setNFTAddresses(currentNFTList)
   }
-
-  useEffect(() => {
-    getPayRates()
-  }, [getPayRates])
-
-  useEffect(() => {
-    estimateReceive()
-  }, [estimateReceive])
 
   const onChange = (e: RadioChangeEvent) => {
     setLockTime(e.target.value)
@@ -107,7 +73,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     buy({
       retailer: new PublicKey(boosterAddress),
       bidAmount: new BN(amount),
-      lockTimeRange: new BN(lockTime),
+      lockTimeRange: new BN(lockTime.value),
       askAmount: new BN(estimatedReceive),
     })
   }
@@ -186,15 +152,15 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               </Col>
               <Col span={24}>
                 <Radio.Group
-                  defaultValue={DATES[0].value}
+                  defaultValue={LOCK_TIME_OPTIONS[0]}
                   size="middle"
                   onChange={onChange}
                 >
                   <Row gutter={[6, 6]}>
-                    {DATES.map((val, idx) => (
+                    {LOCK_TIME_OPTIONS.map((val, idx) => (
                       <Col xs={12} md={8} key={idx}>
                         <Radio.Button
-                          defaultChecked={val.value === lockTime}
+                          defaultChecked={val.value === lockTime.value}
                           value={val.value}
                           style={{ width: '100%' }}
                         >
