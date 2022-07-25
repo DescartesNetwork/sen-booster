@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
 import OrderFilterSet from 'components/orderFilterSet'
-import { useFilterOrder } from 'hooks/orders/useFilterOrders'
+import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
 
 const Redeem = () => {
   const { myOrders } = useFilterOrder()
