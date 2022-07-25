@@ -62,8 +62,8 @@ export const removeBooster = createAsyncThunk<
   { state: any }
 >(`${NAME}/removeBooster`, async ({ address }, { getState }) => {
   const { booster } = getState()
-  if (!account.isAddress(address)) throw new Error('Invalid Booster address')
-  if (!booster[address]) throw new Error('Pool address does not exist!')
+  if (!account.isAddress(address)) throw new Error('Invalid booster address')
+  if (!booster[address]) throw new Error('Booster address does not exist!')
   const newBooster = { ...booster }
   delete newBooster[address]
   return newBooster
