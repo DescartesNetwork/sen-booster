@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Card, Col, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import Manage from './manage'
-import SpaceVertical from './spaceVertical'
+import SpaceVertical from '../../../../components/spaceVertical'
 
 import { FORMAT_DATE } from 'constant'
 import { AppState } from 'model'

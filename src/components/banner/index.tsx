@@ -5,23 +5,18 @@ import BannerImage from 'static/images/header_banner.png'
 
 const Banner = () => {
   return (
-    <Row>
-      <Col span={24}>
-        <Image
-          src={BannerImage}
-          preview={false}
-          style={{ borderRadius: 10, width: '100%' }}
-        />
+    <Row gutter={[24, 24]}>
+      <Col span={24} className="banner">
+        <Image src={BannerImage} preview={false} />
       </Col>
       <Col
         style={{
           position: 'absolute',
-          padding: 24,
           height: '100%',
           width: '100%',
         }}
       >
-        <Space direction="vertical">
+        <Space direction="vertical" style={{ padding: 24 }}>
           <Typography.Title
             level={2}
             style={{ fontWeight: 800, color: '#0B358F' }}

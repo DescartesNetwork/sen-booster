@@ -25,7 +25,7 @@ const OrderFilterSet = () => {
   }
 
   return (
-    <Row>
+    <Row gutter={[12, 12]}>
       <Col>
         Token <Filter options={[]} onFilter={onTokenFilter} value={token} />
       </Col>

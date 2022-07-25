@@ -1,81 +1,61 @@
-import { Button, Space, Typography } from 'antd'
-import StatusTag from './statusTag'
-import IonIcon from '@sentre/antd-ionicon'
-import { MintSymbol } from '@sen-use/components'
+import BN from 'bn.js'
+import { OrderData } from 'sen-exchange-core'
 
-import { util } from '@sentre/senhub'
+import { Typography } from 'antd'
+import ColumnBuyBack from './columnBuyBack'
+import ColumnPay from './columnPay'
+import StatusTag from 'components/statusTag'
+import ColumnCreatedAt from './columnCreatedAt'
 
 export const ORDER_COLUMNS = [
   {
     title: 'TIME',
-    dataIndex: 'time',
-    key: 'time',
+    dataIndex: 'metadata',
+    key: 'metadata',
+    render: (metadata: number[]) => <ColumnCreatedAt metadata={metadata} />,
   },
   {
-    title: 'ORDER ID',
-    dataIndex: 'transactionId',
-    key: 'transactionId',
-    render: (text: string) => (
-      <Space align="baseline">
-        <Typography.Text
-          onClick={() => window.open(util.explorer(text), '_blank')}
-          style={{ fontWeight: 700, cursor: 'pointer' }}
-        >
-          {util.shortenAddress(text, 8, '...')}
-        </Typography.Text>
-        <Button
-          type="text"
-          size="small"
-          onClick={() => window.open(util.explorer(text), '_blank')}
-          icon={<IonIcon name="open-outline" />}
-        />
-      </Space>
+    title: 'BUY-BACK',
+    dataIndex: 'askAmount',
+    key: 'askAmount',
+    render: (askAmount: BN, { retailer }: OrderData) => (
+      <ColumnBuyBack
+        askAmount={askAmount}
+        boosterAddress={retailer.toBase58()}
+      />
     ),
   },
   {
     title: 'PAY',
-    dataIndex: 'from',
-    key: 'from',
-    render: (text: string) => (
-      <Typography.Text>{util.shortenAddress(text, 8, '...')}</Typography.Text>
-    ),
-  },
-  {
-    title: 'RECEIVE',
-    dataIndex: 'to',
-    key: 'to',
-    render: (text: string) => (
-      <Typography.Text>{util.shortenAddress(text, 8, '...')}</Typography.Text>
+    dataIndex: 'bidAmount',
+    key: 'bidAmount',
+    render: (bidAmount: BN, { retailer }: OrderData) => (
+      <ColumnPay bidAmount={bidAmount} boosterAddress={retailer.toBase58()} />
     ),
   },
   {
     title: 'LOCK TIME',
-    key: 'amount',
-    dataIndex: 'amount',
-    render: (text: string, record: any) => {
-      const amountUi = util.numeric(text).format('0,0.[0000]')
-      return (
-        <Typography.Text
-          style={{ color: record.isReceive ? '#14E041' : '#D72311' }}
-        >
-          <Space size={4}>
-            {record.isReceive ? `+${amountUi}` : `-${amountUi}`}{' '}
-            <MintSymbol mintAddress={record.mint} />
-          </Space>
-        </Typography.Text>
-      )
+    dataIndex: 'lockTime',
+    key: 'lockTime',
+    render: (lockTime: string) => {
+      return <Typography.Text>{lockTime.toString()}</Typography.Text>
     },
   },
+  // {
+  //   title: 'DEPRECIATION',
+  //   key: 'depreciation',
+  //   dataIndex: 'depreciation',
+  //   render: (depreciation: string) => (
+  //     <Typography.Text>{depreciation}</Typography.Text>
+  //   ),
+  // },
   {
     title: 'STATUS',
-    key: 'status',
-    dataIndex: 'status',
-    render: (text: string) => <StatusTag tag="success" />,
-  },
-  {
-    title: 'ACTION',
-    key: 'status',
-    dataIndex: 'status',
-    render: (text: string) => <StatusTag tag="success" />,
+    key: 'state',
+    dataIndex: 'state',
+    render: (state: Object) => {
+      console.log(Object.keys(state)[0])
+      return <StatusTag state={Object.keys(state)[0]} />
+    },
   },
 ]

@@ -1,20 +1,22 @@
-import { Col, Row } from 'antd'
+import { Card, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import OrderTable from 'view/retailer/orderTable'
 import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 function OrderList() {
-  const { filteredOrders } = useFilterOrder()
+  const { myOrders } = useFilterOrder()
 
   return (
-    <Row>
-      <Col>
-        <Filter />
-      </Col>
-      <Col>
-        <OrderTable dataSource={filteredOrders} />
-      </Col>
-    </Row>
+    <Card bordered={false}>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Filter />
+        </Col>
+        <Col span={24}>
+          <OrderTable dataSource={myOrders} />
+        </Col>
+      </Row>
+    </Card>
   )
 }
 

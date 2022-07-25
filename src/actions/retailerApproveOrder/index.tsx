@@ -1,12 +1,16 @@
-import { Button, Row } from 'antd'
+import { Button } from 'antd'
 import { useApproveOrder } from 'hooks/actions/useApproveOrder'
 
-const ApproveOrder = () => {
+const ApproveOrder = ({ orderAddress }: { orderAddress: string }) => {
   const { approveOrder, loading } = useApproveOrder()
   return (
-    <Row>
-      <Button onClick={approveOrder}>Approve</Button>
-    </Row>
+    <Button
+      type="primary"
+      loading={loading}
+      onClick={() => approveOrder(orderAddress)}
+    >
+      Approve
+    </Button>
   )
 }
 
