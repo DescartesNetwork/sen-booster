@@ -10,7 +10,7 @@ type RedeemTableProps = {
 const RedeemTable = ({ dataSource }: RedeemTableProps) => {
   return (
     <Row>
-      <Col>
+      <Col span={24}>
         <Table
           columns={REDEEM_COLUMNS}
           dataSource={dataSource}
