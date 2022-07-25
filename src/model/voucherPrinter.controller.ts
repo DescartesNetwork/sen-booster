@@ -12,7 +12,7 @@ export type VoucherPrinterState = Record<string, VoucherPrinterData>
  * Store constructor
  */
 
-const NAME = 'voucher'
+const NAME = 'voucherPrinter'
 const initialState: VoucherPrinterState = {}
 
 /**
@@ -26,10 +26,9 @@ export const getVoucherPrinters = createAsyncThunk(
       await window.senBooster.program.account.voucherPrinter.all()
     let bulk: VoucherPrinterState = {}
     for (const printerVoucher of printerVouchers) {
-      const boosterData = printerVoucher.account
-      bulk[printerVoucher.publicKey.toBase58()] = boosterData
+      const voucherPrinterData = printerVoucher.account
+      bulk[printerVoucher.publicKey.toBase58()] = voucherPrinterData
     }
-
     return bulk
   },
 )
@@ -39,7 +38,8 @@ export const getVoucherPrinter = createAsyncThunk<
   { address: string },
   { state: any }
 >(`${NAME}/getVoucherPrinter`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
+  if (!account.isAddress(address))
+    throw new Error('Invalid voucherPrinter address')
   const {
     voucherPrinter: { [address]: data },
   } = getState()
