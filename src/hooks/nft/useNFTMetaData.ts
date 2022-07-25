@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { account } from '@senswap/sen-js'
+import { DataLoader } from '@sentre/senhub'
 
 import { MetadataType } from 'lib/metaplex'
 import configs from 'configs'
-import { DataLoader } from '@sentre/senhub'
 
 const {
   sol: { metaplexNFT },

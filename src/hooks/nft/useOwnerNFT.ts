@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAccount } from '@sentre/senhub'
+import { BN } from 'bn.js'
+import { DataLoader } from '@sentre/senhub'
 
 import { MetadataDataType } from 'lib/metaplex'
 import configs from 'configs'
-import { BN } from 'bn.js'
-import { DataLoader } from '@sentre/senhub'
 
 const {
   sol: { metaplexNFT },
