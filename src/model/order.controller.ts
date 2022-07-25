@@ -37,13 +37,12 @@ export const getOrder = createAsyncThunk<
   { address: string },
   { state: any }
 >(`${NAME}/getOrder`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
+  if (!account.isAddress(address)) throw new Error('Invalid order address')
   const {
     order: { [address]: data },
   } = getState()
   if (data) return { [address]: data }
 
-  // const poolData = await window.balansol.getPoolData(address)
   const orderData = {}
   return { [address]: orderData }
 })
@@ -53,7 +52,7 @@ export const upsetOrder = createAsyncThunk<
   { address: string; data: OrderData },
   { state: any }
 >(`${NAME}/upsetOrder`, async ({ address, data }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
+  if (!account.isAddress(address)) throw new Error('Invalid order address')
   if (!data) throw new Error('Data is empty')
   return { [address]: data }
 })
@@ -64,11 +63,11 @@ export const removeOrder = createAsyncThunk<
   { state: any }
 >(`${NAME}/removeOrder`, async ({ address }, { getState }) => {
   const { orders } = getState()
-  if (!account.isAddress(address)) throw new Error('Invalid pool address')
-  if (!orders[address]) throw new Error('Pool address does not exist!')
-  const newBooster = { ...orders }
-  delete newBooster[address]
-  return newBooster
+  if (!account.isAddress(address)) throw new Error('Invalid order address')
+  if (!orders[address]) throw new Error('Order address does not exist!')
+  const newOrders = { ...orders }
+  delete newOrders[address]
+  return newOrders
 })
 
 /**
