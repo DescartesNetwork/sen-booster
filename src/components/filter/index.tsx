@@ -18,8 +18,8 @@ const Filter = ({ onFilter, options, value }: FilterBoosterProps) => {
           onChange={onFilter}
           placement="bottomRight"
         >
-          {options.map((val, idx) => (
-            <Option value={val.value} key={`${val}+${idx}`}>
+          {options.map((val) => (
+            <Option value={val.value} key={val.key}>
               {val.value}
             </Option>
           ))}

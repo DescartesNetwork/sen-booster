@@ -41,7 +41,7 @@ const NftUpload = ({
   } = useWallet()
   const { nfts } = useOwnerNFT(address)
 
-  let getOwnerNFTsByVouchers = useCallback(() => {
+  const getOwnerNFTsByVouchers = useCallback(() => {
     if (!voucherPrinters.length || !nfts) return []
     const acceptedCollections = voucherPrinters.map((val) =>
       val.collection.toBase58(),

@@ -56,7 +56,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     return payRates[`${lockTime} days`]
   }, [lockTime, payRates])
 
-  const getBuyBack = useCallback(async () => {
+  const getPayRates = useCallback(async () => {
     try {
       const ipfs = new IPFS(TOKEN)
       const metaInfo: any = await ipfs.get(metadata)
@@ -92,8 +92,8 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   }
 
   useEffect(() => {
-    getBuyBack()
-  }, [getBuyBack])
+    getPayRates()
+  }, [getPayRates])
 
   useEffect(() => {
     estimateReceive()
