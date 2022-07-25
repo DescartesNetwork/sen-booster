@@ -9,7 +9,7 @@ import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import { numeric, shortenAddress } from '@sentre/senhub/dist/shared/util'
 import { MintSymbol } from '@sen-use/components'
-import SpaceVertical from '../spaceVertical'
+import SpaceVertical from '../../../../../components/spaceVertical'
 import PayRateDisplay from './payRateDisplay'
 
 import { AppState } from 'model'

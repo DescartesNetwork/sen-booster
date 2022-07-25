@@ -20,13 +20,10 @@ const initialState: OrderState = {}
  */
 
 export const getOrders = createAsyncThunk(`${NAME}/getOrders`, async () => {
-  // const orders = await window.senExchange
-  const orders: any = []
+  const orders = await window.senBooster.program.account.order.all()
   let bulk: OrderState = {}
   for (const order of orders) {
-    const orderData: any = order.account as OrderData
-    const orderState = orderData.state as OrderState
-    if (orderState['deleted']) continue
+    const orderData: any = order.account
     bulk[order.publicKey.toBase58()] = orderData
   }
   return bulk

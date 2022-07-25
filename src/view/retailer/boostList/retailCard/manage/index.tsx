@@ -22,7 +22,7 @@ const Manage = ({ boosterAddress }: ManageProps) => {
 
   return (
     <Fragment>
-      <Button onClick={() => setVisible(true)} block>
+      <Button ghost onClick={() => setVisible(true)} block>
         Manage
       </Button>
       <Modal

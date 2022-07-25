@@ -4,10 +4,12 @@
 
 @import '~antd/dist/antd.dark.less';
 @import './common/vars.less';
-@import './index.less';
+@import './common/polyfill.less';
+@import './common/typography.less';
+@import './common/scrollbar.less';
 
 // Colors
-@primary-color: @DARK;
+@primary-color: @PRIMARY;
 @info-color: @INFO;
 @success-color: @SUCCESS;
 @warning-color: @WARNING;
@@ -19,10 +21,10 @@
 
 // Typography
 @font-family: 'Nunito', sans-serif;
-@text-color: @NEUTRAL05;
+@text-color: @NEUTRAL10;
 @text-color-secondary: @NEUTRAL40;
-@heading-color: @NEUTRAL05;
-@disabled-color: @NEUTRAL40;
+@heading-color: @NEUTRAL10;
+@disabled-color: @NEUTRAL60;
 @typography-title-margin-top: 0px;
 @typography-title-margin-bottom: 0px;
 
@@ -34,41 +36,62 @@
 @popover-customize-border-color: @border-color-base;
 
 // Card
-@card-radius: @border-radius-base * 3;
+@card-radius: @border-radius-base * 2;
 @card-actions-background: @NEUTRAL100;
-@card-background: @CARD_DARK;
+@card-background: @NEUTRAL100;
 @card-shadow: @DARK_SHADOW2;
+
+//CollapsePanel
+@collapse-panel-border-radius: @border-radius-base * 2;
 
 // Modal
 @modal-header-bg: @NEUTRAL100;
 @modal-content-bg: @NEUTRAL100;
 @modal-footer-bg: @NEUTRAL100;
 @modal-footer-padding-horizontal: 24px;
-@modal-header-padding: 16px 24px 8px 24px;
 
 // Drawer
 @drawer-bg: @NEUTRAL100;
 
 // Button
+@btn-font-weight: 700;
+@btn-shadow: unset;
+@btn-primary-shadow: unset;
+@btn-text-shadow: unset;
 @btn-default-border: @NEUTRAL80;
-@btn-disable-bg: @NEUTRAL80;
-@btn-default-ghost-color: @NEUTRAL05;
-@btn-default-ghost-border: @NEUTRAL80;
+@btn-default-ghost-color: @NEUTRAL10;
+@btn-default-ghost-border: @NEUTRAL10;
 
-//Input
-@input-color: @NEUTRAL05;
-@input-bg: @NEUTRAL100;
+// Input
+@input-placeholder-color: @NEUTRAL40;
 
 // Divider
-@divider-color: @NEUTRAL80;
+@divider-color: @NEUTRAL90;
 @divider-orientation-margin: 0;
-@divider-vertical-gutter: 0;
 
 // Checkbox
 @checkbox-border-radius: @border-radius-base - 4;
 
-//Table
-@table-bg: @TRANSPARENT;
+// Patch
+.@{ant-prefix}-layout {
+  background: unset;
+}
+.@{ant-prefix}-card {
+  box-shadow: @LIGHT_SHADOW1;
+  &.glass {
+    background-color: color(~`('@{card-background}aa') `);
+    backdrop-filter: blur(16px);
+  }
+}
 
-//Popover
-@popover-bg: @NEUTRAL100;
+.account-item {
+  background-color: #2c2e3d !important;
+}
+
+.close-account {
+  background: #1d1e2c;
+}
+
+.card-cleanup {
+  background: #2c2e3d !important;
+}

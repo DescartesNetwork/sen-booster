@@ -4,7 +4,7 @@ import OrderFilterSet from 'components/orderFilterSet'
 import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 const Redeem = () => {
-  const { filteredOrders } = useFilterOrder()
+  const { myOrders } = useFilterOrder()
 
   return (
     <Row>
@@ -12,7 +12,7 @@ const Redeem = () => {
         <OrderFilterSet />
       </Col>
       <Col>
-        <RedeemTable dataSource={filteredOrders} />
+        <RedeemTable dataSource={myOrders} />
       </Col>
     </Row>
   )
