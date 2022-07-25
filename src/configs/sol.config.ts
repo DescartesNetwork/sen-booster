@@ -1,4 +1,5 @@
-import { Net } from '@sentre/senhub'
+import { Net, rpc } from '@sentre/senhub'
+import metaplexNFT from 'lib/metaplex'
 
 /**
  * Contructor
@@ -7,6 +8,7 @@ type Conf = {
   node: string
   spltAddress: string
   splataAddress: string
+  metaplexNFT: metaplexNFT
   senExchangeProgram: string
 }
 
@@ -18,6 +20,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.devnet.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
+    metaplexNFT: new metaplexNFT(rpc),
     senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
   },
 
@@ -28,6 +31,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.testnet.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
+    metaplexNFT: new metaplexNFT(rpc),
     senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
   },
 
@@ -38,6 +42,7 @@ const conf: Record<Net, Conf> = {
     node: 'https://api.mainnet-beta.solana.com',
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
+    metaplexNFT: new metaplexNFT(rpc),
     senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
   },
 }
