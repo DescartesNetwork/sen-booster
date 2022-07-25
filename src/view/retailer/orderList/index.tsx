@@ -1,7 +1,8 @@
 import { Card, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import OrderTable from 'view/retailer/orderTable'
-import { useFilterOrder } from 'hooks/orders/useFilterOrders'
+
+import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
 
 function OrderList() {
   const { myOrders } = useFilterOrder()
