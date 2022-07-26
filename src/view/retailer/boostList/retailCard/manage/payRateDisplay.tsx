@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IPFS } from '@sen-use/web3'
 
 import { Col, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
-import { TOKEN } from 'constant'
 import { PayRateState } from 'actions/createBooster/payRate'
-import { Metadata } from 'hooks/actions/useInitializeBooster'
+import { Ipfs } from 'senUse/ipfs'
 
 type PayRateDisplayProps = {
   boosterAddress: string
@@ -20,8 +18,7 @@ const PayRateDisplay = ({ boosterAddress }: PayRateDisplayProps) => {
   )
 
   const getPayRate = useCallback(async () => {
-    const ipfs = new IPFS(TOKEN)
-    const data: Metadata = await ipfs.get(metadata)
+    const data = await Ipfs.methods.booster.get(metadata)
     if (!data.payRate) return setPayRate({})
     return setPayRate(data.payRate)
   }, [metadata])

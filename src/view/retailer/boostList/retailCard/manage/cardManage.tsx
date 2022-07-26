@@ -22,7 +22,7 @@ type CardManageProps = {
 
 const CardManage = ({ boosterAddress }: CardManageProps) => {
   const [copied, setCopied] = useState('')
-  const { bidMint, askMint, bidTotal, startTime, endTime } = useSelector(
+  const { bidMint, askMint, bidTotal, startAt, endAt } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
 
@@ -106,7 +106,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="Start date"
                 value={
                   <Typography.Text>
-                    {moment(startTime.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(startAt.toNumber() * 1000).format(FORMAT_DATE)}
                   </Typography.Text>
                 }
               />
@@ -116,7 +116,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="End date"
                 value={
                   <Typography.Text>
-                    {moment(endTime.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(endAt.toNumber() * 1000).format(FORMAT_DATE)}
                   </Typography.Text>
                 }
               />

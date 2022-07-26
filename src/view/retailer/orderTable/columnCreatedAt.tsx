@@ -1,13 +1,11 @@
 import { useCallback, useEffect } from 'react'
-import { IPFS } from '@sen-use/web3'
 
-import { TOKEN } from 'constant'
+import { Ipfs } from 'senUse/ipfs'
 
 const ColumnCreatedAt = ({ metadata }: { metadata: number[] }) => {
   const fetchCreatedAt = useCallback(async () => {
-    const ipfs = new IPFS(TOKEN)
-    const data = await ipfs.get(metadata)
-    console.log(data, 'data')
+    const data = await Ipfs.methods.booster.get(metadata)
+    console.log(data.payRate, 'data')
   }, [metadata])
 
   useEffect(() => {

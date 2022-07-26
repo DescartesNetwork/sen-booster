@@ -10,6 +10,7 @@ import { Col, Progress, Row, Space, Typography } from 'antd'
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
+import { Ipfs } from 'senUse/ipfs'
 
 type BoosterProcessProps = {
   boosterAddress: string
@@ -31,6 +32,16 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
     const numAskTotal = utilsBN.undecimalize(askTotal, askDecimal)
     return Number(numAskTotal) / Number(budget)
   }, [askDecimal, askTotal, budget])
+
+  const fetchBudget = useCallback(async () => {
+    const data = await Ipfs.methods.booster.get(metadata)
+    if (!data.budget) return setBudget('0')
+    return setBudget(data.budget)
+  }, [metadata])
+
+  useEffect(() => {
+    fetchBudget()
+  }, [fetchBudget])
 
   return (
     <Row>
