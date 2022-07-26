@@ -9,7 +9,7 @@ type RedeemActionProps = {
   orderAddress: string
 }
 
-const RedeemActions = ({ orderState, orderAddress }: RedeemActionProps) => {
+const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {
   if (orderState === OrderState.Pending)
     return <Cancel orderAddress={orderAddress} />
   if (orderState === OrderState.Approved)
@@ -21,4 +21,4 @@ const RedeemActions = ({ orderState, orderAddress }: RedeemActionProps) => {
   )
 }
 
-export default RedeemActions
+export default OrderAction

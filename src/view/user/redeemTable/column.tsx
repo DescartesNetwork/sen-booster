@@ -5,10 +5,10 @@ import moment from 'moment'
 import { Button, Space, Typography } from 'antd'
 import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
-
 import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
-import RedeemActions from 'components/redeemAction'
+import OrderAction from 'view/user/redeemTable/orderAction'
+
 import { RedeemDataSource } from 'constant'
 
 export const REDEEM_COLUMNS = [
@@ -69,7 +69,7 @@ export const REDEEM_COLUMNS = [
     title: 'ACTIONS',
     dataIndex: 'state',
     render: (state: string, { orderId }: RedeemDataSource) => (
-      <RedeemActions orderState={state} orderAddress={orderId} />
+      <OrderAction orderState={state} orderAddress={orderId} />
     ),
   },
 ]
