@@ -12947,7 +12947,7 @@ semver@^7.3.2, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-sen-exchange-core@^1.0.1:
+sen-exchange-core@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/sen-exchange-core/-/sen-exchange-core-1.1.1.tgz#42f4de77cb3944aa8d6ebd96a7a5d6de7052be1c"
   integrity sha512-GuPgyFaOcv5s5szE6uPSFrFMKEauiVHolowLrBqKC+Ma6WJpEyJ4WQwH6axTOy8POiq/DFWkmzOSsuR83GhHOQ==

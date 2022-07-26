@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IPFS } from '@sen-use/web3'
 
 import { AppState } from 'model'
-import { MetaBooster, TOKEN } from 'constant'
+import { MetaBooster } from 'constant'
 import { notifyError } from 'helper'
+import { Ipfs } from 'senUse/ipfs'
 
 const initialMetaState = {
   budget: '',
@@ -19,8 +19,7 @@ export const useMetaBooster = (boosterAddress: string) => {
 
   const getPayRates = useCallback(async () => {
     try {
-      const ipfs = new IPFS(TOKEN)
-      const metaInfo: MetaBooster = await ipfs.get(metadata)
+      const metaInfo = await Ipfs.methods.booster.get(metadata)
       if (Object.keys(metaInfo).length) setMetaBooster(metaInfo)
     } catch (error: any) {
       return notifyError(error)
