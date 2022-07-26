@@ -5,8 +5,8 @@ import { useWallet } from '@sentre/senhub'
 import { AppState } from 'model'
 
 export const useFilterOrder = () => {
-  const orders = useSelector((state: AppState) => state.order)
-  const boosters = useSelector((state: AppState) => state.booster)
+  const orders = useSelector((state: AppState) => state.orders)
+  const boosters = useSelector((state: AppState) => state.boosters)
   const {
     wallet: { address: walletAddress },
   } = useWallet()

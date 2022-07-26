@@ -7,7 +7,7 @@ import ColumnBuyBack from './columnBuyBack'
 import ColumnPay from './columnPay'
 import StatusTag from 'components/statusTag'
 
-import { FORMAT_DATE } from 'constant'
+import { DATE_FORMAT } from 'constant'
 
 const ONE_DAY = 24 * 60 * 60
 
@@ -18,7 +18,7 @@ export const ORDER_COLUMNS = [
     key: 'createAt',
     render: (createAt: BN) => (
       <Typography.Text>
-        {moment(Number(createAt) * 1000).format(FORMAT_DATE)}
+        {moment(Number(createAt) * 1000).format(DATE_FORMAT)}
       </Typography.Text>
     ),
   },
@@ -66,7 +66,6 @@ export const ORDER_COLUMNS = [
     key: 'state',
     dataIndex: 'state',
     render: (state: Object) => {
-      console.log(Object.keys(state)[0])
       return <StatusTag state={Object.keys(state)[0]} />
     },
   },
