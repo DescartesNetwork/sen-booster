@@ -1,9 +1,8 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
-import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload'
 
 import {
   Button,
@@ -14,102 +13,69 @@ import {
   Radio,
   RadioChangeEvent,
   Row,
+  Space,
   Switch,
   Typography,
-  Upload,
-  UploadProps,
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
-import IonIcon from '@sentre/antd-ionicon'
+import NftUpload from './nftUpload'
 
-import { useMintAccount } from 'hooks/useMintAccount'
-import { useBuy } from 'hooks/actions/useBuy'
-import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
+import { LOCK_TIME_OPTIONS } from 'constant'
+
+import { useBuy } from 'hooks/actions/useBuy'
+import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
+import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
+import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
+import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 
 type BuyNowProps = {
   boosterAddress: string
 }
-
-const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result as string))
-  reader.readAsDataURL(img)
-}
-
-const DATES = [
-  { name: '7 days', value: 7 },
-  { name: '30 days', value: 30 },
-  { name: '60 days', value: 60 },
-  { name: '90 days', value: 90 },
-  { name: '120 days', value: 120 },
-  { name: '365 days', value: 365 },
-]
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [imageUrl, setImageUrl] = useState<string>()
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [lockTime, setLockTime] = useState(7)
-  const { buy } = useBuy()
-  const mintAccount = useMintAccount(askMint.toBase58())
+  const [lockTime, setLockTime] = useState(LOCK_TIME_OPTIONS[0])
+  const [nftAddresses, setNFTAddresses] = useState<string[]>([])
+  const { buy, loading: buyLoading } = useBuy()
+  const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
+  const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
+  const { payRate } = useMetaBooster(boosterAddress)
+
+  const buyBack = useMemo(() => {
+    if (Object.keys(payRate).length === 0) return 100
+    return payRate[lockTime.name]
+  }, [lockTime, payRate])
+
+  const estimatedReceive = useEstimatedReceive({
+    boosterAddress,
+    amount,
+    buyBack,
+  })
+
+  const onSelectNFT = (nftAddress: string, idx: number) => {
+    const currentNFTList = [...nftAddresses]
+    currentNFTList[idx] = nftAddress
+    setNFTAddresses(currentNFTList)
+  }
 
   const onChange = (e: RadioChangeEvent) => {
     setLockTime(e.target.value)
   }
 
   const onBuy = () => {
-    // buy({
-    //   retailer: new PublicKey(boosterAddress),
-    //   bidAmount: new BN(1),
-    //   bidPrice: bidPrice,
-    //   lockTime: new BN(7),
-    // })
-  }
-
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      notifySuccess('You can only upload JPG/PNG file!', '')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      notifyError('Image must smaller than 2MB!')
-    }
-    return isJpgOrPng && isLt2M
-  }
-
-  const uploadButton = (
-    <div>
-      {loading ? (
-        <IonIcon name="refresh-outline" />
-      ) : (
-        <IonIcon name="add-outline" />
-      )}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  )
-
-  const handleChange: UploadProps['onChange'] = (
-    info: UploadChangeParam<UploadFile>,
-  ) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
-      return
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false)
-        setImageUrl(url)
-      })
-    }
+    buy({
+      retailer: new PublicKey(boosterAddress),
+      bidAmount: new BN(amount),
+      lockTimeRange: new BN(lockTime.value),
+      askAmount: new BN(estimatedReceive),
+    })
   }
 
   return (
@@ -151,8 +117,8 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                   <Col>
                     <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                       Available:{' '}
-                      {util.numeric(mintAccount.balance).format('0,0.[00]a')}{' '}
-                      <MintSymbol mintAddress={mintAccount.mint} />
+                      {util.numeric(mintInfo.balance).format('0,0.[00]a')}{' '}
+                      <MintSymbol mintAddress={askMint} />
                     </Typography.Text>
                   </Col>
                 </Row>
@@ -162,7 +128,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                   placeholder="0"
                   prefix={
                     <Fragment>
-                      <MintSelection disabled value={mintAccount.mint} />
+                      <MintSelection disabled value={askMint.toBase58()} />
                       <Divider type="vertical" />
                     </Fragment>
                   }
@@ -170,14 +136,14 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     <Button
                       type="text"
                       style={{ marginRight: -7 }}
-                      onClick={() => setAmount(Number(mintAccount.balance))}
+                      onClick={() => setAmount(Number(mintInfo.balance))}
                     >
                       MAX
                     </Button>
                   }
                   value={amount}
                   onChange={(value) => setAmount(value)}
-                  max={Number(mintAccount.balance)}
+                  max={Number(mintInfo.balance)}
                   style={{ width: '100%' }}
                 />
               </Col>
@@ -189,41 +155,38 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                 <Typography.Text>Lock time</Typography.Text>
               </Col>
               <Col span={24}>
-                <Radio.Group defaultValue="a" size="middle" onChange={onChange}>
+                <Radio.Group
+                  defaultValue={LOCK_TIME_OPTIONS[0]}
+                  size="middle"
+                  onChange={onChange}
+                >
                   <Row gutter={[6, 6]}>
-                    {DATES.map((val, idx) => (
+                    {LOCK_TIME_OPTIONS.map((val, idx) => (
                       <Col xs={12} md={8} key={idx}>
                         <Radio.Button
+                          defaultChecked={val.value === lockTime.value}
                           value={val.value}
-                          checked={val.value === lockTime}
                           style={{ width: '100%' }}
                         >
                           {val.name}
                         </Radio.Button>
                       </Col>
                     ))}
-
-                    {/* <Col span={8}>
-                      <Button
-                        disabled={idx > 3}
-                        onClick={() => setLockTime(val)}
-                        style={{ width: '100%' }}
-                      >
-                        {val}
-                      </Button>
-                    </Col> */}
                   </Row>
                 </Radio.Group>
               </Col>
               <Col span={24}>
                 <Row justify="end">
                   <Col>
-                    <Typography.Text>Boost</Typography.Text>
-                    <Switch
-                      size="small"
-                      checked={useBoost}
-                      onChange={() => setUseBoost(!useBoost)}
-                    />
+                    <Space size={8}>
+                      <Typography.Text>Boost</Typography.Text>
+                      <Switch
+                        disabled={!voucherPrinters.length}
+                        size="small"
+                        checked={useBoost}
+                        onChange={() => setUseBoost(!useBoost)}
+                      />
+                    </Space>
                   </Col>
                 </Row>
               </Col>
@@ -231,49 +194,22 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
           {useBoost && (
             <Col>
-              <Row>
-                <Col span={24}>
-                  <Typography.Text>
-                    Use NFTs to increase Buy-back rate
-                  </Typography.Text>
-                </Col>
-                <Col span={24}>
-                  <Row gutter={[16, 16]}>
-                    {[1, 2, 3].map((val) => (
-                      <Col span={5}>
-                        <Upload
-                          name="avatar"
-                          listType="picture-card"
-                          className="avatar-uploader"
-                          showUploadList={false}
-                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                          beforeUpload={beforeUpload}
-                          onChange={handleChange}
-                        >
-                          {imageUrl ? (
-                            <img
-                              src={imageUrl}
-                              alt="avatar"
-                              style={{ width: 64 }}
-                            />
-                          ) : (
-                            uploadButton
-                          )}
-                        </Upload>
-                      </Col>
-                    ))}
-                  </Row>
-                </Col>
-              </Row>
+              <NftUpload
+                onSelectNFT={onSelectNFT}
+                boosterAddress={boosterAddress}
+                selectedNFTs={nftAddresses}
+              />
             </Col>
           )}
           <Col span={24}>
-            {/* <EstimatedInfo receivedToken={receivedToken} ratioBuyBack={} /> */}
-            {/* pending for payrate */}
-            <EstimatedInfo boosterAddress={boosterAddress} />
+            <EstimatedInfo
+              estimatedReceive={estimatedReceive}
+              boosterAddress={boosterAddress}
+              buyBack={buyBack}
+            />
           </Col>
           <Col span={24}>
-            <Button block onClick={onBuy}>
+            <Button block onClick={onBuy} loading={buyLoading}>
               Buy
             </Button>
           </Col>
