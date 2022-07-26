@@ -1,12 +1,16 @@
-import { Button, Row } from 'antd'
+import { Button } from 'antd'
 import { useRejectOrder } from 'hooks/actions/useRejectOrder'
 
-const RejectOrder = () => {
+type RejectOrderProps = {
+  orderAddress: string
+}
+
+const RejectOrder = ({ orderAddress }: RejectOrderProps) => {
   const { rejectOrder, loading } = useRejectOrder()
   return (
-    <Row>
-      <Button onClick={rejectOrder}>Reject</Button>
-    </Row>
+    <Button loading={loading} onClick={() => rejectOrder({ orderAddress })}>
+      Reject
+    </Button>
   )
 }
 

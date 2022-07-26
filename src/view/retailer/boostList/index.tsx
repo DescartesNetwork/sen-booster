@@ -34,7 +34,10 @@ const BoostList = () => {
             <Filter />
           </Col>
           <Col>
-            <Button onClick={() => pushHistory('/create-booster')}>
+            <Button
+              type="primary"
+              onClick={() => pushHistory('/create-booster')}
+            >
               Add booster
             </Button>
           </Col>

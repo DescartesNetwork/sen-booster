@@ -21,7 +21,7 @@ function User() {
         <Col span={24}>
           {tabId === TabId.Booster ? <Booster /> : <Redeem />}
         </Col>
-        <Col span={24} style={{ marginTop: 40 }}>
+        <Col span={24}>
           <Faq />
         </Col>
       </Row>

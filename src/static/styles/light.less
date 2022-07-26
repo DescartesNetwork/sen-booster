@@ -4,18 +4,20 @@
 
 @import '~antd/dist/antd.less';
 @import './common/vars.less';
-@import './index.less';
+@import './common/polyfill.less';
+@import './common/typography.less';
+@import './common/scrollbar.less';
 
 // Colors
-@primary-color: @LIGHT;
+@primary-color: @PRIMARY;
 @info-color: @INFO;
 @success-color: @SUCCESS;
 @warning-color: @WARNING;
 @error-color: @ERROR;
-@popover-background: @CARD_LIGHT;
-@body-background: @CARD_LIGHT;
-@component-background: @CARD_LIGHT;
-@disabled-bg: @NEUTRAL90;
+@popover-background: @NEUTRAL100;
+@body-background: @NEUTRAL05;
+@component-background: @NEUTRAL05;
+@disabled-bg: @NEUTRAL10;
 
 // Typography
 @font-family: 'Nunito', sans-serif;
@@ -30,51 +32,66 @@
 @border-radius-base: 8px;
 @border-color-base: @NEUTRAL20;
 @border-width-base: 1px;
-@border-color-split: @border-color-base;
 @popover-customize-border-color: @border-color-base;
+@border-color-split: @border-color-base;
+
+//CollapsePanel
+@collapse-panel-border-radius: @border-radius-base * 2;
 
 // Card
-@card-radius: @border-radius-base * 3;
-@card-actions-background: @CARD_LIGHT;
-@card-background: @CARD_LIGHT;
-@card-shadow: unset;
+@card-radius: @border-radius-base * 2;
+@card-actions-background: @NEUTRAL05;
+@card-background: @BACK_GROUND_COLOR;
+@card-shadow: @LIGHT_SHADOW2;
 
 // Modal
 @modal-header-bg: @NEUTRAL05;
 @modal-content-bg: @NEUTRAL05;
+@modal-footer-bg: @NEUTRAL05;
 @modal-footer-padding-horizontal: 24px;
 
 // Drawer
-@drawer-bg: @NEUTRAL100;
+@drawer-bg: @NEUTRAL05;
 
 // Button
-@btn-default-border: @NEUTRAL100;
-@btn-disable-bg: @DISABLE_BG_BTN;
+@btn-font-weight: 700;
+@btn-shadow: unset;
+@btn-primary-shadow: unset;
+@btn-text-shadow: unset;
+@btn-default-border: @BORDER_BTN;
 @btn-default-ghost-color: @NEUTRAL100;
-@btn-default-ghost-border: @NEUTRAL20;
-@btn-disable-border: @DISABLE_BORDER_BTN;
+@btn-default-ghost-border: @BORDER_BTN;
 
-//Input
-@input-color: @NEUTRAL100;
-@input-bg: @INPUT_BG;
+// Input
+@input-placeholder-color: @NEUTRAL60;
 
 // Divider
-@divider-color: @NEUTRAL80;
+@divider-color: @NEUTRAL10;
 @divider-orientation-margin: 0;
-@divider-vertical-gutter: 0;
 
 // Checkbox
 @checkbox-border-radius: @border-radius-base - 4;
 
-//Table
-@table-bg: @TRANSPARENT;
-
-.balansol-card-bordered {
-  border-color: rgba(255, 255, 255, 0.8);
+// Patch
+.@{ant-prefix}-layout {
+  background: unset;
 }
 
-// Select
-@select-border-color: @border-color-base;
+.account-item {
+  background-color: #fff !important;
+}
 
-//Popover
-@popover-bg: @NEUTRAL05;
+.close-account {
+  background: #ededeb;
+}
+
+.card-cleanup {
+  background: #ffffff !important;
+}
+
+.nft-element-collapse-custom-collapse {
+  .sen_assets-collapse-header {
+    background: white;
+    border-radius: 12px !important;
+  }
+}
