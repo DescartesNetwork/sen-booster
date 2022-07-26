@@ -28,23 +28,20 @@ export const useCancelOrder = (orderAddress: string) => {
         })
         trans.add(txInitRetailer)
 
-        // for (const collection of collections) {
-        //   const voucherPrinter = web3.Keypair.generate()
-        //   const { tx: txPrintVoucher } =
-        //     await senExchange.initializeVoucherPrinter({
-        //       collection,
-        //       discount: utilsBN.decimalize(DISCOUNT, DECIMAL_DISCOUNT),
-        //       retailer: retailer.publicKey,
-        //       total: new BN(MAX_AMOUNT_VOUCHER),
-        //       voucherPrinter,
-        //       sendAndConfirm: false,
-        //     })
-        //   signers.push(voucherPrinter)
-        //   trans.add(txPrintVoucher)
-        // }
+        appliedNFTs.forEach(async (nftAddress, idx) => {
+          const voucher = web3.Keypair.generate()
+          const { tx: txLockVoucher } = await senExchange.unlockVoucher({
+            order: orderAddress,
+            mintNft: Address,
+            voucher: Address,
+            sendAndConfirm: false,
+          })
+          signers.push(voucher)
+          trans.add(txLockVoucher)
+        })
 
-        // const txIds = await provider.sendAndConfirm(trans, signers)
-        // return notifySuccess('Add new Booster', txIds)
+        const txIds = await provider.sendAndConfirm(trans, signers)
+        return notifySuccess('Add new Booster', txIds)
       } catch (error: any) {
         notifyError(error)
       } finally {
