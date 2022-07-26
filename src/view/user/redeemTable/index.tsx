@@ -8,7 +8,6 @@ type RedeemTableProps = {
 }
 
 const RedeemTable = ({ dataSource }: RedeemTableProps) => {
-  console.log('dataSource: ', dataSource)
   return (
     <Row>
       <Col span={24}>
@@ -18,7 +17,6 @@ const RedeemTable = ({ dataSource }: RedeemTableProps) => {
           rowClassName={(record, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
           scroll={{ x: 1000 }}
-          // loading={isLoading}
         />
       </Col>
     </Row>
