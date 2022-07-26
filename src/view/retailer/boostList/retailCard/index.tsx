@@ -15,7 +15,7 @@ type RetailCardProps = {
 }
 
 const RetailCard = ({ boosterAddress }: RetailCardProps) => {
-  const { askMint, bidMint, startTime, endTime } = useSelector(
+  const { askMint, bidMint, startAt, endAt } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
 
@@ -51,9 +51,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="Start date"
                     value={
                       <Typography.Text>
-                        {moment(startTime.toNumber() * 1000).format(
-                          FORMAT_DATE,
-                        )}
+                        {moment(startAt.toNumber() * 1000).format(FORMAT_DATE)}
                       </Typography.Text>
                     }
                   />
@@ -63,7 +61,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="End date"
                     value={
                       <Typography.Text>
-                        {moment(endTime.toNumber() * 1000).format(FORMAT_DATE)}
+                        {moment(endAt.toNumber() * 1000).format(FORMAT_DATE)}
                       </Typography.Text>
                     }
                   />

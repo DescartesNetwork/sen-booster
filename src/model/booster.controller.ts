@@ -23,7 +23,7 @@ export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
   const retailers = await window.senBooster.program.account.retailer.all()
   let bulk: BoosterState = {}
   for (const retailer of retailers) {
-    const boosterData = retailer.account
+    const boosterData: any = retailer.account
     bulk[retailer.publicKey.toBase58()] = boosterData
   }
 

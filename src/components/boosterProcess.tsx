@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IPFS, utilsBN } from '@sen-use/web3'
+import { utilsBN } from '@sen-use/web3'
 import { util } from '@sentre/senhub'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
@@ -9,8 +9,7 @@ import { Col, Progress, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
-import { TOKEN } from 'constant'
-import { Metadata } from 'hooks/actions/useInitializeBooster'
+import { Ipfs } from 'senUse/ipfs'
 
 type BoosterProcessProps = {
   boosterAddress: string
@@ -34,8 +33,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
   }, [askDecimal, askTotal, budget])
 
   const fetchBudget = useCallback(async () => {
-    const ipfs = new IPFS(TOKEN)
-    const data: Metadata = await ipfs.get(metadata)
+    const data = await Ipfs.methods.booster.get(metadata)
     if (!data.budget) return setBudget('0')
     return setBudget(data.budget)
   }, [metadata])
