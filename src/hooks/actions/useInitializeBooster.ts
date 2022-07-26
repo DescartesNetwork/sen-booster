@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react'
-import { IPFS, utilsBN } from '@sen-use/web3'
+import { utilsBN } from '@sen-use/web3'
 import { web3 } from '@project-serum/anchor'
 import BN from 'bn.js'
 import { Transaction } from '@solana/web3.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
-import { TOKEN } from 'constant'
 import { PayRateState } from 'actions/createBooster/payRate'
 import { notifyError, notifySuccess } from 'helper'
+import { Ipfs } from 'senUse/ipfs'
 
 type UseInitializeBoosterProps = {
   payRate: PayRateState
@@ -44,12 +44,11 @@ export const useInitializeBooster = () => {
     }: UseInitializeBoosterProps) => {
       try {
         setLoading(true)
-        const ipfs = new IPFS(TOKEN)
         const metadata: Metadata = {
           payRate,
           budget,
         }
-        const { digest } = await ipfs.set(metadata)
+        const { digest } = await Ipfs.methods.booster.set(metadata)
         const startAfter = startTime - Date.now()
         const endAfter = endTime - Date.now()
         const { provider } = senExchange

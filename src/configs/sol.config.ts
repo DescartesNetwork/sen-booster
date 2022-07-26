@@ -21,7 +21,7 @@ const conf: Record<Net, Conf> = {
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
     metaplexNFT: new metaplexNFT(rpc),
-    senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
+    senExchangeProgram: '3GXMn8DXgNeUVtBrFfrWEDHRQ6JEgKtptWf6Bqzmo4w4',
   },
 
   /**
@@ -32,7 +32,7 @@ const conf: Record<Net, Conf> = {
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
     metaplexNFT: new metaplexNFT(rpc),
-    senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
+    senExchangeProgram: '3GXMn8DXgNeUVtBrFfrWEDHRQ6JEgKtptWf6Bqzmo4w4',
   },
 
   /**
@@ -43,7 +43,7 @@ const conf: Record<Net, Conf> = {
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
     metaplexNFT: new metaplexNFT(rpc),
-    senExchangeProgram: 'HTyxSm8f2Rijm1bbqMbvbnxG1yf2cHzai4i6gN2PpJX4',
+    senExchangeProgram: '3GXMn8DXgNeUVtBrFfrWEDHRQ6JEgKtptWf6Bqzmo4w4',
   },
 }
 

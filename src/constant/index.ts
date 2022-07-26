@@ -37,6 +37,20 @@ export enum OrderState {
   Rejected = 'rejected',
 }
 
+export const LOCK_TIME_OPTIONS = [
+  { name: '7 days', value: 7 },
+  { name: '30 days', value: 30 },
+  { name: '60 days', value: 60 },
+  { name: '90 days', value: 90 },
+  { name: '120 days', value: 120 },
+  { name: '365 days', value: 365 },
+]
+
+export type MetaBooster = {
+  budget: string
+  payRate: Record<string, number>
+}
+
 export const FORMAT_DATE = 'MMM DD, YYYY HH:mm'
 
 export const TOKEN =

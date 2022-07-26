@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
+import { util } from '@sentre/senhub'
 
 import { MintSymbol } from '@sen-use/components'
 import { Card, Col, Row, Typography } from 'antd'
@@ -7,15 +8,18 @@ import { Card, Col, Row, Typography } from 'antd'
 import { AppState } from 'model'
 
 type EstimatedInfoProps = {
+  estimatedReceive: number
   boosterAddress: string
+  buyBack: number
 }
-const EstimatedInfo = ({ boosterAddress }: EstimatedInfoProps) => {
+const EstimatedInfo = ({
+  estimatedReceive,
+  boosterAddress,
+  buyBack,
+}: EstimatedInfoProps) => {
   const { bidMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
   )
-  const [buyBack, setBuyBack] = useState('0')
-  const [receiveAmount, setReceiveAmount] = useState('0')
-  console.log(setBuyBack, setReceiveAmount)
 
   return (
     <Card style={{ borderRadius: 8 }} bodyStyle={{ padding: '12px 16px' }}>
@@ -36,7 +40,7 @@ const EstimatedInfo = ({ boosterAddress }: EstimatedInfoProps) => {
               <Typography.Text>Market buy-back</Typography.Text>
             </Col>
             <Col>
-              <Typography.Text disabled>100%</Typography.Text>
+              <Typography.Text delete>100%</Typography.Text>
             </Col>
           </Row>
         </Col>
@@ -47,8 +51,8 @@ const EstimatedInfo = ({ boosterAddress }: EstimatedInfoProps) => {
             </Col>
             <Col>
               <Typography.Title level={5}>
-                {receiveAmount}
-                <MintSymbol mintAddress={bidMint.toBase58()} />
+                {util.numeric(estimatedReceive).format('0,0.[00]a')}{' '}
+                <MintSymbol mintAddress={bidMint} />
               </Typography.Title>
             </Col>
           </Row>

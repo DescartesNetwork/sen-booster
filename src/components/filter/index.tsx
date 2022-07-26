@@ -18,7 +18,9 @@ const Filter = ({ onFilter, options }: FilterProps) => {
           defaultValue={options[0].value}
         >
           {options.map((val) => (
-            <Option value={val.value}>{val.key}</Option>
+            <Option value={val.value} key={val.key}>
+              {val.value}
+            </Option>
           ))}
         </Select>
       </Col>
