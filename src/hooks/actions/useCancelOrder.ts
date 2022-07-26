@@ -1,54 +1,54 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Transaction } from '@solana/web3.js'
 import { useSelector } from 'react-redux'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
-import { Ipfs } from 'senUse/ipfs'
 
 export const useCancelOrder = (orderAddress: string) => {
-  const { metadata } = useSelector(
-    (state: AppState) => state.orders[orderAddress],
-  )
+  const vouchers = useSelector((state: AppState) => state.vouchers)
   const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
+
+  const voucherAddresses = useMemo((): string[] => {
+    return Object.keys(vouchers).filter(
+      (address) => vouchers[address].order.toBase58() === orderAddress,
+    )
+  }, [orderAddress, vouchers])
 
   const cancelOrder = useCallback(
     async (orderAddress: string) => {
       try {
         setLoading(true)
-        console.log('matadata:', metadata)
-        const aa = await Ipfs.methods.booster.get(metadata)
-        console.log('meeyey', aa)
         const trans = new Transaction()
+        const { provider } = senExchange
         const { tx: txInitRetailer } = await senExchange.cancel({
           order: orderAddress,
           sendAndConfirm: false,
         })
         trans.add(txInitRetailer)
 
-        appliedNFTs.forEach(async (nftAddress, idx) => {
-          const voucher = web3.Keypair.generate()
+        voucherAddresses.forEach(async (address) => {
           const { tx: txLockVoucher } = await senExchange.unlockVoucher({
             order: orderAddress,
-            mintNft: Address,
-            voucher: Address,
+            mintNft: vouchers[address].mintNft,
+            voucher: address,
             sendAndConfirm: false,
           })
-          signers.push(voucher)
+
           trans.add(txLockVoucher)
         })
 
-        const txIds = await provider.sendAndConfirm(trans, signers)
-        return notifySuccess('Add new Booster', txIds)
+        const txIds = await provider.sendAndConfirm(trans)
+        return notifySuccess('Cancel Booster', txIds)
       } catch (error: any) {
         notifyError(error)
       } finally {
         setLoading(false)
       }
     },
-    [metadata, senExchange],
+    [senExchange, voucherAddresses, vouchers],
   )
 
   return { cancelOrder, loading }

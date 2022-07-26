@@ -16,7 +16,7 @@ const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {
     return <Redeem orderAddress={orderAddress} />
   return (
     <Button type="text" size="small">
-      <Typography.Title>Detail</Typography.Title>
+      <Typography.Text strong>Detail</Typography.Text>
     </Button>
   )
 }

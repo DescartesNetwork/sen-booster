@@ -9,7 +9,12 @@ const Redeem = ({ orderAddress }: RedeemProps) => {
   const { redeemOrder } = useRedeemOrder()
 
   return (
-    <Button onClick={redeemOrder} type="ghost">
+    <Button
+      onClick={() => {
+        redeemOrder(orderAddress)
+      }}
+      type="ghost"
+    >
       Redeem
     </Button>
   )
