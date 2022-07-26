@@ -22,7 +22,7 @@ const Redeem = () => {
     for (const key in orders) {
       if (orders[key].authority.toBase58() === address) {
         orderList.push({
-          lastUpdate: utilsBN.undecimalize(orders[key].lastUpdate, 0),
+          lastUpdate: utilsBN.undecimalize(orders[key].updateAt, 0),
           orderId: key,
           lockTime: utilsBN.undecimalize(orders[key].lockTime, 0),
           state: Object.keys(orders[key].state)[0],
