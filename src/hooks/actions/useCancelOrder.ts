@@ -17,39 +17,36 @@ export const useCancelOrder = (orderAddress: string) => {
     )
   }, [orderAddress, vouchers])
 
-  const cancelOrder = useCallback(
-    async (orderAddress: string) => {
-      try {
-        setLoading(true)
-        const trans = new Transaction()
-        const { provider } = senExchange
-        const { tx: txInitRetailer } = await senExchange.cancel({
+  const cancelOrder = useCallback(async () => {
+    try {
+      setLoading(true)
+      const trans = new Transaction()
+      const { provider } = senExchange
+      const { tx: txCancelOrder } = await senExchange.cancel({
+        order: orderAddress,
+        sendAndConfirm: false,
+      })
+      trans.add(txCancelOrder)
+
+      voucherAddresses.forEach(async (address) => {
+        const { tx: txUnlockVoucher } = await senExchange.unlockVoucher({
           order: orderAddress,
+          mintNft: vouchers[address].mintNft,
+          voucher: address,
           sendAndConfirm: false,
         })
-        trans.add(txInitRetailer)
 
-        voucherAddresses.forEach(async (address) => {
-          const { tx: txLockVoucher } = await senExchange.unlockVoucher({
-            order: orderAddress,
-            mintNft: vouchers[address].mintNft,
-            voucher: address,
-            sendAndConfirm: false,
-          })
+        trans.add(txUnlockVoucher)
+      })
 
-          trans.add(txLockVoucher)
-        })
-
-        const txIds = await provider.sendAndConfirm(trans)
-        return notifySuccess('Cancel Booster', txIds)
-      } catch (error: any) {
-        notifyError(error)
-      } finally {
-        setLoading(false)
-      }
-    },
-    [senExchange, voucherAddresses, vouchers],
-  )
+      const txIds = await provider.sendAndConfirm(trans)
+      return notifySuccess('Cancel Order', txIds)
+    } catch (error: any) {
+      notifyError(error)
+    } finally {
+      setLoading(false)
+    }
+  }, [orderAddress, senExchange, voucherAddresses, vouchers])
 
   return { cancelOrder, loading }
 }

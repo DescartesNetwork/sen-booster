@@ -15,7 +15,7 @@ const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {
   if (orderState === OrderState.Approved)
     return <Redeem orderAddress={orderAddress} />
   return (
-    <Button type="text" size="small">
+    <Button type="text">
       <Typography.Text strong>Detail</Typography.Text>
     </Button>
   )

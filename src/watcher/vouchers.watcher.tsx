@@ -1,6 +1,7 @@
-import { getVouchers } from 'model/voucher.controller'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+
+import { getVouchers } from 'model/voucher.controller'
 
 export const VoucherWatcher = () => {
   const dispatch = useDispatch()
