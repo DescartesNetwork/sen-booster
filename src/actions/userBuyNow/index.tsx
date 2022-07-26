@@ -34,6 +34,8 @@ type BuyNowProps = {
   boosterAddress: string
 }
 
+const ONE_DAY = 24 * 60 * 60
+
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint } = useSelector(
     (state: AppState) => state.booster[boosterAddress],
@@ -73,7 +75,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     buy({
       retailer: new PublicKey(boosterAddress),
       bidAmount: new BN(amount),
-      lockTimeRange: new BN(lockTime.value),
+      lockTimeRange: new BN(lockTime.value * ONE_DAY),
       askAmount: new BN(estimatedReceive),
     })
   }
