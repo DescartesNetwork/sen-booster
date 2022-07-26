@@ -60,8 +60,6 @@ const NftUpload = ({
     getCollectionMenu()
   }, [getCollectionMenu])
 
-  console.log('remainingVouchers in nft upload', remainingVouchers)
-
   const handleNFTInfo = (nftAddress: string, nftImage: string) => {
     onSelectNFT(nftAddress, currentNFTIdx)
     //Remove selected NFT from list
@@ -70,8 +68,6 @@ const NftUpload = ({
     setImageUrls(currentImageUrls)
     setVisibleNftModal(false)
   }
-
-  console.log('imageUrls', imageUrls)
 
   return (
     <Row gutter={[8, 8]}>

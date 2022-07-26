@@ -8,14 +8,13 @@ import { useSenExchange } from 'hooks/useSenExchange'
 
 import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
-import { sign } from 'crypto'
 
 type BuyProps = {
   retailer: PublicKey
   bidAmount: BN
   askAmount: BN
   lockTime: BN
-  appliedNFTAddresses: string[]
+  appliedNFTs: string[]
 }
 
 export const useBuy = () => {
@@ -55,7 +54,7 @@ export const useBuy = () => {
         if (voucherPrinterTotal < remainingNumberInNeed) {
           remainingNumberInNeed = numberInNeed - voucherPrinterTotal
           selectedVoucherPrinters.concat(
-            ...Array(numberInNeed - remainingNumberInNeed).fill(address),
+            Array(numberInNeed - remainingNumberInNeed).fill(address),
           )
         }
       }
@@ -71,7 +70,7 @@ export const useBuy = () => {
       bidAmount,
       askAmount,
       lockTime,
-      appliedNFTAddresses,
+      appliedNFTs,
     }: BuyProps) => {
       try {
         setLoading(true)
@@ -92,10 +91,10 @@ export const useBuy = () => {
 
         const voucherPrinters = getVoucherPrinterAddresses({
           boosterAddress: retailer,
-          numberInNeed: appliedNFTAddresses.length,
+          numberInNeed: appliedNFTs.length,
         })
 
-        appliedNFTAddresses.forEach(async (nftAddress, idx) => {
+        appliedNFTs.forEach(async (nftAddress, idx) => {
           const voucher = web3.Keypair.generate()
           const { tx: txLockVoucher } = await senExchange.lockVoucher({
             order: retailer,
@@ -109,7 +108,7 @@ export const useBuy = () => {
         })
 
         const txId = await provider.sendAndConfirm(trans, signers)
-        notifySuccess('Intialize Order', txId)
+        notifySuccess('Initialize Order', txId)
       } catch (error: any) {
         notifyError(error)
       } finally {

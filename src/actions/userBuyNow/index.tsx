@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useMint, util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
+import { utilsBN } from '@sen-use/web3'
 
 import {
   Button,
@@ -21,15 +22,14 @@ import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
 import NftUpload from './nftUpload'
 
-import { AppState } from 'model'
-import { LOCK_TIME_OPTIONS } from 'constant'
-
 import { useBuy } from 'hooks/actions/useBuy'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
-import { utilsBN } from '@sen-use/web3/dist'
+
+import { AppState } from 'model'
+import { LOCK_TIME_OPTIONS } from 'constant'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -41,7 +41,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
   const [lockTime, setLockTime] = useState(LOCK_TIME_OPTIONS[0])
@@ -77,32 +77,28 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const onBuy = async () => {
     const bidDecimal = await getDecimals(bidMint.toBase58())
     const askDecimal = await getDecimals(askMint.toBase58())
-    buy({
+    await buy({
       retailer: new PublicKey(boosterAddress),
       bidAmount: utilsBN.decimalize(amount, bidDecimal),
       lockTime: new BN(lockTime.value * ONE_DAY),
       askAmount: utilsBN.decimalize(estimatedReceive, askDecimal),
-      appliedNFTAddresses: nftAddresses,
+      appliedNFTs: nftAddresses,
     })
+    setIsVisible(false)
   }
 
   return (
     <Row>
       <Col flex="auto">
-        <Button
-          size="large"
-          type="primary"
-          onClick={() => setIsModalVisible(true)}
-        >
+        <Button size="large" type="primary" onClick={() => setIsVisible(true)}>
           Buy Now
         </Button>
       </Col>
       <Modal
         title={<Typography.Title level={4}>Buy token</Typography.Title>}
-        visible={isModalVisible}
-        onOk={() => {}}
+        visible={isVisible}
         closable
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => setIsVisible(false)}
         footer={null}
       >
         <Row justify="space-between" gutter={[16, 16]}>
