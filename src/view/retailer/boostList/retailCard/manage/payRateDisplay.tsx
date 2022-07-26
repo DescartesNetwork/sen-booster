@@ -14,7 +14,7 @@ type PayRateDisplayProps = {
 const PayRateDisplay = ({ boosterAddress }: PayRateDisplayProps) => {
   const [payRate, setPayRate] = useState<PayRateState>({})
   const metadata = useSelector(
-    (state: AppState) => state.booster[boosterAddress].metadata,
+    (state: AppState) => state.boosters[boosterAddress].metadata,
   )
 
   const getPayRate = useCallback(async () => {

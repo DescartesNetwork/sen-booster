@@ -1,13 +1,18 @@
 import { Button } from 'antd'
-import { useCancelOrder } from 'hooks/actions/useCancelOrder'
-import React, { Fragment } from 'react'
 
-const Cancel = () => {
-  const { cancelOrder, loading } = useCancelOrder()
+import { useCancelOrder } from 'hooks/actions/useCancelOrder'
+
+type CancelProps = {
+  orderAddress: string
+}
+
+const Cancel = ({ orderAddress }: CancelProps) => {
+  const { cancelOrder } = useCancelOrder()
+
   return (
-    <Fragment>
-      <Button onClick={cancelOrder}>Cancel</Button>
-    </Fragment>
+    <Button onClick={cancelOrder} type="ghost">
+      Cancel
+    </Button>
   )
 }
 

@@ -16,7 +16,7 @@ type ColumnPayProps = {
 
 const ColumnPay = ({ bidAmount, boosterAddress }: ColumnPayProps) => {
   const boosterData = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const bidMintAddress = boosterData ? boosterData.bidMint.toBase58() : ''
   const decimals = useMintDecimals(bidMintAddress) || 0

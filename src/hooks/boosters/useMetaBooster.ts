@@ -13,7 +13,7 @@ const initialMetaState = {
 
 export const useMetaBooster = (boosterAddress: string) => {
   const { metadata } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const [metaBooster, setMetaBooster] = useState<MetaBooster>(initialMetaState)
 

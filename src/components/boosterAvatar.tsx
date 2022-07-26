@@ -11,7 +11,7 @@ type BoosterAvatarProps = {
 }
 const BoosterAvatar = ({ boosterAddress }: BoosterAvatarProps) => {
   const { bidMint, askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (

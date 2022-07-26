@@ -17,7 +17,7 @@ export const useEstimatedReceive = ({
   buyBack,
 }: UseEstimatedReceiveProps) => {
   const { bidMint, askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const [estimatedReceive, setEstimatedReceive] = useState(0)
   const { tokenProvider } = useMint()

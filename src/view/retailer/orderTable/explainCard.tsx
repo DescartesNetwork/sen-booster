@@ -12,7 +12,7 @@ type ExplainCardProps = {
 }
 
 const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
-  const orderData = useSelector((state: AppState) => state.order[orderAddress])
+  const orderData = useSelector((state: AppState) => state.orders[orderAddress])
   console.log(orderData)
 
   return (

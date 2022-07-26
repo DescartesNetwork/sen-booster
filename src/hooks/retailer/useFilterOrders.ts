@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { AppState } from 'model'
 
 export const useFilterOrder = () => {
-  const orders = useSelector((state: AppState) => state.order)
+  const orders = useSelector((state: AppState) => state.orders)
 
   const myOrders = useMemo(
     () =>

@@ -12,7 +12,7 @@ type StatisticsProps = {
 
 const Statistics = ({ boosterAddress }: StatisticsProps) => {
   const { endAt } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   // const {} = useEngageBoosterInfos(boosterAddress)
   const yourBoughtAmount = useMemo(() => {

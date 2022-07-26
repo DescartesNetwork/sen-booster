@@ -5,7 +5,9 @@ import { VoucherPrinterData } from 'sen-exchange-core'
 import { AppState } from 'model'
 
 export const useVoucherPrintersByBooster = (boosterAddress: string) => {
-  const voucherPrinters = useSelector((state: AppState) => state.voucherPrinter)
+  const voucherPrinters = useSelector(
+    (state: AppState) => state.voucherPrinters,
+  )
   const [voucherPrinterByBooster, setVoucherPrinterByBooster] = useState<
     VoucherPrinterData[]
   >([])

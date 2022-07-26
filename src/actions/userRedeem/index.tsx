@@ -1,13 +1,17 @@
 import { Button } from 'antd'
-import { useRedeemOrder } from 'hooks/actions/useRedeemOrder'
-import React, { Fragment } from 'react'
 
-const Redeem = () => {
-  const { redeemOrder, loading } = useRedeemOrder()
+import { useRedeemOrder } from 'hooks/actions/useRedeemOrder'
+
+type RedeemProps = {
+  orderAddress: string
+}
+const Redeem = ({ orderAddress }: RedeemProps) => {
+  const { redeemOrder } = useRedeemOrder()
+
   return (
-    <Fragment>
-      <Button onClick={redeemOrder}>Redeem</Button>
-    </Fragment>
+    <Button onClick={redeemOrder} type="ghost">
+      Redeem
+    </Button>
   )
 }
 

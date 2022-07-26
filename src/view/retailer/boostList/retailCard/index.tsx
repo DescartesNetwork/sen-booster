@@ -6,7 +6,7 @@ import IonIcon from '@sentre/antd-ionicon'
 import Manage from './manage'
 import SpaceVertical from '../../../../components/spaceVertical'
 
-import { FORMAT_DATE } from 'constant'
+import { DATE_FORMAT } from 'constant'
 import { AppState } from 'model'
 import BoosterProcess from 'components/boosterProcess'
 
@@ -16,7 +16,7 @@ type RetailCardProps = {
 
 const RetailCard = ({ boosterAddress }: RetailCardProps) => {
   const { askMint, bidMint, startAt, endAt } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (
@@ -51,7 +51,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="Start date"
                     value={
                       <Typography.Text>
-                        {moment(startAt.toNumber() * 1000).format(FORMAT_DATE)}
+                        {moment(startAt.toNumber() * 1000).format(DATE_FORMAT)}
                       </Typography.Text>
                     }
                   />
@@ -61,7 +61,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="End date"
                     value={
                       <Typography.Text>
-                        {moment(endAt.toNumber() * 1000).format(FORMAT_DATE)}
+                        {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
                       </Typography.Text>
                     }
                   />

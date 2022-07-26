@@ -13,8 +13,8 @@ import SpaceVertical from '../../../../../components/spaceVertical'
 import PayRateDisplay from './payRateDisplay'
 
 import { AppState } from 'model'
-import { FORMAT_DATE } from 'constant'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { DATE_FORMAT } from 'constant'
 
 type CardManageProps = {
   boosterAddress: string
@@ -23,7 +23,7 @@ type CardManageProps = {
 const CardManage = ({ boosterAddress }: CardManageProps) => {
   const [copied, setCopied] = useState('')
   const { bidMint, askMint, bidTotal, startAt, endAt } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
@@ -106,7 +106,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="Start date"
                 value={
                   <Typography.Text>
-                    {moment(startAt.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(startAt.toNumber() * 1000).format(DATE_FORMAT)}
                   </Typography.Text>
                 }
               />
@@ -116,7 +116,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="End date"
                 value={
                   <Typography.Text>
-                    {moment(endAt.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
                   </Typography.Text>
                 }
               />
