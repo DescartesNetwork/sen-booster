@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { Button, Card, Col, Row, Typography } from 'antd'
 import GeneralInfo, { GeneralRef } from './generalInfo'
@@ -28,6 +28,11 @@ const AddBooster = () => {
     initializeBooster({ ...generalData, payRate, collections })
   }
 
+  const disabled = useMemo(() => {
+    const rate = Object.keys(payRate)
+    return rate.length < 6
+  }, [payRate])
+
   return (
     <Row justify="center">
       <Col xs={24} md={16} lg={10}>
@@ -56,6 +61,7 @@ const AddBooster = () => {
                     block
                     onClick={onCreateBooster}
                     loading={loading}
+                    disabled={disabled}
                   >
                     Add
                   </Button>

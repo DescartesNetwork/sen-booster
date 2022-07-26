@@ -1,3 +1,5 @@
+import { forwardRef, useImperativeHandle, useState } from 'react'
+import { useUI } from '@sentre/senhub'
 import moment from 'moment'
 
 import { Col, DatePicker, Input, Row, Typography } from 'antd'
@@ -6,7 +8,6 @@ import { MintSelection } from '@sen-use/components'
 import Content from './content'
 
 import { FORMAT_DATE } from 'constant'
-import { forwardRef, useImperativeHandle, useState } from 'react'
 
 type GeneralData = {
   bidMint: string
@@ -19,12 +20,32 @@ export type GeneralRef = {
   collect: () => GeneralData
 }
 
+const MINT_STYLE = {
+  dark: {
+    padding: '4px 12px',
+    height: 40,
+    width: '100%',
+    background: '#232324',
+    border: '1px solid #373947',
+  },
+  light: {
+    padding: '4px 12px',
+    height: 40,
+    width: '100%',
+    background: '#EBEDED',
+    border: 'none',
+  },
+}
+
 const GeneralInfo = forwardRef((_, ref) => {
   const [bidMint, setBidMint] = useState('')
   const [askMint, setAskMint] = useState('')
   const [budget, setBudget] = useState('')
   const [startTime, setStartTime] = useState<number>(0)
   const [endTime, setEndTime] = useState<number>(0)
+  const {
+    ui: { theme },
+  } = useUI()
 
   useImperativeHandle<any, GeneralRef>(ref, () => ({
     collect: () => {
@@ -45,7 +66,7 @@ const GeneralInfo = forwardRef((_, ref) => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          <Col span={24}>
+          <Col span={24} className="retailer-mint-selection">
             <Content
               label="Buy-back"
               value={
@@ -53,11 +74,12 @@ const GeneralInfo = forwardRef((_, ref) => {
                   value={askMint}
                   onChange={setAskMint}
                   placeholder="Select LP"
+                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
                 />
               }
             />
           </Col>
-          <Col span={24}>
+          <Col span={24} className="retailer-mint-selection">
             <Content
               label="Pay"
               value={
@@ -65,6 +87,7 @@ const GeneralInfo = forwardRef((_, ref) => {
                   value={bidMint}
                   onChange={setBidMint}
                   placeholder="Select a token"
+                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
                 />
               }
             />
@@ -77,6 +100,8 @@ const GeneralInfo = forwardRef((_, ref) => {
                   onChange={(e) => setBudget(e.target.value)}
                   value={budget}
                   placeholder="Input the budget amount of pay token"
+                  className="retailer-input"
+                  size="large"
                 />
               }
             />

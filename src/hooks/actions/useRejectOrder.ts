@@ -1,21 +1,27 @@
 import { useCallback, useState } from 'react'
+import { PublicKey } from '@solana/web3.js'
 
 import { notifyError, notifySuccess } from 'helper'
+import { useSenExchange } from 'hooks/useSenExchange'
 
 export const useRejectOrder = () => {
   const [loading, setLoading] = useState(false)
+  const { senExchange } = useSenExchange()
+
   const rejectOrder = useCallback(
     async ({ orderAddress }: { orderAddress: string }) => {
       try {
         setLoading(true)
-        notifySuccess('success', 'Freeze OKe')
+        const order = new PublicKey(orderAddress)
+        const { txId } = await senExchange.rejectOrder({ order })
+        notifySuccess('Rejected', txId)
       } catch (error: any) {
         notifyError(error.message)
       } finally {
         setLoading(false)
       }
     },
-    [],
+    [senExchange],
   )
 
   return { rejectOrder, loading }
