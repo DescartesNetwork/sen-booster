@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { util } from '@sentre/senhub'
+import { useMint, util } from '@sentre/senhub'
 import BN from 'bn.js'
 import { PublicKey } from '@solana/web3.js'
 
@@ -29,6 +29,7 @@ import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
+import { utilsBN } from '@sen-use/web3/dist'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -37,7 +38,7 @@ type BuyNowProps = {
 const ONE_DAY = 24 * 60 * 60
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const { askMint } = useSelector(
+  const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -47,11 +48,13 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
   const { buy, loading: buyLoading } = useBuy()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
-  const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
+  const { voucherPrintersByBooster, remainingVouchers } =
+    useVoucherPrintersByBooster(boosterAddress)
   const { payRate } = useMetaBooster(boosterAddress)
+  const { getDecimals } = useMint()
 
   const buyBack = useMemo(() => {
-    if (Object.keys(payRate).length === 0) return 100
+    if (Object.keys(payRate).length === 0 || !payRate[lockTime.name]) return 100
     return payRate[lockTime.name]
   }, [lockTime, payRate])
 
@@ -71,12 +74,15 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     setLockTime(e.target.value)
   }
 
-  const onBuy = () => {
+  const onBuy = async () => {
+    const bidDecimal = await getDecimals(bidMint.toBase58())
+    const askDecimal = await getDecimals(askMint.toBase58())
     buy({
       retailer: new PublicKey(boosterAddress),
-      bidAmount: new BN(amount),
-      lockTimeRange: new BN(lockTime.value * ONE_DAY),
-      askAmount: new BN(estimatedReceive),
+      bidAmount: utilsBN.decimalize(amount, bidDecimal),
+      lockTime: new BN(lockTime.value * ONE_DAY),
+      askAmount: utilsBN.decimalize(estimatedReceive, askDecimal),
+      appliedNFTAddresses: nftAddresses,
     })
   }
 
@@ -169,6 +175,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                           defaultChecked={val.value === lockTime.value}
                           value={val.value}
                           style={{ width: '100%' }}
+                          disabled={!payRate[val.name]}
                         >
                           {val.name}
                         </Radio.Button>
@@ -183,7 +190,9 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     <Space size={8}>
                       <Typography.Text>Boost</Typography.Text>
                       <Switch
-                        disabled={!voucherPrinters.length}
+                        disabled={
+                          !voucherPrintersByBooster.length || !remainingVouchers
+                        }
                         size="small"
                         checked={useBoost}
                         onChange={() => setUseBoost(!useBoost)}

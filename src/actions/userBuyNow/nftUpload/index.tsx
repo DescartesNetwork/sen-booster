@@ -21,17 +21,22 @@ type CollectionMenu = {
   icon: JSX.Element
 }
 
+const MAX_USABLE_AMOUNT_VOUCHER = 3
+
 const NftUpload = ({
   onSelectNFT,
   boosterAddress,
   selectedNFTs,
 }: NftUploadProps) => {
-  const [imageUrls, setImageUrls] = useState<string[]>(['', '', ''])
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    Array(MAX_USABLE_AMOUNT_VOUCHER).fill(''),
+  )
   const [visibleNftModal, setVisibleNftModal] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
   const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
-  const voucherPrinters = useVoucherPrintersByBooster(boosterAddress)
   const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
+  const { voucherPrintersByBooster, remainingVouchers } =
+    useVoucherPrintersByBooster(boosterAddress)
 
   const unselectedOwnerNFTs = useMemo(() => {
     return ownerNFTsByVouchers.filter((val) => !selectedNFTs.includes(val.mint))
@@ -39,7 +44,7 @@ const NftUpload = ({
 
   const getCollectionMenu = useCallback(async () => {
     const collectionsInfo = await Promise.all(
-      voucherPrinters.map(async (value, idx) => {
+      voucherPrintersByBooster.map(async (value, idx) => {
         const metaData = await getMetaData(value.collection.toBase58())
         return {
           label: metaData?.data.data.name || 'Unknown NFT',
@@ -49,11 +54,13 @@ const NftUpload = ({
       }),
     )
     setCollectionMenu(collectionsInfo)
-  }, [voucherPrinters])
+  }, [voucherPrintersByBooster])
 
   useEffect(() => {
     getCollectionMenu()
   }, [getCollectionMenu])
+
+  console.log('remainingVouchers in nft upload', remainingVouchers)
 
   const handleNFTInfo = (nftAddress: string, nftImage: string) => {
     onSelectNFT(nftAddress, currentNFTIdx)
@@ -64,6 +71,8 @@ const NftUpload = ({
     setVisibleNftModal(false)
   }
 
+  console.log('imageUrls', imageUrls)
+
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
@@ -73,8 +82,11 @@ const NftUpload = ({
         <Space size={8}>
           {imageUrls.map((val, idx) => (
             <Space
-              className="upload-box"
+              className={
+                idx < remainingVouchers ? 'upload-box' : 'upload-box-disable'
+              }
               onClick={() => {
+                if (idx > remainingVouchers) return
                 seCurrentNFTIdx(idx)
                 setVisibleNftModal(true)
               }}
