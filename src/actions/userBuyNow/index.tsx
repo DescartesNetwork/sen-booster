@@ -40,6 +40,8 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const voucher = useSelector((state: AppState) => state.vouchers)
+  console.log('voucher: ', voucher)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
