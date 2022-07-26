@@ -16,7 +16,7 @@ type ColumnBuyBackProps = {
 
 const ColumnBuyBack = ({ askAmount, boosterAddress }: ColumnBuyBackProps) => {
   const boosterData = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const askMintAddress = boosterData ? boosterData.askMint.toBase58() : ''
   const decimals = useMintDecimals(askMintAddress) || 0

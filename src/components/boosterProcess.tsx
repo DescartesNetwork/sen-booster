@@ -17,7 +17,7 @@ type BoosterProcessProps = {
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
   const { bidReserve, bidMint, askTotal, askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const { budget } = useMetaBooster(boosterAddress)
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0

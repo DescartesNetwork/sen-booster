@@ -38,7 +38,7 @@ const ONE_DAY = 24 * 60 * 60
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)

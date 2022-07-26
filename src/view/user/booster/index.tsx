@@ -9,7 +9,7 @@ import { AppState } from 'model'
 const Booster = () => {
   // const { filteredBoosters } = useFilterBoosters(Mode.User)
   // const listBoosters = useSearchedBoosters(filteredBoosters)
-  const boosters = useSelector((state: AppState) => state.booster)
+  const boosters = useSelector((state: AppState) => state.boosters)
 
   return (
     <Row gutter={[16, 16]}>

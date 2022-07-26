@@ -23,7 +23,7 @@ type CardManageProps = {
 const CardManage = ({ boosterAddress }: CardManageProps) => {
   const [copied, setCopied] = useState('')
   const { bidMint, askMint, bidTotal, startAt, endAt } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0

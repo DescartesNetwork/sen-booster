@@ -11,7 +11,7 @@ type BoosterSymbolProps = {
 
 const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
   const { bidMint, askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (

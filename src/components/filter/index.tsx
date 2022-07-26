@@ -8,6 +8,8 @@ type FilterProps = {
 }
 
 const Filter = ({ onFilter, options }: FilterProps) => {
+  const firstOption = options[0]
+
   return (
     <Row>
       <Col>
@@ -15,7 +17,7 @@ const Filter = ({ onFilter, options }: FilterProps) => {
           style={{ width: 120 }}
           onChange={onFilter}
           placement="bottomRight"
-          defaultValue={options[0].value}
+          defaultValue={firstOption.value}
         >
           {options.map((val) => (
             <Option value={val.value} key={val.key}>

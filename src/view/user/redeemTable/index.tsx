@@ -1,6 +1,6 @@
 import { Col, Row, Table } from 'antd'
-import { REDEEM_COLUMNS } from './column'
 
+import { REDEEM_COLUMNS } from './column'
 import { RedeemDataSource } from 'constant'
 
 type RedeemTableProps = {

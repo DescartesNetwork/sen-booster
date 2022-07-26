@@ -16,10 +16,10 @@ const RetailerUpdateBudget = ({
 }: RetailerUpdateBudgetProps) => {
   const [budget, setBudget] = useState<string>('0')
   const metadata = useSelector(
-    (state: AppState) => state.booster[boosterAddress].metadata,
+    (state: AppState) => state.boosters[boosterAddress].metadata,
   )
   const bidMint = useSelector(
-    (state: AppState) => state.booster[boosterAddress].bidMint,
+    (state: AppState) => state.boosters[boosterAddress].bidMint,
   )
   const { updateBudget } = useUpdateBudget()
 

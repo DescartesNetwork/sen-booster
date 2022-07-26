@@ -58,12 +58,12 @@ export const TOKEN =
 
 export const ALL = 'all'
 
-export const TIME_OPTIONS = [
+export const TIME_FILTER_OPTIONS = [
   { key: 'Past 7 days', value: 7 },
   { key: 'Past 30 days', value: 30 },
 ]
 
-export const STATUS_OPTIONS = [
+export const STATUS_FILTER_OPTIONS = [
   { key: 'All', value: ALL },
   { key: 'Pending', value: 'pending' },
   { key: 'Approved', value: 'approved' },

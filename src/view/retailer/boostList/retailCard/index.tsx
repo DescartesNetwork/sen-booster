@@ -16,7 +16,7 @@ type RetailCardProps = {
 
 const RetailCard = ({ boosterAddress }: RetailCardProps) => {
   const { askMint, bidMint, startAt, endAt } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (

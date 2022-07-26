@@ -18,7 +18,7 @@ const EstimatedInfo = ({
   buyBack,
 }: EstimatedInfoProps) => {
   const { bidMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+    (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (

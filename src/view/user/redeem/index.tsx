@@ -14,7 +14,7 @@ const Redeem = () => {
   const {
     wallet: { address },
   } = useWallet()
-  const orders = useSelector((state: AppState) => state.order)
+  const orders = useSelector((state: AppState) => state.orders)
   const dataSource = useMemo(() => {
     const orderList: RedeemDataSource[] = []
     for (const key in orders) {

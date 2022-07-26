@@ -8,7 +8,7 @@ import { Mode } from 'constant'
 
 export const useFilterBoosters = (type: Mode) => {
   const [filteredBoosters, setFilteredBoosters] = useState<BoosterState>({})
-  const boosters = useSelector((state: AppState) => state.booster)
+  const boosters = useSelector((state: AppState) => state.boosters)
   const {
     wallet: { address: walletAddress },
   } = useWallet()
