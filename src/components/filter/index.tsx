@@ -19,7 +19,7 @@ const Filter = ({ onFilter, options }: FilterProps) => {
         >
           {options.map((val) => (
             <Option value={val.value} key={val.key}>
-              {val.value}
+              {val.key}
             </Option>
           ))}
         </Select>

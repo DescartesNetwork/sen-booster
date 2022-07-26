@@ -10,8 +10,6 @@ import OrderFilterSet from 'components/orderFilterSet'
 import { AppState } from 'model'
 import { RedeemDataSource } from 'constant'
 
-import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
-
 const Redeem = () => {
   const {
     wallet: { address },
