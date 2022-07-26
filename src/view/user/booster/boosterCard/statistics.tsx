@@ -11,8 +11,8 @@ type StatisticsProps = {
 }
 
 const Statistics = ({ boosterAddress }: StatisticsProps) => {
-  const { endTime } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+  const { endAt } = useSelector(
+    (state: AppState) => state.boosters[boosterAddress],
   )
   // const {} = useEngageBoosterInfos(boosterAddress)
   const yourBoughtAmount = useMemo(() => {
@@ -40,7 +40,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
       <Space direction="vertical">
         <Typography.Text>End date</Typography.Text>
         <Typography.Title level={5}>
-          {moment(endTime.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
+          {moment(endAt.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
         </Typography.Title>
       </Space>
     </Space>

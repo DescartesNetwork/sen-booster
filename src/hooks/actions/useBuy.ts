@@ -3,13 +3,14 @@ import { PublicKey } from '@solana/web3.js'
 import BN from 'bn.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
+
 import { notifyError, notifySuccess } from 'helper'
 
 type BuyProps = {
   retailer: PublicKey
   bidAmount: BN
   askAmount: BN
-  lockTime: BN
+  lockTimeRange: BN
 }
 
 export const useBuy = () => {
@@ -17,21 +18,21 @@ export const useBuy = () => {
   const [loading, setLoading] = useState(false)
 
   const buy = useCallback(
-    async ({ retailer, bidAmount, lockTime, askAmount }: BuyProps) => {
-      // try {
-      //   setLoading(true)
-      //   const { txId } = await senExchange.initializeOrder({
-      //     retailer,
-      //     bidAmount,
-      //     askAmount,
-      //     lockTimeRange,
-      //   })
-      //   notifySuccess('success', txId)
-      // } catch (error: any) {
-      //   notifyError(error.message)
-      // } finally {
-      //   setLoading(false)
-      // }
+    async ({ retailer, bidAmount, askAmount, lockTimeRange }: BuyProps) => {
+      try {
+        setLoading(true)
+        const { txId } = await senExchange.initializeOrder({
+          retailer,
+          bidAmount,
+          askAmount,
+          lockTime: lockTimeRange,
+        })
+        notifySuccess('success', txId)
+      } catch (error: any) {
+        notifyError(error)
+      } finally {
+        setLoading(false)
+      }
     },
     [senExchange],
   )

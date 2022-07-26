@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 import { Col, Row } from 'antd'
-import Header from 'components/header'
 import BoostList from './boostList'
 import OrderList from './orderList'
+import Header from 'components/header'
 import Layout from 'components/layout'
 
 import { TabId } from 'constant'

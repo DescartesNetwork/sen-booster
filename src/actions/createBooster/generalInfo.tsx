@@ -7,7 +7,7 @@ import IonIcon from '@sentre/antd-ionicon'
 import { MintSelection } from '@sen-use/components'
 import Content from './content'
 
-import { FORMAT_DATE } from 'constant'
+import { DATE_FORMAT } from 'constant'
 
 type GeneralData = {
   bidMint: string
@@ -119,7 +119,7 @@ const GeneralInfo = forwardRef((_, ref) => {
                   value={startTime ? moment(startTime) : null}
                   showTime={{ showSecond: false }}
                   placement="bottomRight"
-                  format={FORMAT_DATE}
+                  format={DATE_FORMAT}
                 />
               }
             />
@@ -137,7 +137,7 @@ const GeneralInfo = forwardRef((_, ref) => {
                   value={endTime ? moment(endTime) : null}
                   showTime={{ showSecond: false }}
                   placement="bottomRight"
-                  format={FORMAT_DATE}
+                  format={DATE_FORMAT}
                 />
               }
             />

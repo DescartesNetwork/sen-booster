@@ -1,20 +1,48 @@
-import { Col, Row } from 'antd'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import { useWallet } from '@sentre/senhub'
+import { utilsBN } from '@sen-use/web3'
+
+import { Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
 import OrderFilterSet from 'components/orderFilterSet'
-import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
+
+import { AppState } from 'model'
+import { RedeemDataSource } from 'constant'
 
 const Redeem = () => {
-  const { myOrders } = useFilterOrder()
+  const orders = useSelector((state: AppState) => state.orders)
+  const {
+    wallet: { address },
+  } = useWallet()
+
+  const dataSource = useMemo(() => {
+    const sources: RedeemDataSource[] = []
+    for (const orderAddress in orders) {
+      const { updateAt, lockTime, state, authority } = orders[orderAddress]
+      if (authority.toBase58() === address) {
+        sources.push({
+          lastUpdate: utilsBN.undecimalize(updateAt, 0),
+          orderId: orderAddress,
+          lockTime: utilsBN.undecimalize(lockTime, 0),
+          state: Object.keys(state)[0],
+        })
+      }
+    }
+    return sources
+  }, [address, orders])
 
   return (
-    <Row>
-      <Col>
-        <OrderFilterSet />
-      </Col>
-      <Col>
-        <RedeemTable dataSource={myOrders} />
-      </Col>
-    </Row>
+    <Card>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <OrderFilterSet />
+        </Col>
+        <Col span={24}>
+          <RedeemTable dataSource={dataSource} />
+        </Col>
+      </Row>
+    </Card>
   )
 }
 

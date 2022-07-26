@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { IPFS, utilsBN } from '@sen-use/web3'
+import { utilsBN } from '@sen-use/web3'
 import { util } from '@sentre/senhub'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
@@ -9,18 +9,17 @@ import { Col, Progress, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
-import { TOKEN } from 'constant'
-import { Metadata } from 'hooks/actions/useInitializeBooster'
+import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 
 type BoosterProcessProps = {
   boosterAddress: string
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const [budget, setBudget] = useState<string>('0')
-  const { bidReserve, bidMint, askTotal, metadata, askMint } = useSelector(
-    (state: AppState) => state.booster[boosterAddress],
+  const { bidReserve, bidMint, askTotal, askMint } = useSelector(
+    (state: AppState) => state.boosters[boosterAddress],
   )
+  const { budget } = useMetaBooster(boosterAddress)
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
   const askDecimal = useMintDecimals(askMint.toBase58()) || 0
 
@@ -32,17 +31,6 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
     const numAskTotal = utilsBN.undecimalize(askTotal, askDecimal)
     return Number(numAskTotal) / Number(budget)
   }, [askDecimal, askTotal, budget])
-
-  const fetchBudget = useCallback(async () => {
-    const ipfs = new IPFS(TOKEN)
-    const data: Metadata = await ipfs.get(metadata)
-    if (!data.budget) return setBudget('0')
-    return setBudget(data.budget)
-  }, [metadata])
-
-  useEffect(() => {
-    fetchBudget()
-  }, [fetchBudget])
 
   return (
     <Row>

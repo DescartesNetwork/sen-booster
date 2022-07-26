@@ -9,7 +9,7 @@ import { AppState } from 'model'
 const Booster = () => {
   // const { filteredBoosters } = useFilterBoosters(Mode.User)
   // const listBoosters = useSearchedBoosters(filteredBoosters)
-  const boosters = useSelector((state: AppState) => state.booster)
+  const boosters = useSelector((state: AppState) => state.boosters)
 
   return (
     <Row gutter={[16, 16]}>
@@ -19,7 +19,7 @@ const Booster = () => {
       <Col span={24}>
         <Row gutter={[16, 16]}>
           {Object.keys(boosters).map((boosterAddress) => (
-            <Col span={24}>
+            <Col span={24} key={boosterAddress}>
               <BoosterCard boosterAddress={boosterAddress} />
             </Col>
           ))}

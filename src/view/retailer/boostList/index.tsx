@@ -11,7 +11,7 @@ import { AppState } from 'model'
 
 const BoostList = () => {
   const { pushHistory } = useAppRouter()
-  const boosters = useSelector((state: AppState) => state.booster)
+  const boosters = useSelector((state: AppState) => state.boosters)
   const {
     wallet: { address: walletAddress },
   } = useWallet()

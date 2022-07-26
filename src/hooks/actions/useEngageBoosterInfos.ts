@@ -6,7 +6,7 @@ import { useWallet } from '@sentre/senhub'
 import { AppState } from 'model'
 
 export const useEngageBoosterInfos = (boosterAddress: PublicKey) => {
-  const orders = useSelector((state: AppState) => state.order)
+  const orders = useSelector((state: AppState) => state.orders)
   const [loading, setLoading] = useState(false)
   // const [yourBought, setYourBought] = useState(0)
   // const [totalValuePaid, setTotalValuePair] = useState(0)
