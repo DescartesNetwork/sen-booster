@@ -11,24 +11,27 @@ import { AppState } from 'model'
 import { RedeemDataSource } from 'constant'
 
 const Redeem = () => {
+  const orders = useSelector((state: AppState) => state.orders)
   const {
     wallet: { address },
   } = useWallet()
-  const orders = useSelector((state: AppState) => state.orders)
+
   const dataSource = useMemo(() => {
-    const orderList: RedeemDataSource[] = []
-    for (const key in orders) {
-      if (orders[key].authority.toBase58() === address) {
-        orderList.push({
-          lastUpdate: utilsBN.undecimalize(orders[key].updateAt, 0),
-          orderId: key,
-          lockTime: utilsBN.undecimalize(orders[key].lockTime, 0),
-          state: Object.keys(orders[key].state)[0],
+    const sources: RedeemDataSource[] = []
+    for (const orderAddress in orders) {
+      const { updateAt, lockTime, state, authority } = orders[orderAddress]
+      if (authority.toBase58() === address) {
+        sources.push({
+          lastUpdate: utilsBN.undecimalize(updateAt, 0),
+          orderId: orderAddress,
+          lockTime: utilsBN.undecimalize(lockTime, 0),
+          state: Object.keys(state)[0],
         })
       }
     }
-    return orderList
+    return sources
   }, [address, orders])
+
   return (
     <Card>
       <Row gutter={[16, 16]}>

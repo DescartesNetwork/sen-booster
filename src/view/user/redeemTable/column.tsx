@@ -9,7 +9,7 @@ import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
 
-import { RedeemDataSource } from 'constant'
+import { DATE_FORMAT, RedeemDataSource } from 'constant'
 
 export const REDEEM_COLUMNS = [
   {
@@ -18,7 +18,7 @@ export const REDEEM_COLUMNS = [
     render: (time: string) => {
       return (
         <Typography.Text>
-          {moment(Number(time) * 1000).format('MMM DD, YYYY HH:mm')}
+          {moment(Number(time) * 1000).format(DATE_FORMAT)}
         </Typography.Text>
       )
     },

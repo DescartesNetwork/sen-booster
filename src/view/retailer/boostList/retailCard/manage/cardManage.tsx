@@ -13,8 +13,8 @@ import SpaceVertical from '../../../../../components/spaceVertical'
 import PayRateDisplay from './payRateDisplay'
 
 import { AppState } from 'model'
-import { FORMAT_DATE } from 'constant'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { DATE_FORMAT } from 'constant'
 
 type CardManageProps = {
   boosterAddress: string
@@ -106,7 +106,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="Start date"
                 value={
                   <Typography.Text>
-                    {moment(startAt.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(startAt.toNumber() * 1000).format(DATE_FORMAT)}
                   </Typography.Text>
                 }
               />
@@ -116,7 +116,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="End date"
                 value={
                   <Typography.Text>
-                    {moment(endAt.toNumber() * 1000).format(FORMAT_DATE)}
+                    {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
                   </Typography.Text>
                 }
               />
