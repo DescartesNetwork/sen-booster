@@ -6,10 +6,11 @@ import { utilsBN } from '@sen-use/web3'
 import { Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
 import OrderFilterSet from 'components/orderFilterSet'
-// import { useFilterOrder } from 'hooks/orders/useFilterOrders'
 
 import { AppState } from 'model'
 import { RedeemDataSource } from 'constant'
+
+import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
 
 const Redeem = () => {
   const {
