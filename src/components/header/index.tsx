@@ -13,10 +13,12 @@ import {
   Switch,
   Typography,
 } from 'antd'
+
 import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppDispatch } from 'model'
-import { switchMode } from 'model/ordersFilter.controller'
+import { resetFilter } from 'model/ordersFilter.controller'
+import { setMode } from 'model/settings.controller'
 
 type HeaderProps = {
   tabId: TabId
@@ -49,11 +51,12 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
   }, [location.pathname])
 
   const onSwitch = (checked: boolean) => {
+    dispatch(resetFilter())
     if (checked) {
-      dispatch(switchMode(Mode.Retailer))
+      dispatch(setMode(Mode.Retailer))
       return pushHistory('/retailer')
     }
-    dispatch(switchMode(Mode.User))
+    dispatch(setMode(Mode.Retailer))
     pushHistory('/user')
   }
 

@@ -10,12 +10,12 @@ type RedeemActionProps = {
 }
 
 const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {
-  if (orderState === OrderState.Pending)
+  if (orderState === OrderState.Open)
     return <Cancel orderAddress={orderAddress} />
   if (orderState === OrderState.Approved)
     return <Redeem orderAddress={orderAddress} />
   return (
-    <Button type="text">
+    <Button type="text" size="small">
       <Typography.Title>Detail</Typography.Title>
     </Button>
   )

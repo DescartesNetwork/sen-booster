@@ -21,6 +21,7 @@ const Redeem = () => {
     for (const orderAddress in orders) {
       const { updateAt, lockTime, state, authority } = orders[orderAddress]
       if (authority.toBase58() === address) {
+        console.log('statestate: ', state)
         sources.push({
           lastUpdate: utilsBN.undecimalize(updateAt, 0),
           orderId: orderAddress,

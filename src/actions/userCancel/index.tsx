@@ -7,10 +7,10 @@ type CancelProps = {
 }
 
 const Cancel = ({ orderAddress }: CancelProps) => {
-  const { cancelOrder } = useCancelOrder()
+  const { cancelOrder } = useCancelOrder(orderAddress)
 
   return (
-    <Button onClick={cancelOrder} type="ghost">
+    <Button onClick={() => cancelOrder(orderAddress)} type="ghost">
       Cancel
     </Button>
   )

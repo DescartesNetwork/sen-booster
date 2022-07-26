@@ -31,10 +31,12 @@ export type RedeemDataSource = {
 }
 
 export enum OrderState {
-  Pending = 'pending',
+  Open = 'open',
   Approved = 'approved',
   Done = 'done',
   Rejected = 'rejected',
+  Canceled = 'canceled',
+  Uninitialized = 'uninitialized',
 }
 
 export const LOCK_TIME_OPTIONS = [
