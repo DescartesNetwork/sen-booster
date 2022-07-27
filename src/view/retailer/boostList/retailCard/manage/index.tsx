@@ -1,12 +1,13 @@
 import { Fragment, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Button, Col, Modal, Row, Tabs, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
-import FreezeBoost from 'actions/retailerFreezeBoost'
-import ThawBoost from 'actions/retailerThawBoost'
-import RetailerUpdateBudge from 'actions/retailerUpdateBudget'
 import CardManage from './cardManage'
-import { useSelector } from 'react-redux'
+import RetailerUpdateBudge from 'actions/retailerUpdateBudget'
+import FreezeBooster from 'actions/retailerFreezeBooster'
+import ThawBooster from 'actions/retailerThawBooster'
+
 import { AppState } from 'model'
 
 const { TabPane } = Tabs
@@ -51,9 +52,9 @@ const Manage = ({ boosterAddress }: ManageProps) => {
               </TabPane>
               <TabPane tab="Freeze/Thaw" key="freeze-thaw">
                 {isFreeze ? (
-                  <ThawBoost boosterAddress={boosterAddress} />
+                  <ThawBooster boosterAddress={boosterAddress} />
                 ) : (
-                  <FreezeBoost boosterAddress={boosterAddress} />
+                  <FreezeBooster boosterAddress={boosterAddress} />
                 )}
               </TabPane>
             </Tabs>
