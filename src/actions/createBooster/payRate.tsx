@@ -25,7 +25,7 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
           <Typography.Title level={5}>Pay rate</Typography.Title>
           <Tooltip
             title={
-              "You can set the pay rate to 0 at the lock time you don't want to use."
+              "You can set the pay rate to 0 at the lock time you don't want to use. But there must be at least 1 field with a ratio greater than Zero."
             }
           >
             <IonIcon name="information-circle-outline" />
@@ -40,6 +40,8 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
                 label={date}
                 value={
                   <InputNumber
+                    className="retailer-input"
+                    size="large"
                     placeholder="Input rate"
                     value={payRate[date]}
                     onChange={(val) => setPayRate(val, date)}
