@@ -14,7 +14,8 @@ export const useCancelOrder = (orderAddress: Address) => {
 
   const voucherAddresses = useMemo((): string[] => {
     return Object.keys(vouchers).filter(
-      (address) => vouchers[address].order.toBase58() === orderAddress,
+      (address) =>
+        vouchers[address].order.toBase58() === orderAddress.toString(),
     )
   }, [orderAddress, vouchers])
 
