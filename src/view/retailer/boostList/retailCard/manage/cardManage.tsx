@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { util } from '@sentre/senhub'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { utilsBN } from '@sen-use/web3'
 import moment from 'moment'
 
 import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
@@ -11,10 +10,11 @@ import { numeric, shortenAddress } from '@sentre/senhub/dist/shared/util'
 import { MintSymbol } from '@sen-use/components'
 import SpaceVertical from '../../../../../components/spaceVertical'
 import PayRateDisplay from './payRateDisplay'
+import BoostNFT from './boostNFT'
 
 import { AppState } from 'model'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { DATE_FORMAT } from 'constant'
+import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 
 type CardManageProps = {
   boosterAddress: string
@@ -22,11 +22,10 @@ type CardManageProps = {
 
 const CardManage = ({ boosterAddress }: CardManageProps) => {
   const [copied, setCopied] = useState('')
-  const { bidMint, askMint, bidTotal, startAt, endAt } = useSelector(
+  const { bidMint, askMint, startAt, endAt } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-
-  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const { budget } = useMetaBooster(boosterAddress)
 
   const onCopy = async (mintAddress: string) => {
     setCopied(mintAddress)
@@ -41,7 +40,7 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
           <Typography.Title level={5}>General information</Typography.Title>
         </Col>
         <Col span={24}>
-          <Row justify="space-between" wrap={false}>
+          <Row wrap={false}>
             <Col span={9}>
               <SpaceVertical
                 label="Buy-back LP address"
@@ -90,12 +89,6 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 }
               />
             </Col>
-            <Col span={6}>
-              <SpaceVertical
-                label="Boost"
-                value={<Typography.Text>Yes</Typography.Text>}
-              />
-            </Col>
           </Row>
         </Col>
         <Col span={24} />
@@ -126,10 +119,8 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="Budget"
                 value={
                   <Typography.Text>
-                    {numeric(utilsBN.undecimalize(bidTotal, bidDecimal)).format(
-                      '0.0,[000]',
-                    )}{' '}
-                    <MintSymbol mintAddress={askMint.toBase58()} />
+                    {numeric(budget).format('0.0,[000]')}{' '}
+                    <MintSymbol mintAddress={bidMint} />
                   </Typography.Text>
                 }
               />
@@ -139,6 +130,9 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
         <Col span={24} />
         <Col span={24}>
           <PayRateDisplay boosterAddress={boosterAddress} />
+        </Col>
+        <Col span={24}>
+          <BoostNFT boosterAddress={boosterAddress} />
         </Col>
       </Row>
     </Card>

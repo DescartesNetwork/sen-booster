@@ -5,10 +5,11 @@ import { Card, Col, Row, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import Manage from './manage'
 import SpaceVertical from '../../../../components/spaceVertical'
+import BoosterProcess from 'components/boosterProcess'
 
 import { DATE_FORMAT } from 'constant'
 import { AppState } from 'model'
-import BoosterProcess from 'components/boosterProcess'
+import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 
 type RetailCardProps = {
   boosterAddress: string
@@ -18,6 +19,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
   const { askMint, bidMint, startAt, endAt } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const vouchers = useVoucherPrintersByBooster(boosterAddress)
 
   return (
     <Card bordered={false}>
@@ -69,7 +71,11 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                 <Col>
                   <SpaceVertical
                     label="Boost"
-                    value={<Typography.Text>Yes</Typography.Text>}
+                    value={
+                      <Typography.Text>
+                        {vouchers.length ? 'Enable' : 'Disable'}
+                      </Typography.Text>
+                    }
                   />
                 </Col>
               </Row>

@@ -6,6 +6,8 @@ import FreezeBoost from 'actions/retailerFreezeBoost'
 import ThawBoost from 'actions/retailerThawBoost'
 import RetailerUpdateBudge from 'actions/retailerUpdateBudget'
 import CardManage from './cardManage'
+import { useSelector } from 'react-redux'
+import { AppState } from 'model'
 
 const { TabPane } = Tabs
 
@@ -15,10 +17,15 @@ type ManageProps = {
 
 const Manage = ({ boosterAddress }: ManageProps) => {
   const [visible, setVisible] = useState(false)
+  const boosterData = useSelector(
+    (state: AppState) => state.boosters[boosterAddress],
+  )
 
   const isFreeze = useMemo(() => {
+    const state = Object.keys(boosterData.state)[0]
+    if (state === 'frozen') return true
     return false
-  }, [])
+  }, [boosterData.state])
 
   return (
     <Fragment>
@@ -43,7 +50,11 @@ const Manage = ({ boosterAddress }: ManageProps) => {
                 <RetailerUpdateBudge boosterAddress={boosterAddress} />
               </TabPane>
               <TabPane tab="Freeze/Thaw" key="freeze-thaw">
-                {isFreeze ? <ThawBoost /> : <FreezeBoost />}
+                {isFreeze ? (
+                  <ThawBoost boosterAddress={boosterAddress} />
+                ) : (
+                  <FreezeBoost boosterAddress={boosterAddress} />
+                )}
               </TabPane>
             </Tabs>
           </Col>
