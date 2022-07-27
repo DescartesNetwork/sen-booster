@@ -47,8 +47,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
   const { buy, loading: buyLoading } = useBuy()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
-  const { voucherPrintersByBooster, remainingVouchers } =
-    useVoucherPrintersByBooster(boosterAddress)
+  const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
   const { payRate } = useMetaBooster(boosterAddress)
   const { getDecimals } = useMint()
 
@@ -185,9 +184,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     <Space size={8}>
                       <Typography.Text>Boost</Typography.Text>
                       <Switch
-                        disabled={
-                          !voucherPrintersByBooster.length || !remainingVouchers
-                        }
+                        disabled={!voucherPrintersByBooster.length}
                         size="small"
                         checked={useBoost}
                         onChange={() => setUseBoost(!useBoost)}

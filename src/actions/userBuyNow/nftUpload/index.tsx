@@ -35,8 +35,7 @@ const NftUpload = ({
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
   const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
   const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
-  const { voucherPrintersByBooster } =
-    useVoucherPrintersByBooster(boosterAddress)
+  const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
 
   const unselectedOwnerNFTs = useMemo(() => {
     return ownerNFTsByVouchers.filter((val) => !selectedNFTs.includes(val.mint))

@@ -13,8 +13,7 @@ export const useNFTByVoucher = (boosterAddress: string) => {
     wallet: { address },
   } = useWallet()
   const { nfts } = useOwnerNFT(address)
-  const { voucherPrintersByBooster } =
-    useVoucherPrintersByBooster(boosterAddress)
+  const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
 
   const getOwnerNFTsByVouchers = useCallback(() => {
     if (!voucherPrintersByBooster.length || !nfts) return []
