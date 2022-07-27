@@ -15,13 +15,12 @@ const OrderFilterSet = () => {
 
   const tokenOptions = useMemo(() => {
     let mintItems: Set<string> = new Set()
-    for (const orderAddress in orders) {
-      if (orders[orderAddress] && Object.keys(boosters).length) {
-        const retailerAddress = orders[orderAddress].retailer.toBase58()
-        const { bidMint, askMint } = boosters[retailerAddress]
-        mintItems.add(bidMint.toBase58())
-        mintItems.add(askMint.toBase58())
-      }
+    for (const { retailer } of Object.values(orders)) {
+      const boosterData = boosters[retailer.toBase58()]
+      if (!boosterData) continue
+      const { bidMint, askMint } = boosterData
+      mintItems.add(bidMint.toBase58())
+      mintItems.add(askMint.toBase58())
     }
     return Array.from(mintItems)
   }, [boosters, orders])

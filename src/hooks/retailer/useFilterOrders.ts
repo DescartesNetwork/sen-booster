@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'model'
-import { useBoostersByOwner } from 'hooks/boosters/useBoostersByOwner'
+import { useMyBoosters } from 'hooks/boosters/useBoostersByOwner'
 
 export const useOrderRequests = () => {
   const orders = useSelector((state: AppState) => state.orders)
-  const { myBoosters } = useBoostersByOwner()
+  const { myBoosters } = useMyBoosters()
 
   const orderRequests = useMemo(
     () =>

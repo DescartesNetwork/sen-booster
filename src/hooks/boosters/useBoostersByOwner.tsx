@@ -4,19 +4,16 @@ import { useWallet } from '@sentre/senhub'
 
 import { AppState } from 'model'
 
-export const useBoostersByOwner = () => {
+export const useMyBoosters = () => {
   const boosters = useSelector((state: AppState) => state.boosters)
   const {
     wallet: { address: walletAddress },
   } = useWallet()
 
   const myBoosters = useMemo(() => {
-    const boosterAddresses: string[] = []
-    for (const boosterAddress in boosters) {
-      const { authority } = boosters[boosterAddress]
-      if (authority.toBase58() === walletAddress)
-        boosterAddresses.push(boosterAddress)
-    }
+    const boosterAddresses = Object.keys(boosters).filter(
+      (address) => boosters[address].authority.toBase58() === walletAddress,
+    )
     return boosterAddresses
   }, [boosters, walletAddress])
 
