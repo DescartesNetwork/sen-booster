@@ -18,55 +18,31 @@ type BuyProps = {
 }
 
 export const useBuy = () => {
-  const voucherPrinters = useSelector(
-    (state: AppState) => state.voucherPrinters,
-  )
+  const printers = useSelector((state: AppState) => state.voucherPrinters)
   const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
 
   const getVoucherPrinterAddresses = useCallback(
-    ({
-      boosterAddress,
-      numberInNeed,
-    }: {
-      boosterAddress: Address
-      numberInNeed: number
-    }): string[] => {
-      let selectedVoucherPrinters: string[] = []
-      let remainingNumberInNeed = numberInNeed
-      const voucherPrintersByBooster = Object.keys(voucherPrinters).filter(
-        (address) => {
-          return (
-            voucherPrinters[address].retailer.toBase58() ===
-            boosterAddress.toString()
-          )
-        },
+    (boosterAddress: Address, amount: number): string[] => {
+      const selectedPrinters: string[] = []
+      const sortedPrinters = Object.keys(printers).sort((a, b) =>
+        printers[b].discount.gt(printers[a].discount) ? 1 : -1,
       )
-      const sortedVoucherPrinters = voucherPrintersByBooster.sort(
-        (addressA, addressB) =>
-          voucherPrinters[addressA].discount.toNumber() -
-          voucherPrinters[addressB].discount.toNumber(),
-      )
+      for (const printerAddress of sortedPrinters) {
+        const printer = printers[printerAddress]
+        let maxAmount = printer.total.toNumber()
+        if (printer.retailer.toBase58() !== boosterAddress.toString()) continue
 
-      for (const address of sortedVoucherPrinters) {
-        const voucherPrinterTotal = voucherPrinters[address].total.toNumber()
-        if (voucherPrinterTotal >= remainingNumberInNeed) {
-          selectedVoucherPrinters = selectedVoucherPrinters.concat(
-            Array(remainingNumberInNeed).fill(address),
-          )
-          break
-        }
-        if (voucherPrinterTotal < remainingNumberInNeed) {
-          remainingNumberInNeed = numberInNeed - voucherPrinterTotal
-          selectedVoucherPrinters = selectedVoucherPrinters.concat(
-            Array(numberInNeed - remainingNumberInNeed).fill(address),
-          )
+        while (maxAmount > 0 || selectedPrinters.length < amount) {
+          selectedPrinters.push(printerAddress)
+          maxAmount -= 1
         }
       }
-      // In critical rate case we can exporting one more variable to notify for user
-      return selectedVoucherPrinters
+      if (selectedPrinters.length < amount)
+        throw new Error('Insufficient voucher')
+      return selectedPrinters
     },
-    [voucherPrinters],
+    [printers],
   )
 
   const buy = useCallback(
@@ -94,17 +70,16 @@ export const useBuy = () => {
         })
         trans.add(txInitializeOrder)
 
-        const voucherPrinterAddresses = getVoucherPrinterAddresses({
-          boosterAddress: retailer,
-          numberInNeed: appliedNFTs.length,
-        })
-
+        const selectedPrinters = getVoucherPrinterAddresses(
+          retailer,
+          appliedNFTs.length,
+        )
         await Promise.all(
           appliedNFTs.map(async (nftAddress, idx) => {
             const voucher = web3.Keypair.generate()
             const { tx: txLockVoucher } = await senExchange.lockVoucher({
               order: order.publicKey,
-              voucherPrinter: voucherPrinterAddresses[idx],
+              voucherPrinter: selectedPrinters[idx],
               mintNft: nftAddress,
               voucher,
               sendAndConfirm: false,
@@ -113,7 +88,6 @@ export const useBuy = () => {
             trans.add(txLockVoucher)
           }),
         )
-
         const txId = await provider.sendAndConfirm(trans, signers)
         notifySuccess('Initialize Order', txId)
       } catch (error: any) {
