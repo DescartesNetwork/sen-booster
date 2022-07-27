@@ -29,13 +29,15 @@ export const useBuy = () => {
       boosterAddress,
       numberInNeed,
     }: {
-      boosterAddress: PublicKey
+      boosterAddress: string
       numberInNeed: number
     }): string[] => {
-      const selectedVoucherPrinters: string[] = []
+      let selectedVoucherPrinters: string[] = []
       let remainingNumberInNeed = numberInNeed
       const voucherPrintersByBooster = Object.keys(voucherPrinters).filter(
-        (address) => voucherPrinters[address].retailer === boosterAddress,
+        (address) => {
+          return voucherPrinters[address].retailer.toBase58() === boosterAddress
+        },
       )
       const sortedVoucherPrinters = voucherPrintersByBooster.sort(
         (addressA, addressB) =>
@@ -46,14 +48,14 @@ export const useBuy = () => {
       for (const address of sortedVoucherPrinters) {
         const voucherPrinterTotal = voucherPrinters[address].total.toNumber()
         if (voucherPrinterTotal >= remainingNumberInNeed) {
-          selectedVoucherPrinters.concat(
-            Array(voucherPrinterTotal).fill(address),
+          selectedVoucherPrinters = selectedVoucherPrinters.concat(
+            Array(remainingNumberInNeed).fill(address),
           )
           break
         }
         if (voucherPrinterTotal < remainingNumberInNeed) {
           remainingNumberInNeed = numberInNeed - voucherPrinterTotal
-          selectedVoucherPrinters.concat(
+          selectedVoucherPrinters = selectedVoucherPrinters.concat(
             Array(numberInNeed - remainingNumberInNeed).fill(address),
           )
         }
@@ -89,23 +91,25 @@ export const useBuy = () => {
         })
         trans.add(txInitializeOrder)
 
-        const voucherPrinters = getVoucherPrinterAddresses({
-          boosterAddress: retailer,
+        const voucherPrinterAddresses = getVoucherPrinterAddresses({
+          boosterAddress: retailer.toBase58(),
           numberInNeed: appliedNFTs.length,
         })
 
-        appliedNFTs.forEach(async (nftAddress, idx) => {
-          const voucher = web3.Keypair.generate()
-          const { tx: txLockVoucher } = await senExchange.lockVoucher({
-            order: retailer,
-            voucherPrinter: voucherPrinters[idx],
-            mintNft: nftAddress,
-            voucher,
-            sendAndConfirm: false,
-          })
-          signers.push(voucher)
-          trans.add(txLockVoucher)
-        })
+        await Promise.all(
+          appliedNFTs.map(async (nftAddress, idx) => {
+            const voucher = web3.Keypair.generate()
+            const { tx: txLockVoucher } = await senExchange.lockVoucher({
+              order: order.publicKey,
+              voucherPrinter: voucherPrinterAddresses[idx],
+              mintNft: nftAddress,
+              voucher,
+              sendAndConfirm: false,
+            })
+            signers.push(voucher)
+            trans.add(txLockVoucher)
+          }),
+        )
 
         const txId = await provider.sendAndConfirm(trans, signers)
         notifySuccess('Initialize Order', txId)
