@@ -4,6 +4,7 @@ import {
   UIProvider,
   AccountProvider,
   MintProvider,
+  PoolProvider,
 } from '@sentre/senhub'
 
 import View from 'view'
@@ -27,11 +28,13 @@ export const Page = () => {
     >
       <WalletProvider>
         <AccountProvider>
-          <MintProvider>
-            <Provider store={model}>
-              <View />
-            </Provider>
-          </MintProvider>
+          <PoolProvider>
+            <MintProvider>
+              <Provider store={model}>
+                <View />
+              </Provider>
+            </MintProvider>
+          </PoolProvider>
         </AccountProvider>
       </WalletProvider>
     </UIProvider>

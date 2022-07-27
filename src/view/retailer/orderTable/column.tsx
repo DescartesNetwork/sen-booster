@@ -1,44 +1,56 @@
 import BN from 'bn.js'
+import moment from 'moment'
 import { OrderData } from 'sen-exchange-core'
 
 import { Typography } from 'antd'
 import ColumnBuyBack from './columnBuyBack'
 import ColumnPay from './columnPay'
 import StatusTag from 'components/statusTag'
-import ColumnCreatedAt from './columnCreatedAt'
+
+import { DATE_FORMAT } from 'constant'
+
+const ONE_DAY = 24 * 60 * 60
 
 export const ORDER_COLUMNS = [
   {
     title: 'TIME',
-    dataIndex: 'metadata',
-    key: 'metadata',
-    render: (metadata: number[]) => <ColumnCreatedAt metadata={metadata} />,
+    dataIndex: 'createAt',
+    key: 'createAt',
+    render: (createAt: BN) => (
+      <Typography.Text>
+        {moment(Number(createAt) * 1000).format(DATE_FORMAT)}
+      </Typography.Text>
+    ),
   },
   {
     title: 'BUY-BACK',
-    dataIndex: 'askAmount',
-    key: 'askAmount',
-    render: (askAmount: BN, { retailer }: OrderData) => (
+    dataIndex: 'bidAmount',
+    key: 'bidAmount',
+    render: (bidAmount: BN, { retailer }: OrderData) => (
       <ColumnBuyBack
-        askAmount={askAmount}
+        bidAmount={bidAmount}
         boosterAddress={retailer.toBase58()}
       />
     ),
   },
   {
     title: 'PAY',
-    dataIndex: 'bidAmount',
-    key: 'bidAmount',
-    render: (bidAmount: BN, { retailer }: OrderData) => (
-      <ColumnPay bidAmount={bidAmount} boosterAddress={retailer.toBase58()} />
+    dataIndex: 'askAmount',
+    key: 'askAmount',
+    render: (askAmount: BN, { retailer }: OrderData) => (
+      <ColumnPay askAmount={askAmount} boosterAddress={retailer.toBase58()} />
     ),
   },
   {
     title: 'LOCK TIME',
     dataIndex: 'lockTime',
     key: 'lockTime',
-    render: (lockTime: string) => {
-      return <Typography.Text>{lockTime.toString()}</Typography.Text>
+    render: (lockTime: BN) => {
+      return (
+        <Typography.Text>
+          {lockTime.div(new BN(ONE_DAY)).toString()} days
+        </Typography.Text>
+      )
     },
   },
   // {
@@ -54,7 +66,6 @@ export const ORDER_COLUMNS = [
     key: 'state',
     dataIndex: 'state',
     render: (state: Object) => {
-      console.log(Object.keys(state)[0])
       return <StatusTag state={Object.keys(state)[0]} />
     },
   },
