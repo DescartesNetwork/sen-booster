@@ -23,15 +23,6 @@ export enum RetailerBoosterCategory {
   ExpiredBooster = 'Expired booster',
 }
 
-export enum OrderState {
-  Open = 'open',
-  Approved = 'approved',
-  Done = 'done',
-  Rejected = 'rejected',
-  Canceled = 'canceled',
-  Uninitialized = 'uninitialized',
-}
-
 export const LOCK_TIME_OPTIONS = [
   { name: '7 days', value: 7 },
   { name: '30 days', value: 30 },
