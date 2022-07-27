@@ -1,21 +1,25 @@
 import BN from 'bn.js'
 import { util } from '@sentre/senhub'
 import moment from 'moment'
+import { utilsBN } from '@sen-use/web3'
+import { Address } from '@project-serum/anchor'
+import { OrderData } from 'sen-exchange-core'
 
 import { Button, Space, Typography } from 'antd'
-import StatusTag from './statusTag'
 import IonIcon from '@sentre/antd-ionicon'
 import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
+import StatusTag from 'components/statusTag'
 
-import { DATE_FORMAT, RedeemDataSource } from 'constant'
+import { DATE_FORMAT } from 'constant'
 
 export const REDEEM_COLUMNS = [
   {
     title: 'TIME',
     dataIndex: 'lastUpdate',
-    render: (time: string) => {
+    render: (lastUpdate: BN) => {
+      const time = utilsBN.undecimalize(lastUpdate, 0)
       return (
         <Typography.Text>
           {moment(Number(time) * 1000).format(DATE_FORMAT)}
@@ -26,18 +30,22 @@ export const REDEEM_COLUMNS = [
   {
     title: 'ORDER ID',
     dataIndex: 'orderId',
-    render: (orderId: string) => (
+    render: (orderId: Address) => (
       <Space align="baseline">
         <Typography.Text
-          onClick={() => window.open(util.explorer(orderId), '_blank')}
+          onClick={() =>
+            window.open(util.explorer(orderId.toString()), '_blank')
+          }
           style={{ fontWeight: 700, cursor: 'pointer' }}
         >
-          {util.shortenAddress(orderId, 8, '...')}
+          {util.shortenAddress(orderId.toString(), 8, '...')}
         </Typography.Text>
         <Button
           type="text"
           size="small"
-          onClick={() => window.open(util.explorer(orderId), '_blank')}
+          onClick={() =>
+            window.open(util.explorer(orderId.toString()), '_blank')
+          }
           icon={<IonIcon name="open-outline" />}
         />
       </Space>
@@ -46,12 +54,12 @@ export const REDEEM_COLUMNS = [
   {
     title: 'PAY',
     dataIndex: 'orderId',
-    render: (orderId: string) => <BidColumn orderId={orderId} />,
+    render: (orderId: Address) => <BidColumn orderId={orderId} />,
   },
   {
     title: 'RECEIVE',
     dataIndex: 'orderId',
-    render: (orderId: string) => <AskColumn orderId={orderId} />,
+    render: (orderId: Address) => <AskColumn orderId={orderId} />,
   },
   {
     title: 'LOCK TIME',
@@ -63,13 +71,20 @@ export const REDEEM_COLUMNS = [
   {
     title: 'STATUS',
     dataIndex: 'state',
-    render: (state: string) => <StatusTag tag="success" />,
+    render: (state: Record<string, any>) => {
+      const currentState = Object.keys(state)[0]
+      return <StatusTag state={currentState} />
+    },
   },
   {
     title: 'ACTIONS',
     dataIndex: 'state',
-    render: (state: string, { orderId }: RedeemDataSource) => (
-      <OrderAction orderState={state} orderAddress={orderId} />
-    ),
+    render: (
+      state: Record<string, any>,
+      { orderId }: OrderData & { orderId: Address },
+    ) => {
+      const currentState = Object.keys(state)[0]
+      return <OrderAction orderState={currentState} orderAddress={orderId} />
+    },
   },
 ]

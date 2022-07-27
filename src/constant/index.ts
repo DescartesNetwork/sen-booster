@@ -23,18 +23,13 @@ export enum RetailerBoosterCategory {
   ExpiredBooster = 'Expired booster',
 }
 
-export type RedeemDataSource = {
-  lastUpdate: string
-  orderId: string
-  lockTime: string
-  state: string
-}
-
 export enum OrderState {
-  Pending = 'pending',
+  Open = 'open',
   Approved = 'approved',
   Done = 'done',
   Rejected = 'rejected',
+  Canceled = 'canceled',
+  Uninitialized = 'uninitialized',
 }
 
 export const LOCK_TIME_OPTIONS = [

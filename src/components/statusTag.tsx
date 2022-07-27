@@ -1,4 +1,9 @@
+import { useSelector } from 'react-redux'
+
 import { Tag } from 'antd'
+
+import { AppState } from 'model'
+import { Mode, OrderState } from 'constant'
 
 const STATUS_COLOR: Record<string, number[]> = {
   approved: [12, 161, 191],
@@ -10,6 +15,7 @@ const STATUS_COLOR: Record<string, number[]> = {
 }
 
 const StatusTag = ({ state }: { state: string }) => {
+  const { mode } = useSelector((state: AppState) => state.settings)
   const setTagColor = (opacity?: number) => {
     const color = STATUS_COLOR[state]
     if (opacity)
@@ -27,7 +33,7 @@ const StatusTag = ({ state }: { state: string }) => {
       }}
       color={setTagColor(0.1)}
     >
-      {state}
+      {mode === Mode.User && state === OrderState.Open ? 'Waiting' : state}
     </Tag>
   )
 }

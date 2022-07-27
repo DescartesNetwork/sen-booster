@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { Mode } from 'constant'
 
 /**
  * Interface & Utility
  */
 
 export type FilterOrderState = {
-  mode: Mode
   token: string
   time: string
   status: string
@@ -18,7 +16,6 @@ export type FilterOrderState = {
 
 const NAME = 'orderFilter'
 const initialState: FilterOrderState = {
-  mode: Mode.User,
   token: '',
   time: '',
   status: '',
@@ -55,17 +52,9 @@ export const setStatusFilter = createAsyncThunk(
   },
 )
 
-export const switchMode = createAsyncThunk(
-  `${NAME}/switchMode`,
-  async (mode: Mode) => {
-    return {
-      mode,
-      token: '',
-      time: '',
-      status: '',
-    }
-  },
-)
+export const resetFilter = createAsyncThunk(`${NAME}/resetFilter`, async () => {
+  return initialState
+})
 
 /**
  * Usual procedure
@@ -89,10 +78,7 @@ const slice = createSlice({
         setStatusFilter.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       )
-      .addCase(
-        switchMode.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      ),
+      .addCase(resetFilter.fulfilled, (state, { payload }) => payload),
 })
 
 export default slice.reducer
