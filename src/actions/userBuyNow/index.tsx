@@ -78,7 +78,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     const bidDecimal = await getDecimals(bidMint.toBase58())
     const askDecimal = await getDecimals(askMint.toBase58())
     await buy({
-      retailer: new PublicKey(boosterAddress),
+      retailer: boosterAddress,
       bidAmount: utilsBN.decimalize(amount, bidDecimal),
       lockTime: new BN(lockTime.value * ONE_DAY),
       askAmount: utilsBN.decimalize(estimatedReceive, askDecimal),

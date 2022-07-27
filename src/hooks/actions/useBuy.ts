@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { PublicKey, Transaction } from '@solana/web3.js'
-import { web3 } from '@project-serum/anchor'
+import { Transaction } from '@solana/web3.js'
+import { web3, Address } from '@project-serum/anchor'
 import BN from 'bn.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
@@ -10,7 +10,7 @@ import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
 
 type BuyProps = {
-  retailer: PublicKey
+  retailer: Address
   bidAmount: BN
   askAmount: BN
   lockTime: BN
@@ -29,14 +29,17 @@ export const useBuy = () => {
       boosterAddress,
       numberInNeed,
     }: {
-      boosterAddress: string
+      boosterAddress: Address
       numberInNeed: number
     }): string[] => {
       let selectedVoucherPrinters: string[] = []
       let remainingNumberInNeed = numberInNeed
       const voucherPrintersByBooster = Object.keys(voucherPrinters).filter(
         (address) => {
-          return voucherPrinters[address].retailer.toBase58() === boosterAddress
+          return (
+            voucherPrinters[address].retailer.toBase58() ===
+            boosterAddress.toString()
+          )
         },
       )
       const sortedVoucherPrinters = voucherPrintersByBooster.sort(
@@ -92,7 +95,7 @@ export const useBuy = () => {
         trans.add(txInitializeOrder)
 
         const voucherPrinterAddresses = getVoucherPrinterAddresses({
-          boosterAddress: retailer.toBase58(),
+          boosterAddress: retailer,
           numberInNeed: appliedNFTs.length,
         })
 
