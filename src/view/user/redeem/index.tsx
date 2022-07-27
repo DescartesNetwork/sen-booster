@@ -1,14 +1,14 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useWallet } from '@sentre/senhub'
-import { utilsBN } from '@sen-use/web3'
+import { OrderData } from 'sen-exchange-core'
+import { Address } from '@project-serum/anchor'
 
 import { Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
 import OrderFilterSet from 'components/orderFilterSet'
 
 import { AppState } from 'model'
-import { RedeemDataSource } from 'constant'
 
 const Redeem = () => {
   const orders = useSelector((state: AppState) => state.orders)
@@ -17,15 +17,13 @@ const Redeem = () => {
   } = useWallet()
 
   const dataSource = useMemo(() => {
-    const sources: RedeemDataSource[] = []
+    const sources: (OrderData & { orderId: Address })[] = []
     for (const orderAddress in orders) {
-      const { updateAt, lockTime, state, authority } = orders[orderAddress]
+      const { authority } = orders[orderAddress]
       if (authority.toBase58() === address) {
         sources.push({
-          lastUpdate: utilsBN.undecimalize(updateAt, 0),
           orderId: orderAddress,
-          lockTime: utilsBN.undecimalize(lockTime, 0),
-          state: Object.keys(state)[0],
+          ...orders[orderAddress],
         })
       }
     }

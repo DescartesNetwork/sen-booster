@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { Address } from '@project-serum/anchor'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 
@@ -9,7 +10,7 @@ export const useRedeemOrder = () => {
   const { senExchange } = useSenExchange()
 
   const redeemOrder = useCallback(
-    async (orderAddress: string) => {
+    async (orderAddress: Address) => {
       try {
         setLoading(true)
         const { txId } = await senExchange.claim({

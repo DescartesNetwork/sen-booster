@@ -1,3 +1,5 @@
+import { Address } from '@project-serum/anchor'
+
 import Cancel from 'actions/userCancel'
 import Redeem from 'actions/userRedeem'
 import { Button, Typography } from 'antd'
@@ -6,7 +8,7 @@ import { OrderState } from 'constant'
 
 type RedeemActionProps = {
   orderState: string
-  orderAddress: string
+  orderAddress: Address
 }
 
 const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {

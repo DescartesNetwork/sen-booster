@@ -1,12 +1,13 @@
 import { useCallback, useMemo, useState } from 'react'
 import { Transaction } from '@solana/web3.js'
 import { useSelector } from 'react-redux'
+import { Address } from '@project-serum/anchor'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
 
-export const useCancelOrder = (orderAddress: string) => {
+export const useCancelOrder = (orderAddress: Address) => {
   const vouchers = useSelector((state: AppState) => state.vouchers)
   const { senExchange } = useSenExchange()
   const [loading, setLoading] = useState(false)
