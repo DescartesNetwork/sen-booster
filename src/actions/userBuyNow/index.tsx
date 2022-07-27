@@ -2,7 +2,6 @@ import { Fragment, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useMint, util } from '@sentre/senhub'
 import BN from 'bn.js'
-import { PublicKey } from '@solana/web3.js'
 import { utilsBN } from '@sen-use/web3'
 
 import {

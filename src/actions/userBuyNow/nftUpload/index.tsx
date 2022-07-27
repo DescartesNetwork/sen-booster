@@ -35,7 +35,7 @@ const NftUpload = ({
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
   const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
   const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
-  const { voucherPrintersByBooster, remainingVouchers } =
+  const { voucherPrintersByBooster } =
     useVoucherPrintersByBooster(boosterAddress)
 
   const unselectedOwnerNFTs = useMemo(() => {
@@ -78,11 +78,8 @@ const NftUpload = ({
         <Space size={8}>
           {imageUrls.map((val, idx) => (
             <Space
-              className={
-                idx < remainingVouchers ? 'upload-box' : 'upload-box-disable'
-              }
+              className="upload-box"
               onClick={() => {
-                if (idx > remainingVouchers) return
                 seCurrentNFTIdx(idx)
                 setVisibleNftModal(true)
               }}
