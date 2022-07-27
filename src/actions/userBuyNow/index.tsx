@@ -32,6 +32,7 @@ import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 
 import { AppState } from 'model'
 import { LOCK_TIME_OPTIONS } from 'constant'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -43,7 +44,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const [disabled, setDisable] = useState(true)
+  const [disabled, setDisabled] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -87,6 +88,13 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       appliedNFTs: nftAddresses,
     })
     setIsVisible(false)
+  }
+
+  const onCheck = (e: CheckboxChangeEvent) => {
+    if (e.target.checked) {
+      return setDisabled(false)
+    }
+    return setDisabled(true)
   }
 
   return (
@@ -230,11 +238,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
-            <Checkbox
-              onChange={() => {
-                setDisable(false)
-              }}
-            >
+            <Checkbox onChange={onCheck}>
               I agree with this transaction
             </Checkbox>
           </Col>
