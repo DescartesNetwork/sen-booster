@@ -6,6 +6,7 @@ import { utilsBN } from '@sen-use/web3'
 
 import {
   Button,
+  Checkbox,
   Col,
   Divider,
   InputNumber,
@@ -42,6 +43,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const [disabled, setDisable] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -228,7 +230,21 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
-            <Button block onClick={onBuy} loading={buyLoading}>
+            <Checkbox
+              onChange={() => {
+                setDisable(false)
+              }}
+            >
+              I agree with this transaction
+            </Checkbox>
+          </Col>
+          <Col span={24}>
+            <Button
+              block
+              onClick={onBuy}
+              loading={buyLoading}
+              disabled={disabled}
+            >
               Buy
             </Button>
           </Col>
