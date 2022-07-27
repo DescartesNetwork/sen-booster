@@ -1,10 +1,10 @@
 import { Card, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import OrderTable from 'view/retailer/orderTable'
-import { useFilterOrder } from 'hooks/retailer/useFilterOrders'
+import { useOrderRequests } from 'hooks/retailer/useFilterOrders'
 
 function OrderList() {
-  const { myOrders } = useFilterOrder()
+  const { orderRequests } = useOrderRequests()
 
   return (
     <Card bordered={false}>
@@ -13,7 +13,7 @@ function OrderList() {
           <Filter />
         </Col>
         <Col span={24}>
-          <OrderTable dataSource={myOrders} />
+          <OrderTable dataSource={orderRequests} />
         </Col>
       </Row>
     </Card>

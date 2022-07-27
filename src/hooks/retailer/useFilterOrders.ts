@@ -1,36 +1,23 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useWallet } from '@sentre/senhub'
 
 import { AppState } from 'model'
+import { useBoostersByOwner } from 'hooks/boosters/useBoostersByOwner'
 
-export const useFilterOrder = () => {
+export const useOrderRequests = () => {
   const orders = useSelector((state: AppState) => state.orders)
-  const boosters = useSelector((state: AppState) => state.boosters)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const { myBoosters } = useBoostersByOwner()
 
-  const myBooster = useMemo(() => {
-    const boosterAddresses: string[] = []
-    for (const boosterAddress in boosters) {
-      const { authority } = boosters[boosterAddress]
-      if (authority.toBase58() === walletAddress)
-        boosterAddresses.push(boosterAddress)
-    }
-    return boosterAddresses
-  }, [boosters, walletAddress])
-
-  const myOrders = useMemo(
+  const orderRequests = useMemo(
     () =>
       Object.keys(orders)
         .map((orderAddress) => ({
           ...orders[orderAddress],
           orderAddress,
         }))
-        .filter(({ retailer }) => myBooster.includes(retailer.toBase58())),
-    [myBooster, orders],
+        .filter(({ retailer }) => myBoosters.includes(retailer.toBase58())),
+    [myBoosters, orders],
   )
 
-  return { myOrders }
+  return { orderRequests }
 }
