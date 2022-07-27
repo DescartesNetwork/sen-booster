@@ -15,11 +15,13 @@ import {
   Row,
   Space,
   Switch,
+  Tooltip,
   Typography,
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
 import NftUpload from './nftUpload'
+import IonIcon from '@sentre/antd-ionicon'
 
 import { useBuy } from 'hooks/actions/useBuy'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
@@ -154,7 +156,21 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           <Col>
             <Row gutter={[8, 8]}>
               <Col span={24}>
-                <Typography.Text>Lock time</Typography.Text>
+                <Space align="center" size={8}>
+                  <Typography.Text>Lock time</Typography.Text>
+                  <Tooltip
+                    placement="right"
+                    title={
+                      <Typography.Text>
+                        For each lock time, there will be a corresponding
+                        Buy-back rate, you will receive tokens after the
+                        selected lock time.
+                      </Typography.Text>
+                    }
+                  >
+                    <IonIcon name="information-circle-outline" />
+                  </Tooltip>
+                </Space>
               </Col>
               <Col span={24}>
                 <Radio.Group
