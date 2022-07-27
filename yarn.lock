@@ -12947,10 +12947,10 @@ semver@^7.3.2, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-sen-exchange-core@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/sen-exchange-core/-/sen-exchange-core-1.1.1.tgz#42f4de77cb3944aa8d6ebd96a7a5d6de7052be1c"
-  integrity sha512-GuPgyFaOcv5s5szE6uPSFrFMKEauiVHolowLrBqKC+Ma6WJpEyJ4WQwH6axTOy8POiq/DFWkmzOSsuR83GhHOQ==
+sen-exchange-core@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sen-exchange-core/-/sen-exchange-core-1.2.0.tgz#d3fe88c8e27f075ed11cce7f5bae029ea2234455"
+  integrity sha512-5sIDQTC92zfHavsysssBMuxm9kJjsGZ08TnBcJBlhCVe+EoIaXJGUCFIdEmPDinpL52LQOY0VnG8/7lddy769g==
   dependencies:
     "@metaplex/js" "^4.12.0"
     "@project-serum/anchor" "^0.24.2"
