@@ -20,7 +20,7 @@ export const useMetaBooster = (boosterAddress: string) => {
   const getPayRates = useCallback(async () => {
     try {
       const metaInfo = await Ipfs.methods.booster.get(metadata)
-      if (Object.keys(metaInfo).length) setMetaBooster(metaInfo)
+      return setMetaBooster(metaInfo)
     } catch (error: any) {
       return notifyError(error)
     }

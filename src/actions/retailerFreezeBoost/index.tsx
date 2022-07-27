@@ -1,7 +1,14 @@
 import { Badge, Button, Col, Row, Space, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
+import { useFreezeBooster } from 'hooks/actions/useFreezeBooster'
 
-const FreezeBoost = () => {
+type FreezeBoostProps = {
+  boosterAddress: string
+}
+
+const FreezeBoost = ({ boosterAddress }: FreezeBoostProps) => {
+  const { freezeBooster, loading } = useFreezeBooster()
+
   return (
     <Row gutter={[24, 24]}>
       <Col span={24}>
@@ -26,7 +33,13 @@ const FreezeBoost = () => {
         </Row>
       </Col>
       <Col span={24}>
-        <Button block type="primary" size="large">
+        <Button
+          onClick={() => freezeBooster({ boosterAddress })}
+          block
+          type="primary"
+          size="large"
+          loading={loading}
+        >
           Freeze
         </Button>
       </Col>
