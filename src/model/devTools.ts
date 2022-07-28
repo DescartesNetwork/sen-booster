@@ -22,10 +22,6 @@ const isPlain = (val: any): boolean => {
     const proto = Object.getPrototypeOf(obj)
     return proto !== null && Object.getPrototypeOf(proto) === null
   }
-  if (val?.toString() === '89qwMXUmpzUiQ3Q5458Crqd1MJ8F7vDWeNh3V9tyqaCx') {
-    console.log('val', val)
-    console.log(' Buffer.isBuffer(val)', Buffer.isBuffer(val))
-  }
   return (
     typeof val === 'undefined' ||
     val === null ||
