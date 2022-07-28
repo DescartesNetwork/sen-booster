@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { account } from '@senswap/sen-js'
 import { VoucherPrinterData } from 'sen-exchange-core'
 
 /**
