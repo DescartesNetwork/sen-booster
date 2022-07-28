@@ -6,6 +6,7 @@ import { utilsBN } from '@sen-use/web3'
 
 import {
   Button,
+  Checkbox,
   Col,
   Divider,
   InputNumber,
@@ -15,11 +16,13 @@ import {
   Row,
   Space,
   Switch,
+  Tooltip,
   Typography,
 } from 'antd'
 import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
 import { MintSelection, MintSymbol } from '@sen-use/components'
 import NftUpload from './nftUpload'
+import IonIcon from '@sentre/antd-ionicon'
 
 import { useBuy } from 'hooks/actions/useBuy'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
@@ -29,6 +32,7 @@ import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 
 import { AppState } from 'model'
 import { LOCK_TIME_OPTIONS } from 'constant'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 type BuyNowProps = {
   boosterAddress: string
@@ -40,6 +44,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const [disabled, setDisabled] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -83,6 +88,13 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       appliedNFTs: nftAddresses,
     })
     setIsVisible(false)
+  }
+
+  const onCheck = (e: CheckboxChangeEvent) => {
+    if (e.target.checked) {
+      return setDisabled(false)
+    }
+    return setDisabled(true)
   }
 
   return (
@@ -154,7 +166,21 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           <Col>
             <Row gutter={[8, 8]}>
               <Col span={24}>
-                <Typography.Text>Lock time</Typography.Text>
+                <Space align="center" size={8}>
+                  <Typography.Text>Lock time</Typography.Text>
+                  <Tooltip
+                    placement="right"
+                    title={
+                      <Typography.Text>
+                        For each lock time, there will be a corresponding
+                        Buy-back rate, you will receive tokens after the
+                        selected lock time.
+                      </Typography.Text>
+                    }
+                  >
+                    <IonIcon name="information-circle-outline" />
+                  </Tooltip>
+                </Space>
               </Col>
               <Col span={24}>
                 <Radio.Group
@@ -212,7 +238,17 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
-            <Button block onClick={onBuy} loading={buyLoading}>
+            <Checkbox onChange={onCheck}>
+              I agree with this transaction
+            </Checkbox>
+          </Col>
+          <Col span={24}>
+            <Button
+              block
+              onClick={onBuy}
+              loading={buyLoading}
+              disabled={disabled}
+            >
               Buy
             </Button>
           </Col>

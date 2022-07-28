@@ -68,34 +68,60 @@ const NftUpload = ({
     setVisibleNftModal(false)
   }
 
+  const CollectionMenu = useMemo(() => {
+    return (
+      <Menu
+        onClick={() => {}}
+        style={{ borderRight: 'none' }}
+        mode="inline"
+        items={collectionMenu}
+      />
+    )
+  }, [collectionMenu])
+
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
-        <Typography.Text>Use NFTs to increase Buy-back rate</Typography.Text>
+        <Space align="center" size={8}>
+          <Typography.Text>Use NFTs to increase Buy-back rate</Typography.Text>
+          <Tooltip
+            placement="right"
+            title={
+              <Typography.Text style={{ color: '#E9E9EB' }}>
+                Only retailer-approved NFTs can be used for this booster. There
+                are 3 slots in all to use NFTs, with each slot used will
+                increase the payout rate by 2.5%.
+              </Typography.Text>
+            }
+          >
+            <IonIcon name="information-circle-outline" />
+          </Tooltip>
+        </Space>
       </Col>
       <Col span={24}>
         <Space size={8}>
           {imageUrls.map((val, idx) => (
-            <Space
-              className="upload-box"
-              onClick={() => {
-                seCurrentNFTIdx(idx)
-                setVisibleNftModal(true)
-              }}
+            <Tooltip
+              placement="left"
+              title={
+                <Row>
+                  <Col span={24}>
+                    <Typography.Text style={{ color: '#E9E9EB' }}>
+                      NFTs in the collections below will be approved for this
+                      booster:
+                    </Typography.Text>
+                    {CollectionMenu}
+                  </Col>
+                  <Col></Col>
+                </Row>
+              }
             >
-              <Tooltip
-                placement="topLeft"
-                title={
-                  <Row>
-                    <Col span={24}>
-                      <Typography>
-                        NFTs in the collections below will be approved for this
-                        booster:
-                      </Typography>
-                    </Col>
-                    <Col></Col>
-                  </Row>
-                }
+              <Space
+                className="upload-box"
+                onClick={() => {
+                  seCurrentNFTIdx(idx)
+                  setVisibleNftModal(true)
+                }}
               >
                 {val ? (
                   <Image
@@ -109,8 +135,8 @@ const NftUpload = ({
                 ) : (
                   <IonIcon name="add-outline" />
                 )}
-              </Tooltip>
-            </Space>
+              </Space>
+            </Tooltip>
           ))}
         </Space>
       </Col>
@@ -142,12 +168,7 @@ const NftUpload = ({
               <Typography>
                 You can buy NFTs from the collections below:
               </Typography>
-              <Menu
-                onClick={() => {}}
-                style={{ borderRight: 'none' }}
-                mode="inline"
-                items={collectionMenu}
-              />
+              {CollectionMenu}
             </Col>
           )}
         </Row>
