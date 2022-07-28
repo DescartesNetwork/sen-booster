@@ -18,14 +18,19 @@ const initialState: VoucherState = {}
  * Actions
  */
 
-export const getVouchers = createAsyncThunk(`${NAME}/getVouchers`, async () => {
-  const vouchers = await window.senBooster.program.account.voucher.all()
-  let bulk: VoucherState = {}
-  for (const voucher of vouchers) {
-    const voucherData = voucher.account
-    bulk[voucher.publicKey.toBase58()] = voucherData
-  }
-  return bulk
+export const initVouchers = createAsyncThunk(
+  `${NAME}/initVouchers`,
+  async (bulk: VoucherState) => {
+    return bulk
+  },
+)
+
+export const upsetVoucher = createAsyncThunk<
+  VoucherState,
+  { address: string; data: VoucherData },
+  { state: any }
+>(`${NAME}/upsetVoucher`, async ({ address, data }) => {
+  return { [address]: data }
 })
 
 /**
@@ -37,10 +42,12 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) =>
-    void builder.addCase(
-      getVouchers.fulfilled,
-      (state, { payload }) => payload,
-    ),
+    void builder
+      .addCase(initVouchers.fulfilled, (state, { payload }) => payload)
+      .addCase(
+        upsetVoucher.fulfilled,
+        (state, { payload }) => void Object.assign(state, payload),
+      ),
 })
 
 export default slice.reducer

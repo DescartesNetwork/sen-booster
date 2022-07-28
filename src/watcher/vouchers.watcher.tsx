@@ -1,18 +1,34 @@
-import { Fragment, useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { web3 } from '@project-serum/anchor'
 
-import { getVouchers } from 'model/voucher.controller'
+import { initVouchers, upsetVoucher } from 'model/voucher.controller'
+import Watcher from './watcher'
 
-export const VoucherWatcher = () => {
+// TODO: Config
+const NAME = 'voucher'
+const FILTER: web3.GetProgramAccountsFilter[] = []
+
+const VouchersWatcher = () => {
   const dispatch = useDispatch()
 
-  const fetchData = useCallback(async () => {
-    dispatch(getVouchers())
-  }, [dispatch])
+  // TODO: init all account data
+  const init = useCallback((data) => dispatch(initVouchers(data)), [dispatch])
+  // TODO: upset account data
+  const upset = useCallback(
+    (key: string, value: any) =>
+      dispatch(upsetVoucher({ address: key, data: value })),
+    [dispatch],
+  )
 
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
-
-  return <Fragment />
+  return (
+    <Watcher
+      program={window.senBooster.program}
+      name={NAME}
+      filter={FILTER}
+      init={init}
+      upset={upset}
+    />
+  )
 }
+export default VouchersWatcher

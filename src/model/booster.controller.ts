@@ -19,32 +19,12 @@ const initialState: BoosterState = {}
  * Actions
  */
 
-export const getBoosters = createAsyncThunk(`${NAME}/getBoosters`, async () => {
-  const retailers = await window.senBooster.program.account.retailer.all()
-  let bulk: BoosterState = {}
-  for (const retailer of retailers) {
-    const boosterData: any = retailer.account
-    bulk[retailer.publicKey.toBase58()] = boosterData
-  }
-
-  return bulk
-})
-
-export const getBooster = createAsyncThunk<
-  BoosterState,
-  { address: string },
-  { state: any }
->(`${NAME}/getBooster`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid booster address')
-  const {
-    booster: { [address]: data },
-  } = getState()
-  if (data) return { [address]: data }
-
-  // const poolData = await window.balansol.getPoolData(address)
-  const boosterData = {}
-  return { [address]: boosterData }
-})
+export const initBoosters = createAsyncThunk(
+  `${NAME}/initBoosters`,
+  async (bulk: BoosterState) => {
+    return bulk
+  },
+)
 
 export const upsetBooster = createAsyncThunk<
   BoosterState,
@@ -54,19 +34,6 @@ export const upsetBooster = createAsyncThunk<
   if (!account.isAddress(address)) throw new Error('Invalid booster address')
   if (!data) throw new Error('Data is empty')
   return { [address]: data }
-})
-
-export const removeBooster = createAsyncThunk<
-  BoosterState,
-  { address: string },
-  { state: any }
->(`${NAME}/removeBooster`, async ({ address }, { getState }) => {
-  const { booster } = getState()
-  if (!account.isAddress(address)) throw new Error('Invalid booster address')
-  if (!booster[address]) throw new Error('Booster address does not exist!')
-  const newBooster = { ...booster }
-  delete newBooster[address]
-  return newBooster
 })
 
 /**
@@ -79,16 +46,11 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(getBoosters.fulfilled, (state, { payload }) => payload)
-      .addCase(
-        getBooster.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(initBoosters.fulfilled, (state, { payload }) => payload)
       .addCase(
         upsetBooster.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
-      )
-      .addCase(removeBooster.fulfilled, (state, { payload }) => payload),
+      ),
 })
 
 export default slice.reducer

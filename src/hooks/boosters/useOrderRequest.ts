@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { AppState } from 'model'
-import { useMyBoosters } from 'hooks/boosters/useBoostersByOwner'
+import { useOwnBoosters } from 'hooks/boosters/useOwnBoosters'
 
 export const useOrderRequests = () => {
   const orders = useSelector((state: AppState) => state.orders)
-  const { myBoosters } = useMyBoosters()
+  const { ownBoosters } = useOwnBoosters()
 
   const orderRequests = useMemo(
     () =>
@@ -15,8 +15,8 @@ export const useOrderRequests = () => {
           ...orders[orderAddress],
           orderAddress,
         }))
-        .filter(({ retailer }) => myBoosters.includes(retailer.toBase58())),
-    [myBoosters, orders],
+        .filter(({ retailer }) => ownBoosters.includes(retailer.toBase58())),
+    [ownBoosters, orders],
   )
 
   return { orderRequests }

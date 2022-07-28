@@ -3,8 +3,7 @@ import { OrderData } from 'sen-exchange-core'
 import { Card, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import OrderTable from 'view/retailer/orderTable'
-
-import { useOrderRequests } from 'hooks/retailer/useFilterOrders'
+import { useOrderRequests } from 'hooks/boosters/useOrderRequest'
 
 export type OrderRequest = OrderData & { orderAddress: string }
 

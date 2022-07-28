@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { PublicKey, Transaction } from '@solana/web3.js'
+import { web3 } from '@project-serum/anchor'
 
 import { notifyError, notifySuccess } from 'helper'
 import { useSenExchange } from 'hooks/useSenExchange'
@@ -12,8 +12,8 @@ export const useApproveOrder = () => {
     async (orderAddress: string) => {
       try {
         setLoading(true)
-        const trans = new Transaction()
-        const order = new PublicKey(orderAddress)
+        const trans = new web3.Transaction()
+        const order = new web3.PublicKey(orderAddress)
         const { tx: txApprove } = await senExchange.approveOrder({
           order,
           sendAndConfirm: false,

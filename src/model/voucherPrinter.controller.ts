@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { account } from '@senswap/sen-js'
 import { VoucherPrinterData } from 'sen-exchange-core'
 
 /**
@@ -19,34 +18,19 @@ const initialState: VoucherPrinterState = {}
  * Actions
  */
 
-export const getVoucherPrinters = createAsyncThunk(
-  `${NAME}/getVoucherPrinters`,
-  async () => {
-    const printerVouchers =
-      await window.senBooster.program.account.voucherPrinter.all()
-    let bulk: VoucherPrinterState = {}
-    for (const printerVoucher of printerVouchers) {
-      const voucherPrinterData = printerVoucher.account
-      bulk[printerVoucher.publicKey.toBase58()] = voucherPrinterData
-    }
+export const initVoucherPrinters = createAsyncThunk(
+  `${NAME}/initVoucherPrinters`,
+  async (bulk: VoucherPrinterState) => {
     return bulk
   },
 )
 
-export const getVoucherPrinter = createAsyncThunk<
+export const upsetVoucherPrinters = createAsyncThunk<
   VoucherPrinterState,
-  { address: string },
+  { address: string; data: VoucherPrinterData },
   { state: any }
->(`${NAME}/getVoucherPrinter`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address))
-    throw new Error('Invalid voucherPrinter address')
-  const {
-    voucherPrinter: { [address]: data },
-  } = getState()
-  if (data) return { [address]: data }
-
-  const printerVoucherData = {}
-  return { [address]: printerVoucherData }
+>(`${NAME}/upsetVoucherPrinters`, async ({ address, data }) => {
+  return { [address]: data }
 })
 
 /**
@@ -59,9 +43,9 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(getVoucherPrinters.fulfilled, (state, { payload }) => payload)
+      .addCase(initVoucherPrinters.fulfilled, (state, { payload }) => payload)
       .addCase(
-        getVoucherPrinter.fulfilled,
+        upsetVoucherPrinters.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),
       ),
 })

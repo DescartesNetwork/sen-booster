@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
-import { Transaction } from '@solana/web3.js'
 import { useSelector } from 'react-redux'
-import { Address } from '@project-serum/anchor'
+import { Address, web3 } from '@project-serum/anchor'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { notifyError, notifySuccess } from 'helper'
@@ -22,7 +21,7 @@ export const useCancelOrder = (orderAddress: Address) => {
   const cancelOrder = useCallback(async () => {
     try {
       setLoading(true)
-      const trans = new Transaction()
+      const trans = new web3.Transaction()
       const { provider } = senExchange
       const { tx: txCancelOrder } = await senExchange.cancel({
         order: orderAddress,

@@ -19,30 +19,12 @@ const initialState: OrderState = {}
  * Actions
  */
 
-export const getOrders = createAsyncThunk(`${NAME}/getOrders`, async () => {
-  const orders = await window.senBooster.program.account.order.all()
-  let bulk: OrderState = {}
-  for (const order of orders) {
-    const orderData: any = order.account
-    bulk[order.publicKey.toBase58()] = orderData
-  }
-  return bulk
-})
-
-export const getOrder = createAsyncThunk<
-  OrderState,
-  { address: string },
-  { state: any }
->(`${NAME}/getOrder`, async ({ address }, { getState }) => {
-  if (!account.isAddress(address)) throw new Error('Invalid order address')
-  const {
-    order: { [address]: data },
-  } = getState()
-  if (data) return { [address]: data }
-
-  const orderData = {}
-  return { [address]: orderData }
-})
+export const initOrders = createAsyncThunk(
+  `${NAME}/initOrders`,
+  async (bulk: OrderState) => {
+    return bulk
+  },
+)
 
 export const upsetOrder = createAsyncThunk<
   OrderState,
@@ -64,11 +46,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder
-      .addCase(getOrders.fulfilled, (state, { payload }) => payload)
-      .addCase(
-        getOrder.fulfilled,
-        (state, { payload }) => void Object.assign(state, payload),
-      )
+      .addCase(initOrders.fulfilled, (state, { payload }) => payload)
       .addCase(
         upsetOrder.fulfilled,
         (state, { payload }) => void Object.assign(state, payload),

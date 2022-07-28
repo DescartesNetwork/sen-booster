@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Transaction } from '@solana/web3.js'
 import { web3, Address } from '@project-serum/anchor'
 import BN from 'bn.js'
 
@@ -56,7 +55,7 @@ export const useBuy = () => {
       try {
         setLoading(true)
         const { provider } = senExchange
-        const trans = new Transaction()
+        const trans = new web3.Transaction()
         const order = web3.Keypair.generate()
         const signers: web3.Keypair[] = [order]
 

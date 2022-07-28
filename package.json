@@ -3,6 +3,7 @@
   "version": "3.0.38",
   "private": true,
   "dependencies": {
+    "@project-serum/anchor": "^0.24.2",
     "@reduxjs/toolkit": "^1.8.0",
     "@sen-use/components": "^1.2.5",
     "@sen-use/web3": "^1.2.5",
