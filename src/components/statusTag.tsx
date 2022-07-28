@@ -1,4 +1,10 @@
+import { useSelector } from 'react-redux'
+
 import { Tag } from 'antd'
+
+import { AppState } from 'model'
+import { Mode } from 'constant'
+import { OrderState } from 'sen-exchange-core'
 
 const STATUS_COLOR: Record<string, number[]> = {
   approved: [12, 161, 191],
@@ -9,9 +15,10 @@ const STATUS_COLOR: Record<string, number[]> = {
   uninitialized: [0, 0, 0],
 }
 
-const StatusTag = ({ state }: { state: string }) => {
+const StatusTag = ({ state }: { state: OrderState }) => {
+  const { mode } = useSelector((state: AppState) => state.settings)
   const setTagColor = (opacity?: number) => {
-    const color = STATUS_COLOR[state]
+    const color = STATUS_COLOR[Object.keys(state)[0]]
     if (opacity)
       return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`
     return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${1})`
@@ -27,7 +34,7 @@ const StatusTag = ({ state }: { state: string }) => {
       }}
       color={setTagColor(0.1)}
     >
-      {state}
+      {mode === Mode.User && state.open ? 'Waiting' : state}
     </Tag>
   )
 }

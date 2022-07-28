@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import moment from 'moment'
-import { OrderData } from 'sen-exchange-core'
+import { OrderData, OrderState } from 'sen-exchange-core'
 
 import { Typography } from 'antd'
 import ColumnBuyBack from './columnBuyBack'
@@ -65,8 +65,8 @@ export const ORDER_COLUMNS = [
     title: 'STATUS',
     key: 'state',
     dataIndex: 'state',
-    render: (state: Object) => {
-      return <StatusTag state={Object.keys(state)[0]} />
+    render: (state: OrderState) => {
+      return <StatusTag state={state} />
     },
   },
 ]

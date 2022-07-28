@@ -1,6 +1,7 @@
-import { getVoucherPrinters } from 'model/voucherPrinter.controller'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+
+import { getVoucherPrinters } from 'model/voucherPrinter.controller'
 
 export const VoucherPrinterWatcher = () => {
   const dispatch = useDispatch()

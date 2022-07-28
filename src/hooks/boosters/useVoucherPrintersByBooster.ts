@@ -8,19 +8,20 @@ export const useVoucherPrintersByBooster = (boosterAddress: string) => {
   const voucherPrinters = useSelector(
     (state: AppState) => state.voucherPrinters,
   )
-  const [voucherPrinterByBooster, setVoucherPrinterByBooster] = useState<
+  const [voucherPrintersByBooster, setVoucherPrintersByBooster] = useState<
     VoucherPrinterData[]
   >([])
 
   useEffect(() => {
     const newVoucherPrinters: VoucherPrinterData[] = []
-    for (const key in voucherPrinters) {
-      if (voucherPrinters[key].retailer.toBase58() === boosterAddress) {
-        newVoucherPrinters.push({ ...voucherPrinters[key] })
+    for (const address in voucherPrinters) {
+      if (voucherPrinters[address].retailer.toBase58() === boosterAddress) {
+        newVoucherPrinters.push({ ...voucherPrinters[address] })
       }
     }
-    return setVoucherPrinterByBooster(newVoucherPrinters)
+
+    return setVoucherPrintersByBooster(newVoucherPrinters)
   }, [boosterAddress, voucherPrinters])
 
-  return voucherPrinterByBooster
+  return voucherPrintersByBooster
 }

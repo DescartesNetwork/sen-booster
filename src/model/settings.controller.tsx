@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { Mode } from 'constant'
 
 /**
  * Interface & Utility
  */
-export type BoosterMode =  'user' | 'retailer'
 export type State = {
-  mode: BoosterMode
+  mode: Mode
 }
 
 /**
@@ -14,23 +14,21 @@ export type State = {
 
 const NAME = 'settings'
 const initialState: State = {
-  mode: 'user'
+  mode: Mode.User,
 }
 
 /**
  * Actions
  */
 
-
-export const setSettings = createAsyncThunk<
-  Partial<State>,
-  { mode: BoosterMode },
-  { state: any }
->(`${NAME}/setSettings`, async ({ mode }) => {
-  return {
-   mode
-  }
-})
+export const setMode = createAsyncThunk(
+  `${NAME}/setMode`,
+  async (mode: Mode) => {
+    return {
+      mode,
+    }
+  },
+)
 
 /**
  * Usual procedure
@@ -42,7 +40,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     void builder.addCase(
-      setSettings.fulfilled,
+      setMode.fulfilled,
       (state, { payload }) => void Object.assign(state, payload),
     ),
 })

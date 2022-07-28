@@ -1,13 +1,13 @@
 import { Fragment, useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { getBoosters } from 'model/booster.controller'
+import { getVouchers } from 'model/voucher.controller'
 
-export const BoostersWatcher = () => {
+export const VoucherWatcher = () => {
   const dispatch = useDispatch()
 
   const fetchData = useCallback(async () => {
-    dispatch(getBoosters())
+    dispatch(getVouchers())
   }, [dispatch])
 
   useEffect(() => {

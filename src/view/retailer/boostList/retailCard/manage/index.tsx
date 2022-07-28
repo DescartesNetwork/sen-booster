@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Button, Col, Modal, Row, Tabs, Typography } from 'antd'
@@ -21,12 +21,6 @@ const Manage = ({ boosterAddress }: ManageProps) => {
   const boosterData = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-
-  const isFreeze = useMemo(() => {
-    const state = Object.keys(boosterData.state)[0]
-    if (state === 'frozen') return true
-    return false
-  }, [boosterData.state])
 
   return (
     <Fragment>
@@ -51,7 +45,7 @@ const Manage = ({ boosterAddress }: ManageProps) => {
                 <RetailerUpdateBudge boosterAddress={boosterAddress} />
               </TabPane>
               <TabPane tab="Freeze/Thaw" key="freeze-thaw">
-                {isFreeze ? (
+                {!boosterData.state.frozen ? (
                   <ThawBooster boosterAddress={boosterAddress} />
                 ) : (
                   <FreezeBooster boosterAddress={boosterAddress} />

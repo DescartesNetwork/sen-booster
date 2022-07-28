@@ -7,6 +7,8 @@ import searchBoosters from 'model/searchBoosters.controller'
 import orders from 'model/order.controller'
 import ordersFilter from 'model/ordersFilter.controller'
 import voucherPrinters from 'model/voucherPrinter.controller'
+import settings from 'model/settings.controller'
+import vouchers from 'model/voucher.controller'
 
 /**
  * Isolated store
@@ -22,6 +24,8 @@ const model = configureStore({
     orders,
     ordersFilter,
     voucherPrinters,
+    settings,
+    vouchers,
   },
 })
 
