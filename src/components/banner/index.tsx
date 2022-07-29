@@ -1,19 +1,17 @@
 import IonIcon from '@sentre/antd-ionicon'
-import { Col, Row, Image, Space, Typography } from 'antd'
+import { Col, Row, Space, Typography } from 'antd'
 
 import BannerImage from 'static/images/header_banner.png'
 
 const Banner = () => {
   return (
     <Row gutter={[24, 24]}>
-      <Col span={24} className="banner">
-        <Image src={BannerImage} preview={false} />
-      </Col>
       <Col
         style={{
-          position: 'absolute',
           height: '100%',
           width: '100%',
+          borderRadius: 16,
+          backgroundImage: `url(${BannerImage})`,
         }}
       >
         <Space direction="vertical" style={{ padding: 24 }}>

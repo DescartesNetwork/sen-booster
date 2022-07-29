@@ -10,7 +10,7 @@ import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
 
 import './index.less'
 
-const AddBooster = () => {
+const CreateBooster = () => {
   const [visible, setVisible] = useState(false)
   const generalRef = useRef<GeneralRef>({} as GeneralRef)
   const [payRate, setPayRate] = useState<PayRateState>({})
@@ -36,10 +36,10 @@ const AddBooster = () => {
   return (
     <Row justify="center">
       <Col xs={24} md={16} lg={10}>
-        <Card bordered={false}>
+        <Card>
           <Row gutter={[32, 32]}>
             <Col span={24}>
-              <Typography.Title level={4}>Add boosters</Typography.Title>
+              <Typography.Title level={4}>Create booster</Typography.Title>
             </Col>
             <Col span={24}>
               <GeneralInfo ref={generalRef} />
@@ -63,7 +63,7 @@ const AddBooster = () => {
                     loading={loading}
                     disabled={disabled}
                   >
-                    Add
+                    Create
                   </Button>
                 </Col>
               </Row>
@@ -75,4 +75,4 @@ const AddBooster = () => {
   )
 }
 
-export default AddBooster
+export default CreateBooster
