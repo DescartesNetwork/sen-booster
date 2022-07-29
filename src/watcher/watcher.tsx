@@ -32,7 +32,6 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
   }, [name, program?.account])
 
   const fetchData = useCallback(async () => {
-    console.log('fetchData')
     try {
       setLoading(true)
       const accountInfos = await accountClient.all()

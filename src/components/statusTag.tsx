@@ -16,7 +16,6 @@ const STATUS_COLOR: Record<string, number[]> = {
 }
 
 const StatusTag = ({ state }: { state: OrderState }) => {
-  console.log(Object.keys(state)[0])
   const { mode } = useSelector((state: AppState) => state.settings)
   const setTagColor = (opacity?: number) => {
     const color = STATUS_COLOR[Object.keys(state)[0]]
