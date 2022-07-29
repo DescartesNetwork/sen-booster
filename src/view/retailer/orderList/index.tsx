@@ -1,11 +1,19 @@
+import { OrderData } from 'sen-exchange-core'
+
 import { Card, Col, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import OrderTable from 'view/retailer/orderTable'
 import { useOrderRequests } from 'hooks/boosters/useOrderRequest'
 
+export type OrderRequest = OrderData & { orderAddress: string }
+
 function OrderList() {
   const { orderRequests } = useOrderRequests()
-
+  const sortedOrderRequests = orderRequests.sort(
+    (a: OrderRequest, b: OrderRequest) => {
+      return Number(b.createAt) - Number(a.createAt)
+    },
+  )
   return (
     <Card bordered={false}>
       <Row gutter={[16, 16]}>
@@ -13,7 +21,7 @@ function OrderList() {
           <Filter />
         </Col>
         <Col span={24}>
-          <OrderTable dataSource={orderRequests} />
+          <OrderTable dataSource={sortedOrderRequests} />
         </Col>
       </Row>
     </Card>

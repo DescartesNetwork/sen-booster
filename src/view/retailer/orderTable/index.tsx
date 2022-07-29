@@ -1,13 +1,11 @@
 import { Table } from 'antd'
+import ExplainCard from './explainCard'
+import { OrderRequest } from '../orderList'
+
 import { ORDER_COLUMNS } from './column'
 
-import { OrderData } from 'sen-exchange-core'
-import ExplainCard from './explainCard'
-
-type Order = OrderData & { orderAddress: string }
-
 type OrderTableProps = {
-  dataSource: Order[]
+  dataSource: OrderRequest[]
 }
 
 const OrderTable = ({ dataSource }: OrderTableProps) => {
@@ -16,7 +14,7 @@ const OrderTable = ({ dataSource }: OrderTableProps) => {
       columns={ORDER_COLUMNS}
       dataSource={dataSource}
       pagination={false}
-      rowKey={(record) => record.retailer.toBase58()}
+      rowKey={(record) => record.orderAddress}
       expandable={{
         expandedRowRender: (record) => (
           <ExplainCard orderAddress={record.orderAddress} />

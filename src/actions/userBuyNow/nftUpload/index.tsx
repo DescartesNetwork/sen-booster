@@ -1,6 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Col, Modal, Row, Tooltip, Typography, Image, Menu, Space } from 'antd'
+import {
+  Col,
+  Modal,
+  Row,
+  Tooltip,
+  Typography,
+  Image,
+  Space,
+  Card,
+  List,
+  Button,
+} from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import CardNFT from './cardNFT'
 
@@ -10,144 +21,163 @@ import { getMetaData } from 'helper'
 import { useNFTByVoucher } from 'hooks/useNFTByVoucher'
 
 type NftUploadProps = {
-  onSelectNFT: (nftAddress: string, idx: number) => void
+  onSelectNFT: (nftAddress: string) => void
+  removeNFT: (nftAddress: string) => void
   boosterAddress: string
   selectedNFTs: string[]
 }
 
-type CollectionMenu = {
-  label: string
-  key: string
-  icon: JSX.Element
-}
+const MAX_VOUCHER = 3
 
-const MAX_USABLE_AMOUNT_VOUCHER = 3
+type NFTAdded = {
+  nftAddress: string
+  img: string
+}
 
 const NftUpload = ({
   onSelectNFT,
   boosterAddress,
   selectedNFTs,
+  removeNFT,
 }: NftUploadProps) => {
-  const [imageUrls, setImageUrls] = useState<string[]>(
-    Array(MAX_USABLE_AMOUNT_VOUCHER).fill(''),
+  const [NFTAdded, setNFTAdded] = useState<NFTAdded[]>(
+    Array(MAX_VOUCHER).fill({ nftAddress: '', img: '' }),
   )
-  const [visibleNftModal, setVisibleNftModal] = useState(false)
+  const [visible, setVisible] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
-  const [collectionMenu, setCollectionMenu] = useState<CollectionMenu[]>([])
+  const [collections, setCollections] = useState<string[]>([])
   const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
-  const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
+  const vouchers = useVoucherPrintersByBooster(boosterAddress)
 
   const unselectedOwnerNFTs = useMemo(() => {
     return ownerNFTsByVouchers.filter((val) => !selectedNFTs.includes(val.mint))
   }, [ownerNFTsByVouchers, selectedNFTs])
 
-  const getCollectionMenu = useCallback(async () => {
+  const getCollections = useCallback(async () => {
     const collectionsInfo = await Promise.all(
-      voucherPrintersByBooster.map(async (value, idx) => {
-        const metaData = await getMetaData(value.collection.toBase58())
-        return {
-          label: metaData?.data.data.name || 'Unknown NFT',
-          key: `${metaData?.data.data.name}-${idx}`,
-          icon: <Typography.Title level={5}>.</Typography.Title>,
-        }
+      vouchers.map(async (voucher) => {
+        const metaData = await getMetaData(voucher.collection.toBase58())
+        return metaData?.data.data.name || 'Unknown NFT'
       }),
     )
-    setCollectionMenu(collectionsInfo)
-  }, [voucherPrintersByBooster])
+    return setCollections(collectionsInfo)
+  }, [vouchers])
+
+  const onSelect = (nftAddress: string, img: string) => {
+    onSelectNFT(nftAddress)
+    //Remove selected NFT from list
+    const currentImageUrls = [...NFTAdded]
+    currentImageUrls[currentNFTIdx] = { nftAddress, img }
+    setNFTAdded(currentImageUrls)
+    setVisible(false)
+  }
+
+  const onDelete = (e: MouseEvent<HTMLElement>, img: string) => {
+    e.stopPropagation()
+    const nextNFTAdded = [...NFTAdded]
+    const idx = nextNFTAdded.findIndex((nft) => img === nft.img)
+
+    removeNFT(nextNFTAdded[idx].nftAddress)
+
+    if (idx !== -1) nextNFTAdded[idx] = { nftAddress: '', img: '' }
+    return setNFTAdded(nextNFTAdded)
+  }
 
   useEffect(() => {
-    getCollectionMenu()
-  }, [getCollectionMenu])
-
-  const handleNFTInfo = (nftAddress: string, nftImage: string) => {
-    onSelectNFT(nftAddress, currentNFTIdx)
-    //Remove selected NFT from list
-    const currentImageUrls = [...imageUrls]
-    currentImageUrls[currentNFTIdx] = nftImage
-    setImageUrls(currentImageUrls)
-    setVisibleNftModal(false)
-  }
+    getCollections()
+  }, [getCollections])
 
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
         <Typography.Text>Use NFTs to increase Buy-back rate</Typography.Text>
       </Col>
-      <Col span={24}>
-        <Space size={8}>
-          {imageUrls.map((val, idx) => (
-            <Space
-              className="upload-box"
-              onClick={() => {
-                seCurrentNFTIdx(idx)
-                setVisibleNftModal(true)
-              }}
+      <Col onClick={(e) => e} span={24}>
+        <Space>
+          {NFTAdded.map(({ img }, idx) => (
+            <Tooltip
+              placement="topLeft"
+              title="NFTs in the collections below will be approved for this booster"
             >
-              <Tooltip
-                placement="topLeft"
-                title={
-                  <Row>
-                    <Col span={24}>
-                      <Typography>
-                        NFTs in the collections below will be approved for this
-                        booster:
-                      </Typography>
-                    </Col>
-                    <Col></Col>
-                  </Row>
-                }
+              <Card
+                className="upload-box card-nft-image-only"
+                onClick={() => {
+                  seCurrentNFTIdx(idx)
+                  setVisible(true)
+                }}
               >
-                {val ? (
+                {img ? (
                   <Image
-                    src={val}
+                    src={img}
                     alt="avatar"
                     width={64}
                     height={64}
-                    style={{ borderRadius: 8 }}
+                    style={{ borderRadius: 8, marginTop: -1 }}
                     preview={false}
+                    className="nft-image"
                   />
                 ) : (
                   <IonIcon name="add-outline" />
                 )}
-              </Tooltip>
-            </Space>
+                {img && (
+                  <Button
+                    type="text"
+                    className="icon-delete-nft"
+                    onClick={(e) => onDelete(e, img)}
+                    icon={<IonIcon name="trash-outline" />}
+                  />
+                )}
+              </Card>
+            </Tooltip>
           ))}
         </Space>
       </Col>
       <Modal
         title={<Typography.Title level={4}>Select a NFT</Typography.Title>}
-        visible={visibleNftModal}
+        visible={visible}
         closeIcon={<IonIcon name="close-outline" />}
-        onCancel={() => setVisibleNftModal(false)}
+        onCancel={() => setVisible(false)}
         footer={null}
-        className="card-lightning"
+        className="card-manage"
         style={{ paddingBottom: 0 }}
-        width={692}
       >
-        <Row gutter={[24, 24]} className="scrollbar" style={{ maxHeight: 240 }}>
+        <Row gutter={[24, 24]} className="scrollbar" style={{ maxHeight: 400 }}>
           {!!unselectedOwnerNFTs.length ? (
             unselectedOwnerNFTs.map((nft) => (
-              <Col
-                xs={12}
-                md={8}
-                key={nft.mint}
-                style={{ textAlign: 'center' }}
-              >
-                <CardNFT nftAddress={nft.mint} onSelect={handleNFTInfo} />
+              <Col xs={12} md={12} key={nft.mint}>
+                <CardNFT nftAddress={nft.mint} onSelect={onSelect} />
               </Col>
             ))
           ) : (
-            <Col>
-              <Typography>You don't have a NFT</Typography>
-              <Typography>
-                You can buy NFTs from the collections below:
-              </Typography>
-              <Menu
-                onClick={() => {}}
-                style={{ borderRight: 'none' }}
-                mode="inline"
-                items={collectionMenu}
-              />
+            <Col span={24}>
+              <Row gutter={[4, 4]}>
+                <Col span={24}>
+                  <Typography>You don't have a NFT</Typography>
+                </Col>
+                <Col span={24}>
+                  <Typography>
+                    You can buy NFTs from the collections below:
+                  </Typography>
+                </Col>
+                <Col span={24}>
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={collections}
+                    renderItem={(name) => (
+                      <List.Item>
+                        <Space size={12}>
+                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
+                            &#x2022;
+                          </Typography.Text>
+                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
+                            {name}
+                          </Typography.Text>
+                        </Space>
+                      </List.Item>
+                    )}
+                  />
+                </Col>
+              </Row>
             </Col>
           )}
         </Row>

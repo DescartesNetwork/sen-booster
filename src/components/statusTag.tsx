@@ -34,7 +34,7 @@ const StatusTag = ({ state }: { state: OrderState }) => {
       }}
       color={setTagColor(0.1)}
     >
-      {mode === Mode.User && state.open ? 'Waiting' : state}
+      {mode === Mode.User && state.open ? 'Waiting' : Object.keys(state)[0]}
     </Tag>
   )
 }
