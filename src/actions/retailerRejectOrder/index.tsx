@@ -10,15 +10,15 @@ type RejectOrderProps = {
 }
 
 const RejectOrder = ({ orderAddress }: RejectOrderProps) => {
-  const orderData = useSelector((state: AppState) => state.orders[orderAddress])
+  const state = useSelector(
+    (state: AppState) => state.orders[orderAddress].state,
+  )
   const { rejectOrder, loading } = useRejectOrder()
-
-  const state = Object.keys(orderData.state)[0]
 
   return (
     <Button
       loading={loading}
-      disabled={state === 'approved' || state === 'rejected'}
+      disabled={!!state.approved || !!state.rejected}
       onClick={() => rejectOrder({ orderAddress })}
     >
       Reject

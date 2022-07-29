@@ -7,6 +7,8 @@ import { useMintPrice } from 'hooks/useMintPrice'
 import { utilsBN } from '@sen-use/web3/dist'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 
+const ROUNDING_DECIMAL = 10 ** 9
+
 type UseEstimatedReceiveProps = {
   boosterAddress: string
   amount: number
@@ -34,9 +36,9 @@ export const useEstimatedReceive = ({
     if (!bidPrice) return new BN(0)
 
     return valuation
-      .mul(new BN((discount / 100) * 10 ** 9))
+      .mul(new BN((discount / 100) * ROUNDING_DECIMAL))
       .div(bidPriceDecimal)
   }, [amount, askDecimal, askPrice, bidDecimal, bidPrice, discount])
 
-  return bidAmount.div(new BN(10 ** 9))
+  return bidAmount.div(new BN(ROUNDING_DECIMAL))
 }

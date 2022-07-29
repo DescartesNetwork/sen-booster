@@ -36,6 +36,7 @@ type BuyNowProps = {
 }
 
 const ONE_DAY = 24 * 60 * 60
+const ONE_NFT_DISCOUNT = 2.5
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
@@ -51,7 +52,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { payRate } = useMetaBooster(boosterAddress)
   const { getDecimals } = useMint()
   const { buy, loading } = useBuy()
-  const nftDiscount = nftAddresses.length ? nftAddresses.length * 2.5 : 0
+  const nftDiscount = nftAddresses.length * ONE_NFT_DISCOUNT
   const estimatedReceive = useEstimatedReceive({
     boosterAddress,
     amount,
@@ -65,11 +66,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   }
 
   const removeNFT = (nftAddress: string) => {
-    const currentNFTList = [...nftAddresses]
-    const idx = currentNFTList.findIndex((address) => address === nftAddress)
-    if (idx !== -1) currentNFTList.splice(idx, 1)
-
-    return setNFTAddresses(currentNFTList)
+    const filteredNFT = [...nftAddresses].filter(
+      (address) => address !== nftAddress,
+    )
+    return setNFTAddresses(filteredNFT)
   }
 
   const onBuy = async () => {

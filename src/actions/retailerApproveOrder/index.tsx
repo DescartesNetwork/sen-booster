@@ -10,16 +10,16 @@ type ApproveOrderProps = {
 }
 
 const ApproveOrder = ({ orderAddress }: ApproveOrderProps) => {
-  const orderData = useSelector((state: AppState) => state.orders[orderAddress])
+  const state = useSelector(
+    (state: AppState) => state.orders[orderAddress].state,
+  )
   const { approveOrder, loading } = useApproveOrder()
-
-  const state = Object.keys(orderData.state)[0]
 
   return (
     <Button
       type="primary"
       loading={loading}
-      disabled={state === 'approved' || state === 'rejected'}
+      disabled={!!state.approved || !!state.rejected}
       onClick={() => approveOrder(orderAddress)}
     >
       Approve

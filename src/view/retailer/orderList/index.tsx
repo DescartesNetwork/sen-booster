@@ -9,7 +9,7 @@ export type OrderRequest = OrderData & { orderAddress: string }
 
 function OrderList() {
   const { orderRequests } = useOrderRequests()
-  const sortOrderRequests = orderRequests.sort(
+  const sortedOrderRequests = orderRequests.sort(
     (a: OrderRequest, b: OrderRequest) => {
       return Number(b.createAt) - Number(a.createAt)
     },
@@ -21,7 +21,7 @@ function OrderList() {
           <Filter />
         </Col>
         <Col span={24}>
-          <OrderTable dataSource={sortOrderRequests} />
+          <OrderTable dataSource={sortedOrderRequests} />
         </Col>
       </Row>
     </Card>
