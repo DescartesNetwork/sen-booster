@@ -7,15 +7,19 @@ import PayRate, { PayRateState } from './payRate'
 import ActionCancel from './actionCancel'
 
 import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
+import { useAppRouter } from 'hooks/useAppRouter'
 
 import './index.less'
 
 const CreateBooster = () => {
-  const [visible, setVisible] = useState(false)
+  // Booster data
   const generalRef = useRef<GeneralRef>({} as GeneralRef)
   const [payRate, setPayRate] = useState<PayRateState>({})
   const [collections, setCollections] = useState<string[]>([])
+  // Component state
+  const [visible, setVisible] = useState(false)
   const { initializeBooster, loading } = useInitializeBooster()
+  const { pushHistory } = useAppRouter()
 
   const onChangePayRate = (value: number, date: string) => {
     const nextPayRate = { ...payRate }
@@ -23,9 +27,10 @@ const CreateBooster = () => {
     return setPayRate(nextPayRate)
   }
 
-  const onCreateBooster = () => {
+  const onCreateBooster = async () => {
     const generalData = generalRef.current.collect()
-    initializeBooster({ ...generalData, payRate, collections })
+    await initializeBooster({ ...generalData, payRate, collections })
+    return pushHistory('/retailer')
   }
 
   const disabled = useMemo(() => {
