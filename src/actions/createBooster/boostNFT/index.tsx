@@ -37,6 +37,11 @@ const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
     return onChange(nextCollections)
   }
 
+  const onSwitch = (isBoost: boolean) => {
+    if (!isBoost) onChange([]) // remove collection
+    setIsBoostNFT(isBoost)
+  }
+
   return (
     <Row gutter={[12, 12]}>
       <Col flex="auto">
@@ -48,7 +53,7 @@ const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
         </Space>
       </Col>
       <Col>
-        <Switch size="small" onChange={setIsBoostNFT} />
+        <Switch size="small" onChange={onSwitch} />
       </Col>
 
       {isBoostNFT && (

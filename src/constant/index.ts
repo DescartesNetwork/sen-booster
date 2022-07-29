@@ -23,14 +23,14 @@ export enum RetailerBoosterCategory {
   ExpiredBooster = 'Expired booster',
 }
 
-export const LOCK_TIME_OPTIONS = [
-  { name: '7 days', value: 7 },
-  { name: '30 days', value: 30 },
-  { name: '60 days', value: 60 },
-  { name: '90 days', value: 90 },
-  { name: '120 days', value: 120 },
-  { name: '365 days', value: 365 },
-]
+export const LOCK_TIME_DAY: Record<string, number> = {
+  '7 days': 7,
+  '30 days': 30,
+  '60 days': 60,
+  '90 days': 90,
+  '120 days': 120,
+  '365 days': 365,
+}
 
 export type MetaBooster = {
   budget: string

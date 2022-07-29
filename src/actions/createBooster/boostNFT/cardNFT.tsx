@@ -5,6 +5,8 @@ import { Card, Row, Col, Typography, Image } from 'antd'
 
 import useNftMetaData from 'hooks/nft/useNFTMetaData'
 
+import DEFAULT_NFT from 'static/images/nft-default.png'
+
 export type CardNFTProps = {
   mintAddress: string
   onSelect: (mintAddress: string) => void
@@ -30,14 +32,14 @@ const CardNFT = ({ mintAddress, onSelect }: CardNFTProps) => {
     <Card
       bordered={false}
       style={{ cursor: 'pointer', textAlign: 'center' }}
-      bodyStyle={{ padding: 0 }}
+      bodyStyle={{ padding: '15px 0 10px 0' }}
       loading={loading}
       onClick={() => onSelect(mintAddress)}
     >
       <Row>
         <Col span={24} style={{ textAlign: 'center', width: imageSize }}>
           <Image
-            src={nftInfo?.image || ''}
+            src={nftInfo?.image || DEFAULT_NFT}
             preview={false}
             style={{ borderRadius: 4 }}
             width={imageSize}

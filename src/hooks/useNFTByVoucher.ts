@@ -13,23 +13,16 @@ export const useNFTByVoucher = (boosterAddress: string) => {
     wallet: { address },
   } = useWallet()
   const { nfts } = useOwnerNFT(address)
-  const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
+  const vouchers = useVoucherPrintersByBooster(boosterAddress)
 
   const getOwnerNFTsByVouchers = useCallback(() => {
-    if (!voucherPrintersByBooster.length || !nfts) return []
-    const acceptedCollections = voucherPrintersByBooster.map((val) =>
-      val.collection.toBase58(),
+    if (!vouchers.length || !nfts) return []
+    const acceptedCollections = vouchers.map((val) => val.collection.toBase58())
+    const listNFTs = nfts.filter(({ collection }) =>
+      acceptedCollections.includes(collection?.key || ''),
     )
-    let listNFTs: MetadataDataType[] = []
-
-    nfts?.forEach((nft: MetadataDataType) => {
-      if (nft.collection && acceptedCollections.includes(nft.collection.key)) {
-        listNFTs.push(nft)
-      }
-    })
-
-    setOwnerNFTsByVouchers(listNFTs)
-  }, [nfts, voucherPrintersByBooster])
+    return setOwnerNFTsByVouchers(listNFTs)
+  }, [nfts, vouchers])
 
   useEffect(() => {
     getOwnerNFTsByVouchers()

@@ -1,49 +1,44 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useMint, util } from '@sentre/senhub'
+import BN from 'bn.js'
 
 import { AppState } from 'model'
-import { notifyError } from 'helper'
+import { useMintPrice } from 'hooks/useMintPrice'
+import { utilsBN } from '@sen-use/web3/dist'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+
+const ROUNDING_DECIMAL = 10 ** 9
 
 type UseEstimatedReceiveProps = {
   boosterAddress: string
   amount: number
-  buyBack: number
+  discount: number
 }
 
 export const useEstimatedReceive = ({
   boosterAddress,
   amount,
-  buyBack,
+  discount,
 }: UseEstimatedReceiveProps) => {
   const { bidMint, askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const [estimatedReceive, setEstimatedReceive] = useState(0)
-  const { tokenProvider } = useMint()
+  const bidPrice = useMintPrice(bidMint.toBase58())
+  const askPrice = useMintPrice(askMint.toBase58())
+  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const askDecimal = useMintDecimals(askMint.toBase58()) || 0
+  const bidAmount = useMemo(() => {
+    const bidPriceDecimal = utilsBN.decimalize(bidPrice, bidDecimal)
+    const askPriceDecimal = utilsBN.decimalize(askPrice, askDecimal)
+    const amountDecimal = utilsBN.decimalize(amount, askDecimal)
+    const valuation = amountDecimal.mul(askPriceDecimal)
 
-  const estimateReceive = useCallback(async () => {
-    try {
-      const bidMintInfo = await tokenProvider.findByAddress(bidMint.toBase58())
-      const bidTicket = bidMintInfo?.extensions?.coingeckoId
-      const { price: bidPrice } = await util.fetchCGK(bidTicket)
-      const askMintInfo = await tokenProvider.findByAddress(askMint.toBase58())
-      const askTicket = askMintInfo?.extensions?.coingeckoId
-      const { price: askPrice } = await util.fetchCGK(askTicket)
-      let receiveAmount = 0
+    if (!bidPrice) return new BN(0)
 
-      if (bidPrice || askPrice)
-        receiveAmount = (amount * askPrice * buyBack) / (bidPrice * 100)
+    return valuation
+      .mul(new BN((discount / 100) * ROUNDING_DECIMAL))
+      .div(bidPriceDecimal)
+  }, [amount, askDecimal, askPrice, bidDecimal, bidPrice, discount])
 
-      setEstimatedReceive(receiveAmount)
-    } catch (error: any) {
-      return notifyError(error)
-    }
-  }, [amount, askMint, bidMint, buyBack, tokenProvider])
-
-  useEffect(() => {
-    estimateReceive()
-  }, [estimateReceive])
-
-  return estimatedReceive
+  return bidAmount.div(new BN(ROUNDING_DECIMAL))
 }

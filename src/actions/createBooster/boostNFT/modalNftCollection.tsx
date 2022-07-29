@@ -57,7 +57,13 @@ const ModalNftCollection = ({ onSelect }: ModalNftCollectionProps) => {
       if (searchText.length > 0) {
         collectionNFTs = await getNftCollectionInfo()
       } else {
-        collectionNFTs = nfts ? nfts?.map(({ mint }) => mint) : []
+        if (!nfts) return
+        for (const { collection } of nfts) {
+          const collectionAddr = collection?.key
+          if (!collectionAddr) continue
+          if (collectionNFTs.includes(collectionAddr)) continue
+          collectionNFTs.push(collectionAddr)
+        }
       }
     } catch (er: any) {
       return window.notify({ type: 'error', description: er.message })

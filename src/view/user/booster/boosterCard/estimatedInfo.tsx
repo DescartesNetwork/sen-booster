@@ -1,25 +1,30 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { util } from '@sentre/senhub'
+import BN from 'bn.js'
 
 import { MintSymbol } from '@sen-use/components'
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
+import useMintDecimals from 'shared/hooks/useMintDecimals'
+import { utilsBN } from '@sen-use/web3/dist'
 
 type EstimatedInfoProps = {
-  estimatedReceive: number
+  estimatedReceive: BN
   boosterAddress: string
-  buyBack: number
+  discount: number
+  nftDiscount: number
 }
 const EstimatedInfo = ({
   estimatedReceive,
   boosterAddress,
-  buyBack,
+  discount,
+  nftDiscount,
 }: EstimatedInfoProps) => {
   const { bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   return (
     <Card style={{ borderRadius: 8 }} bodyStyle={{ padding: '12px 16px' }}>
@@ -27,10 +32,21 @@ const EstimatedInfo = ({
         <Col span={24}>
           <Row>
             <Col flex="auto">
-              <Typography.Text>Buy-back</Typography.Text>
+              <Typography.Text style={{ color: '#0FB5B8' }}>
+                Buy-back
+              </Typography.Text>
             </Col>
             <Col>
-              <Typography.Title level={3}>{buyBack}%</Typography.Title>
+              <Space>
+                <Typography.Title style={{ color: '#0FB5B8' }} level={3}>
+                  {discount}%
+                </Typography.Title>
+                {!!nftDiscount && (
+                  <Typography.Title style={{ color: '#0FB5B8' }} level={3}>
+                    + {nftDiscount}%
+                  </Typography.Title>
+                )}
+              </Space>
             </Col>
           </Row>
         </Col>
@@ -51,7 +67,9 @@ const EstimatedInfo = ({
             </Col>
             <Col>
               <Typography.Title level={5}>
-                {util.numeric(estimatedReceive).format('0,0.[00]a')}{' '}
+                {util
+                  .numeric(utilsBN.undecimalize(estimatedReceive, bidDecimal))
+                  .format('0,0.[0000]')}{' '}
                 <MintSymbol mintAddress={bidMint} />
               </Typography.Title>
             </Col>

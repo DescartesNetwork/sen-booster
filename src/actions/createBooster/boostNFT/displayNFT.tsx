@@ -2,6 +2,8 @@ import IonIcon from '@sentre/antd-ionicon'
 import { Card, Image } from 'antd'
 import useNftMetaData from 'hooks/nft/useNFTMetaData'
 
+import DEFAULT_NFT from 'static/images/nft-default.png'
+
 const SIZE_COLLECTION_IMAGE = 88
 
 type DisplayNFTProps = {
@@ -19,7 +21,7 @@ const DisplayNFT = ({ mintAddress, onDelete }: DisplayNFTProps) => {
       className="card-nft-image-only"
     >
       <Image
-        src={nftInfo?.image || ''}
+        src={nftInfo?.image || DEFAULT_NFT}
         preview={false}
         style={{ borderRadius: 4 }}
         width={SIZE_COLLECTION_IMAGE}
