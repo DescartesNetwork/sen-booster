@@ -45,7 +45,7 @@ const Manage = ({ boosterAddress }: ManageProps) => {
                 <RetailerUpdateBudge boosterAddress={boosterAddress} />
               </TabPane>
               <TabPane tab="Freeze/Thaw" key="freeze-thaw">
-                {!boosterData.state.frozen ? (
+                {boosterData.state.frozen ? (
                   <ThawBooster boosterAddress={boosterAddress} />
                 ) : (
                   <FreezeBooster boosterAddress={boosterAddress} />

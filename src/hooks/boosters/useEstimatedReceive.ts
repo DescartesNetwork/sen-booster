@@ -25,7 +25,6 @@ export const useEstimatedReceive = ({
   const askPrice = useMintPrice(askMint.toBase58())
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
   const askDecimal = useMintDecimals(askMint.toBase58()) || 0
-
   const bidAmount = useMemo(() => {
     const bidPriceDecimal = utilsBN.decimalize(bidPrice, bidDecimal)
     const askPriceDecimal = utilsBN.decimalize(askPrice, askDecimal)
@@ -34,8 +33,10 @@ export const useEstimatedReceive = ({
 
     if (!bidPrice) return new BN(0)
 
-    return valuation.mul(new BN(discount).div(new BN(100))).div(bidPriceDecimal)
+    return valuation
+      .mul(new BN((discount / 100) * 10 ** 9))
+      .div(bidPriceDecimal)
   }, [amount, askDecimal, askPrice, bidDecimal, bidPrice, discount])
 
-  return bidAmount
+  return bidAmount.div(new BN(10 ** 9))
 }

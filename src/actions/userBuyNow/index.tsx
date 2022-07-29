@@ -51,11 +51,14 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { payRate } = useMetaBooster(boosterAddress)
   const { getDecimals } = useMint()
   const { buy, loading } = useBuy()
+  const nftDiscount = nftAddresses.length ? nftAddresses.length * 2.5 : 0
   const estimatedReceive = useEstimatedReceive({
     boosterAddress,
     amount,
-    discount: payRate[lockDay],
+    discount: payRate[lockDay] + nftDiscount,
   })
+
+  console.log(estimatedReceive.toString(), 'estimatedReceive')
 
   const onSelectNFT = (nftAddress: string) => {
     const currentNFTList = [...nftAddresses]
@@ -83,8 +86,6 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     })
     setIsVisible(false)
   }
-
-  const nftDiscount = nftAddresses.length ? nftAddresses.length * 2.5 : 0
 
   return (
     <Fragment>
