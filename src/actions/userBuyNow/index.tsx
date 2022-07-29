@@ -58,8 +58,6 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     discount: payRate[lockDay] + nftDiscount,
   })
 
-  console.log(estimatedReceive.toString(), 'estimatedReceive')
-
   const onSelectNFT = (nftAddress: string) => {
     const currentNFTList = [...nftAddresses]
     currentNFTList.push(nftAddress)
