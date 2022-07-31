@@ -236,6 +236,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               onClick={onBuy}
               loading={loading}
               disabled={disabled}
+              block
             >
               Buy
             </Button>

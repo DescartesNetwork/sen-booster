@@ -10,8 +10,8 @@ import { setFilterUserBooster } from 'model/searchBoosters.controller'
 
 const filterOptions = Object.entries(UserBoosterCategory).map(
   ([key, value]) => ({
-    key,
-    value,
+    key: value,
+    value: key,
   }),
 )
 
