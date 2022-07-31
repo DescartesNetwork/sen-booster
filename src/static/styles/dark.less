@@ -30,7 +30,7 @@
 
 // Border
 @border-radius-base: 8px;
-@border-color-base: @NEUTRAL80;
+@border-color-base: #3b4253;
 @border-width-base: 1px;
 @border-color-split: @border-color-base;
 @popover-customize-border-color: @border-color-base;
@@ -38,7 +38,11 @@
 // Card
 @card-radius: @border-radius-base * 2;
 @card-actions-background: @NEUTRAL100;
-@card-background: @NEUTRAL100;
+@card-background: linear-gradient(
+  86.62deg,
+  rgba(10, 19, 41, 0.8) 0%,
+  rgba(10, 19, 41, 0.4) 100%
+);
 @card-shadow: @DARK_SHADOW2;
 
 //CollapsePanel
@@ -80,13 +84,6 @@
 // Patch
 .@{ant-prefix}-layout {
   background: unset;
-}
-.@{ant-prefix}-card {
-  box-shadow: @LIGHT_SHADOW1;
-  &.glass {
-    background-color: color(~`('@{card-background}aa') `);
-    backdrop-filter: blur(16px);
-  }
 }
 
 .account-item {

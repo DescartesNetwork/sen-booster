@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { utilsBN } from '@sen-use/web3'
 import { web3 } from '@project-serum/anchor'
 import BN from 'bn.js'
-import { Transaction } from '@solana/web3.js'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { PayRateState } from 'actions/createBooster/payRate'
@@ -52,7 +51,7 @@ export const useInitializeBooster = () => {
         const startAfter = startTime - Date.now()
         const endAfter = endTime - Date.now()
         const { provider } = senExchange
-        const trans = new Transaction()
+        const trans = new web3.Transaction()
         const retailer = web3.Keypair.generate()
         const signers: web3.Keypair[] = [retailer]
 

@@ -1,14 +1,13 @@
-import IonIcon from '@sentre/antd-ionicon'
 import { Badge, Button, Col, Row, Space, Typography } from 'antd'
+import IonIcon from '@sentre/antd-ionicon'
+import { useFreezeBooster } from 'hooks/actions/useFreezeBooster'
 
-import { useThawBooster } from 'hooks/actions/useThawBooster'
-
-type ThawBoostProps = {
+type FreezeBoostProps = {
   boosterAddress: string
 }
 
-const ThawBoost = ({ boosterAddress }: ThawBoostProps) => {
-  const { thawBooster, loading } = useThawBooster()
+const FreezeBooster = ({ boosterAddress }: FreezeBoostProps) => {
+  const { freezeBooster, loading } = useFreezeBooster()
 
   return (
     <Row gutter={[24, 24]}>
@@ -16,9 +15,9 @@ const ThawBoost = ({ boosterAddress }: ThawBoostProps) => {
         <Row gutter={[8, 8]}>
           <Col span={24}>
             <Space>
-              <Badge status="error" />
+              <Badge status="success" />
               <Typography.Text type="secondary">
-                Current status: <span style={{ color: '#F9575E' }}>Frozen</span>
+                Current status: <span style={{ color: '#212433' }}>Active</span>
               </Typography.Text>
             </Space>
           </Col>
@@ -26,7 +25,8 @@ const ThawBoost = ({ boosterAddress }: ThawBoostProps) => {
             <Space align="start">
               <IonIcon name="information-circle-outline" />
               <Typography.Text type="secondary">
-                Thaw a booster will active all actions.
+                Freezing a booster will prevent all actions until the booster
+                has been thawed.
               </Typography.Text>
             </Space>
           </Col>
@@ -34,18 +34,17 @@ const ThawBoost = ({ boosterAddress }: ThawBoostProps) => {
       </Col>
       <Col span={24}>
         <Button
-          onClick={() => thawBooster({ boosterAddress })}
+          onClick={() => freezeBooster({ boosterAddress })}
           block
           type="primary"
           size="large"
           loading={loading}
-          style={{ background: '#F9575E', border: 'none' }}
         >
-          Thaw
+          Freeze
         </Button>
       </Col>
     </Row>
   )
 }
 
-export default ThawBoost
+export default FreezeBooster

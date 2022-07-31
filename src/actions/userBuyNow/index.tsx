@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useMint, util } from '@sentre/senhub'
 import BN from 'bn.js'
@@ -8,37 +8,37 @@ import {
   Button,
   Checkbox,
   Col,
-  Divider,
   InputNumber,
   Modal,
   Radio,
-  RadioChangeEvent,
   Row,
   Space,
   Switch,
   Tooltip,
   Typography,
 } from 'antd'
-import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
-import { MintSelection, MintSymbol } from '@sen-use/components'
-import NftUpload from './nftUpload'
 import IonIcon from '@sentre/antd-ionicon'
+import EstimatedInfo from 'view/user/booster/boosterCard/estimatedInfo'
+import { MintSymbol } from '@sen-use/components'
+import NftUpload from './nftUpload'
 
 import { useBuy } from 'hooks/actions/useBuy'
-import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
-
+import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { AppState } from 'model'
-import { LOCK_TIME_OPTIONS } from 'constant'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
+import { LOCK_TIME_DAY } from 'constant'
+
+import './index.less'
 
 type BuyNowProps = {
   boosterAddress: string
 }
 
 const ONE_DAY = 24 * 60 * 60
+const ONE_NFT_DISCOUNT = 2.5
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
@@ -48,43 +48,41 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
-  const [lockTime, setLockTime] = useState(LOCK_TIME_OPTIONS[0])
+  const [lockDay, setLockDay] = useState('7 days')
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
-  const { buy, loading: buyLoading } = useBuy()
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
   const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
   const { payRate } = useMetaBooster(boosterAddress)
   const { getDecimals } = useMint()
-
-  const buyBack = useMemo(() => {
-    if (Object.keys(payRate).length === 0 || !payRate[lockTime.name]) return 100
-    return payRate[lockTime.name]
-  }, [lockTime, payRate])
-
+  const { buy, loading } = useBuy()
+  const nftDiscount = nftAddresses.length * ONE_NFT_DISCOUNT
   const estimatedReceive = useEstimatedReceive({
     boosterAddress,
     amount,
-    buyBack,
+    discount: payRate[lockDay] + nftDiscount,
   })
 
-  const onSelectNFT = (nftAddress: string, idx: number) => {
+  const onSelectNFT = (nftAddress: string) => {
     const currentNFTList = [...nftAddresses]
-    currentNFTList[idx] = nftAddress
-    setNFTAddresses(currentNFTList)
+    currentNFTList.push(nftAddress)
+    return setNFTAddresses(currentNFTList)
   }
 
-  const onChange = (e: RadioChangeEvent) => {
-    setLockTime(e.target.value)
+  const removeNFT = (nftAddress: string) => {
+    const filteredNFT = [...nftAddresses].filter(
+      (address) => address !== nftAddress,
+    )
+    return setNFTAddresses(filteredNFT)
   }
 
   const onBuy = async () => {
     const bidDecimal = await getDecimals(bidMint.toBase58())
-    const askDecimal = await getDecimals(askMint.toBase58())
+    const lockDayValue = LOCK_TIME_DAY[lockDay]
     await buy({
       retailer: boosterAddress,
       bidAmount: utilsBN.decimalize(amount, bidDecimal),
-      lockTime: new BN(lockTime.value * ONE_DAY),
-      askAmount: utilsBN.decimalize(estimatedReceive, askDecimal),
+      lockTime: new BN(lockDayValue * ONE_DAY),
+      askAmount: estimatedReceive,
       appliedNFTs: nftAddresses,
     })
     setIsVisible(false)
@@ -98,24 +96,23 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   }
 
   return (
-    <Row>
-      <Col flex="auto">
-        <Button size="large" type="primary" onClick={() => setIsVisible(true)}>
-          Buy Now
-        </Button>
-      </Col>
+    <Fragment>
+      <Button size="large" type="primary" onClick={() => setIsVisible(true)}>
+        Buy Now
+      </Button>
       <Modal
-        title={<Typography.Title level={4}>Buy token</Typography.Title>}
         visible={isVisible}
-        closable
+        closeIcon={<IonIcon name="close-outline" />}
         onCancel={() => setIsVisible(false)}
         footer={null}
+        className="card-manage"
+        title={<Typography.Title level={4}>Buy token</Typography.Title>}
       >
         <Row justify="space-between" gutter={[16, 16]}>
           <Col span={24}>
             <Typography.Text>
               Token Buy-back offering:{' '}
-              <Typography.Text style={{ color: '#7a7b85' }}>
+              <Typography.Text type="secondary">
                 Selling your LP tokens with juicy profit. No fee, no slippage.
                 The token will be unlocked after the selected period.
               </Typography.Text>
@@ -129,7 +126,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     <Typography.Text>You Pay</Typography.Text>
                   </Col>
                   <Col>
-                    <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+                    <Typography.Text type="secondary" className="caption">
                       Available:{' '}
                       {util.numeric(mintInfo.balance).format('0,0.[00]a')}{' '}
                       <MintSymbol mintAddress={askMint} />
@@ -139,13 +136,9 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               </Col>
               <Col span={24}>
                 <InputNumber
+                  className="user-input"
                   placeholder="0"
-                  prefix={
-                    <Fragment>
-                      <MintSelection disabled value={askMint.toBase58()} />
-                      <Divider type="vertical" />
-                    </Fragment>
-                  }
+                  prefix={<MintSymbol mintAddress={askMint} />}
                   addonAfter={
                     <Button
                       type="text"
@@ -156,14 +149,14 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                     </Button>
                   }
                   value={amount}
-                  onChange={(value) => setAmount(value)}
+                  onChange={setAmount}
                   max={Number(mintInfo.balance)}
                   style={{ width: '100%' }}
                 />
               </Col>
             </Row>
           </Col>
-          <Col>
+          <Col span={24}>
             <Row gutter={[8, 8]}>
               <Col span={24}>
                 <Space align="center" size={8}>
@@ -184,49 +177,42 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               </Col>
               <Col span={24}>
                 <Radio.Group
-                  defaultValue={LOCK_TIME_OPTIONS[0]}
                   size="middle"
-                  onChange={onChange}
+                  onChange={(e) => setLockDay(e.target.value)}
+                  style={{ width: '100%' }}
+                  value={lockDay}
                 >
                   <Row gutter={[6, 6]}>
-                    {LOCK_TIME_OPTIONS.map((val, idx) => (
-                      <Col xs={12} md={8} key={idx}>
-                        <Radio.Button
-                          defaultChecked={val.value === lockTime.value}
-                          value={val.value}
-                          style={{ width: '100%' }}
-                          disabled={!payRate[val.name]}
-                        >
-                          {val.name}
+                    {Object.keys(payRate).map((days) => (
+                      <Col xs={12} md={8} key={days}>
+                        <Radio.Button style={{ width: '100%' }} value={days}>
+                          {days}
                         </Radio.Button>
                       </Col>
                     ))}
                   </Row>
                 </Radio.Group>
               </Col>
-              <Col span={24}>
-                <Row justify="end">
-                  <Col>
-                    <Space size={8}>
-                      <Typography.Text>Boost</Typography.Text>
-                      <Switch
-                        disabled={!voucherPrintersByBooster.length}
-                        size="small"
-                        checked={useBoost}
-                        onChange={() => setUseBoost(!useBoost)}
-                      />
-                    </Space>
-                  </Col>
-                </Row>
+              <Col span={24} style={{ textAlign: 'right' }}>
+                <Space size={8}>
+                  <Typography.Text>Boost</Typography.Text>
+                  <Switch
+                    disabled={!voucherPrintersByBooster.length}
+                    size="small"
+                    checked={useBoost}
+                    onChange={setUseBoost}
+                  />
+                </Space>
               </Col>
             </Row>
           </Col>
           {useBoost && (
-            <Col>
+            <Col span={24}>
               <NftUpload
                 onSelectNFT={onSelectNFT}
                 boosterAddress={boosterAddress}
                 selectedNFTs={nftAddresses}
+                removeNFT={removeNFT}
               />
             </Col>
           )}
@@ -234,7 +220,8 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             <EstimatedInfo
               estimatedReceive={estimatedReceive}
               boosterAddress={boosterAddress}
-              buyBack={buyBack}
+              discount={payRate[lockDay]}
+              nftDiscount={nftDiscount}
             />
           </Col>
           <Col span={24}>
@@ -244,9 +231,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
           <Col span={24}>
             <Button
-              block
+              size="large"
+              type="primary"
               onClick={onBuy}
-              loading={buyLoading}
+              loading={loading}
               disabled={disabled}
             >
               Buy
@@ -254,7 +242,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
         </Row>
       </Modal>
-    </Row>
+    </Fragment>
   )
 }
 

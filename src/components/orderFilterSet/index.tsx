@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useWallet } from '@sentre/senhub'
 
 import { Col, Row, Space, Typography } from 'antd'
 import Filter from '../filter'
@@ -7,15 +8,21 @@ import TokenFilter from 'components/filter/tokenFilter'
 
 import { setTimeFilter, setTokenFilter } from 'model/ordersFilter.controller'
 import { AppDispatch, AppState } from 'model'
-import { STATUS_FILTER_OPTIONS, TIME_FILTER_OPTIONS } from 'constant'
+import { Mode, STATUS_FILTER_OPTIONS, TIME_FILTER_OPTIONS } from 'constant'
 
 const OrderFilterSet = () => {
   const orders = useSelector((state: AppState) => state.orders)
   const boosters = useSelector((state: AppState) => state.boosters)
+  const mode = useSelector((state: AppState) => state.settings.mode)
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
 
   const tokenOptions = useMemo(() => {
     let mintItems: Set<string> = new Set()
-    for (const { retailer } of Object.values(orders)) {
+
+    for (const { retailer, authority } of Object.values(orders)) {
+      if (mode === Mode.User && authority.toBase58() !== walletAddress) continue
       const boosterData = boosters[retailer.toBase58()]
       if (!boosterData) continue
       const { bidMint, askMint } = boosterData
@@ -23,7 +30,7 @@ const OrderFilterSet = () => {
       mintItems.add(askMint.toBase58())
     }
     return Array.from(mintItems)
-  }, [boosters, orders])
+  }, [boosters, mode, orders, walletAddress])
 
   const dispatch = useDispatch<AppDispatch>()
 

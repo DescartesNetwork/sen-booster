@@ -7,15 +7,19 @@ import PayRate, { PayRateState } from './payRate'
 import ActionCancel from './actionCancel'
 
 import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
+import { useAppRouter } from 'hooks/useAppRouter'
 
 import './index.less'
 
-const AddBooster = () => {
-  const [visible, setVisible] = useState(false)
+const CreateBooster = () => {
+  // Booster data
   const generalRef = useRef<GeneralRef>({} as GeneralRef)
   const [payRate, setPayRate] = useState<PayRateState>({})
   const [collections, setCollections] = useState<string[]>([])
+  // Component state
+  const [visible, setVisible] = useState(false)
   const { initializeBooster, loading } = useInitializeBooster()
+  const { pushHistory } = useAppRouter()
 
   const onChangePayRate = (value: number, date: string) => {
     const nextPayRate = { ...payRate }
@@ -23,9 +27,10 @@ const AddBooster = () => {
     return setPayRate(nextPayRate)
   }
 
-  const onCreateBooster = () => {
+  const onCreateBooster = async () => {
     const generalData = generalRef.current.collect()
-    initializeBooster({ ...generalData, payRate, collections })
+    await initializeBooster({ ...generalData, payRate, collections })
+    return pushHistory('/retailer')
   }
 
   const disabled = useMemo(() => {
@@ -36,10 +41,10 @@ const AddBooster = () => {
   return (
     <Row justify="center">
       <Col xs={24} md={16} lg={10}>
-        <Card bordered={false}>
+        <Card>
           <Row gutter={[32, 32]}>
             <Col span={24}>
-              <Typography.Title level={4}>Add boosters</Typography.Title>
+              <Typography.Title level={4}>Create booster</Typography.Title>
             </Col>
             <Col span={24}>
               <GeneralInfo ref={generalRef} />
@@ -63,7 +68,7 @@ const AddBooster = () => {
                     loading={loading}
                     disabled={disabled}
                   >
-                    Add
+                    Create
                   </Button>
                 </Col>
               </Row>
@@ -75,4 +80,4 @@ const AddBooster = () => {
   )
 }
 
-export default AddBooster
+export default CreateBooster

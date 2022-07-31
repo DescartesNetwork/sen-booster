@@ -26,7 +26,6 @@ input {
 
 .sen_booster-card {
   backdrop-filter: blur(32px);
-  border-color: #ffffff !important;
 }
 
 .sen_booster-input-number {
@@ -144,10 +143,20 @@ input {
 }
 
 .upload-box {
-  border: 1px dashed #d3d3d6;
-  border-radius: 8px;
+  border: 1px dashed #d3d3d6 !important;
   height: 64px;
   width: 64px;
   display: flex;
   justify-content: center;
+  border-radius: 8px !important;
+  background: transparent !important;
+  cursor: pointer;
+  &:hover {
+    border-color: #0fb5b8 !important;
+  }
+  .sen_booster-card-body {
+    border-radius: 8px !important;
+    margin: auto 0px !important;
+    padding: 0 !important;
+  }
 }

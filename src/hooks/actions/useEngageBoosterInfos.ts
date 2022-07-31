@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { PublicKey } from '@solana/web3.js'
+import { web3 } from '@project-serum/anchor'
 import { useWallet } from '@sentre/senhub'
 
 import { AppState } from 'model'
 
-export const useEngageBoosterInfos = (boosterAddress: PublicKey) => {
+export const useEngageBoosterInfos = (boosterAddress: web3.PublicKey) => {
   const orders = useSelector((state: AppState) => state.orders)
   const [loading, setLoading] = useState(false)
   // const [yourBought, setYourBought] = useState(0)

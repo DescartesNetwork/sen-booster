@@ -3,7 +3,7 @@ import { util } from '@sentre/senhub'
 import moment from 'moment'
 import { utilsBN } from '@sen-use/web3'
 import { Address } from '@project-serum/anchor'
-import { OrderData } from 'sen-exchange-core'
+import { OrderData, OrderState } from 'sen-exchange-core'
 
 import { Button, Space, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
@@ -71,20 +71,18 @@ export const REDEEM_COLUMNS = [
   {
     title: 'STATUS',
     dataIndex: 'state',
-    render: (state: Record<string, any>) => {
-      const currentState = Object.keys(state)[0]
-      return <StatusTag state={currentState} />
+    render: (state: OrderState) => {
+      return <StatusTag state={state} />
     },
   },
   {
     title: 'ACTIONS',
     dataIndex: 'state',
     render: (
-      state: Record<string, any>,
+      state: OrderState,
       { orderId }: OrderData & { orderId: Address },
     ) => {
-      const currentState = Object.keys(state)[0]
-      return <OrderAction orderState={currentState} orderAddress={orderId} />
+      return <OrderAction orderState={state} orderAddress={orderId} />
     },
   },
 ]
