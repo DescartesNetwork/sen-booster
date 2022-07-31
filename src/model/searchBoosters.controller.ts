@@ -6,7 +6,7 @@ import { UserBoosterCategory, RetailerBoosterCategory } from 'constant'
  */
 
 export type SearchState = {
-  searchInput: string
+  searchKeyword: string
   filterUserBooster: UserBoosterCategory
   filterRetailerBooster: RetailerBoosterCategory
 }
@@ -17,7 +17,7 @@ export type SearchState = {
 
 const NAME = 'searchBoosters'
 const initialState: SearchState = {
-  searchInput: '',
+  searchKeyword: '',
   filterUserBooster: UserBoosterCategory.AllBooster,
   filterRetailerBooster: RetailerBoosterCategory.AvailableBooster,
 }

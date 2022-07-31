@@ -7,13 +7,13 @@ import { BoosterState } from 'model/booster.controller'
 
 export const useSearchedBoosters = (pools: BoosterState) => {
   const [boostersSearched, setBoostersSearched] = useState<BoosterState>({})
-  const searchInput = useSelector(
-    (state: AppState) => state.searchBoosters.searchInput,
+  const searchKeyword = useSelector(
+    (state: AppState) => state.searchBoosters.searchKeyword,
   )
   const { tokenProvider } = useMint()
 
   const search = useCallback(async () => {}, [])
-  console.log(setBoostersSearched, searchInput, tokenProvider, search)
+  console.log(setBoostersSearched, searchKeyword, tokenProvider, search)
 
   useEffect(() => {}, [])
 

@@ -9,7 +9,9 @@ import { setSearchInput } from 'model/searchBoosters.controller'
 
 const SearchBooster = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { searchInput } = useSelector((state: AppState) => state.searchBoosters)
+  const { searchKeyword } = useSelector(
+    (state: AppState) => state.searchBoosters,
+  )
 
   const onSearch = (value: string) => {
     dispatch(setSearchInput({ searchText: value }))
@@ -20,9 +22,9 @@ const SearchBooster = () => {
       <Col span={24}>
         <Input
           placeholder="Search LP, token"
-          value={searchInput}
+          value={searchKeyword}
           prefix={
-            searchInput ? (
+            searchKeyword ? (
               <Button
                 type="text"
                 style={{
@@ -41,7 +43,7 @@ const SearchBooster = () => {
               />
             )
           }
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e) => {
             onSearch(e.target.value)
           }}
           style={{ height: '32px' }}
