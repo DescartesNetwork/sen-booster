@@ -1,21 +1,25 @@
-import { Address } from '@project-serum/anchor'
+import { util } from '@sentre/senhub/dist'
 import { OrderState } from 'sen-exchange-core'
 
+import { Button } from 'antd'
 import Cancel from 'actions/userCancel'
 import Redeem from 'actions/userRedeem'
-import { Button, Typography } from 'antd'
 
 type RedeemActionProps = {
   orderState: OrderState
-  orderAddress: Address
+  orderAddress: string
 }
 
 const OrderAction = ({ orderState, orderAddress }: RedeemActionProps) => {
   if (orderState.open) return <Cancel orderAddress={orderAddress} />
   if (orderState.approved) return <Redeem orderAddress={orderAddress} />
+
   return (
-    <Button type="text">
-      <Typography.Text strong>Detail</Typography.Text>
+    <Button
+      type="text"
+      onClick={() => window.open(util.explorer(orderAddress), '_blank')}
+    >
+      Detail
     </Button>
   )
 }

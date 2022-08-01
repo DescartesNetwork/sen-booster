@@ -10,24 +10,24 @@ import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
 type ColumnPayProps = {
-  askAmount: BN
+  bidAmount: BN
   boosterAddress: string
 }
 
-const ColumnPay = ({ askAmount, boosterAddress }: ColumnPayProps) => {
+const ColumnPay = ({ bidAmount, boosterAddress }: ColumnPayProps) => {
   const boosterData = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const askMintAddress = boosterData ? boosterData.askMint.toBase58() : ''
-  const decimals = useMintDecimals(askMintAddress) || 0
+  const bidMintAddress = boosterData ? boosterData.bidMint.toBase58() : ''
+  const decimals = useMintDecimals(bidMintAddress) || 0
 
   return (
     <Space>
-      <MintAvatar mintAddress={askMintAddress} />
+      <MintAvatar mintAddress={bidMintAddress} />
       <Typography.Text>
-        {numeric(utilsBN.undecimalize(askAmount, decimals)).format('0,0.[000]')}
+        {numeric(utilsBN.undecimalize(bidAmount, decimals)).format('0,0.[000]')}
       </Typography.Text>
-      <MintSymbol mintAddress={askMintAddress} />
+      <MintSymbol mintAddress={bidMintAddress} />
     </Space>
   )
 }

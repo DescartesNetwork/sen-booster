@@ -6,10 +6,9 @@ import { Typography } from 'antd'
 import ColumnBuyBack from './columnBuyBack'
 import ColumnPay from './columnPay'
 import StatusTag from 'components/statusTag'
+import ColumnProfit from './columnProfit'
 
-import { DATE_FORMAT } from 'constant'
-
-const ONE_DAY = 24 * 60 * 60
+import { DATE_FORMAT, ONE_DAY } from 'constant'
 
 export const ORDER_COLUMNS = [
   {
@@ -24,21 +23,21 @@ export const ORDER_COLUMNS = [
   },
   {
     title: 'BUY-BACK',
-    dataIndex: 'bidAmount',
-    key: 'bidAmount',
-    render: (bidAmount: BN, { retailer }: OrderData) => (
+    dataIndex: 'askAmount',
+    key: 'askAmount',
+    render: (askAmount: BN, { retailer }: OrderData) => (
       <ColumnBuyBack
-        bidAmount={bidAmount}
+        askAmount={askAmount}
         boosterAddress={retailer.toBase58()}
       />
     ),
   },
   {
     title: 'PAY',
-    dataIndex: 'askAmount',
-    key: 'askAmount',
-    render: (askAmount: BN, { retailer }: OrderData) => (
-      <ColumnPay askAmount={askAmount} boosterAddress={retailer.toBase58()} />
+    dataIndex: 'bidAmount',
+    key: 'bidAmount',
+    render: (bidAmount: BN, { retailer }: OrderData) => (
+      <ColumnPay bidAmount={bidAmount} boosterAddress={retailer.toBase58()} />
     ),
   },
   {
@@ -53,14 +52,17 @@ export const ORDER_COLUMNS = [
       )
     },
   },
-  // {
-  //   title: 'DEPRECIATION',
-  //   key: 'depreciation',
-  //   dataIndex: 'depreciation',
-  //   render: (depreciation: string) => (
-  //     <Typography.Text>{depreciation}</Typography.Text>
-  //   ),
-  // },
+  {
+    title: 'PROFIT',
+    key: 'orderAddress',
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string, { retailer }: OrderData) => (
+      <ColumnProfit
+        orderAddress={orderAddress}
+        retailerAddress={retailer.toBase58()}
+      />
+    ),
+  },
   {
     title: 'STATUS',
     key: 'state',

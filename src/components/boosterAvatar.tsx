@@ -16,9 +16,9 @@ const BoosterAvatar = ({ boosterAddress }: BoosterAvatarProps) => {
 
   return (
     <Space>
-      <MintAvatar mintAddress={bidMint.toBase58()} />
-      <IonIcon name="arrow-forward-outline" />
       <MintAvatar mintAddress={askMint.toBase58()} />
+      <IonIcon name="arrow-forward-outline" />
+      <MintAvatar mintAddress={bidMint.toBase58()} />
     </Space>
   )
 }

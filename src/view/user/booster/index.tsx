@@ -7,9 +7,15 @@ import SearchAndFilter from './searchAndFilter'
 import { AppState } from 'model'
 
 const Booster = () => {
-  // const { filteredBoosters } = useFilterBoosters(Mode.User)
-  // const listBoosters = useSearchedBoosters(filteredBoosters)
   const boosters = useSelector((state: AppState) => state.boosters)
+  const sortedBoosters = Object.keys(boosters).sort(
+    (addressA: string, addressB: string) => {
+      const a_startAt = boosters[addressA].startAt
+      const b_startAt = boosters[addressB].startAt
+
+      return Number(b_startAt) - Number(a_startAt)
+    },
+  )
 
   return (
     <Row gutter={[16, 16]}>
@@ -18,7 +24,7 @@ const Booster = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          {Object.keys(boosters).map((boosterAddress) => (
+          {sortedBoosters.map((boosterAddress) => (
             <Col span={24} key={boosterAddress}>
               <BoosterCard boosterAddress={boosterAddress} />
             </Col>

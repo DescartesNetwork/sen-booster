@@ -23,7 +23,6 @@ const BoosterCard = ({ boosterAddress }: BoosterCardProps) => {
                 {isNFT && <Tag>Boost</Tag>}
               </Space>
             </Col>
-
             <Col>
               <BuyNow boosterAddress={boosterAddress} />
             </Col>

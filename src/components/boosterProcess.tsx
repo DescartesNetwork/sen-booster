@@ -16,27 +16,27 @@ type BoosterProcessProps = {
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidMint, askTotal, askMint } = useSelector(
+  const { bidReserve, bidMint, bidTotal } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
   const { budget } = useMetaBooster(boosterAddress)
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
-  const askDecimal = useMintDecimals(askMint.toBase58()) || 0
 
-  const processAmount =
-    Number(budget) - Number(utilsBN.undecimalize(bidReserve, bidDecimal))
+  const processAmount = utilsBN.undecimalize(
+    bidTotal.sub(bidReserve),
+    bidDecimal,
+  )
 
   const percentage = useMemo(() => {
-    if (budget === '0') return 0
-    const numAskTotal = utilsBN.undecimalize(askTotal, askDecimal)
-    return Number(numAskTotal) / Number(budget)
-  }, [askDecimal, askTotal, budget])
+    if (!Number(budget)) return 0
+    return Number(processAmount) / Number(budget)
+  }, [budget, processAmount])
 
   return (
     <Row>
       <Col span={24}>
         <Row justify="space-between">
-          <Col flex="auto">
+          <Col>
             <Space direction="vertical">
               <Typography.Text type="secondary">Process</Typography.Text>
               <Typography.Text>
@@ -46,8 +46,8 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
               </Typography.Text>
             </Space>
           </Col>
-          <Col style={{ textAlign: 'right' }}>
-            <Space direction="vertical">
+          <Col>
+            <Space direction="vertical" align="end">
               <Typography.Text type="secondary">Budget</Typography.Text>
               <Typography.Text>
                 {numeric(budget).format('0.0,[0000]')}{' '}
@@ -60,7 +60,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Progress
           strokeColor={'#0FB5B8'}
-          percent={percentage / 100}
+          percent={percentage * 100}
           showInfo={false}
           status="active"
         />

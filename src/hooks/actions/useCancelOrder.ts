@@ -41,8 +41,8 @@ export const useCancelOrder = (orderAddress: Address) => {
       })
 
       const txIds = await provider.sendAndConfirm(trans)
-      return notifySuccess('Cancel Order', txIds)
-    } catch (error: any) {
+      return notifySuccess('Canceled Order', txIds)
+    } catch (error) {
       notifyError(error)
     } finally {
       setLoading(false)

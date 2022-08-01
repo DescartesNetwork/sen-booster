@@ -1,88 +1,55 @@
 import BN from 'bn.js'
-import { util } from '@sentre/senhub'
 import moment from 'moment'
-import { utilsBN } from '@sen-use/web3'
-import { Address } from '@project-serum/anchor'
-import { OrderData, OrderState } from 'sen-exchange-core'
+import { OrderState } from 'sen-exchange-core'
 
-import { Button, Space, Typography } from 'antd'
-import IonIcon from '@sentre/antd-ionicon'
+import { Typography } from 'antd'
 import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
 import StatusTag from 'components/statusTag'
 
-import { DATE_FORMAT } from 'constant'
+import { DATE_FORMAT, ONE_DAY } from 'constant'
+import { OrderRequest } from 'view/retailer/orderList'
 
 export const REDEEM_COLUMNS = [
   {
     title: 'TIME',
-    dataIndex: 'lastUpdate',
-    render: (lastUpdate: BN) => {
-      const time = utilsBN.undecimalize(lastUpdate, 0)
-      return (
-        <Typography.Text>
-          {moment(Number(time) * 1000).format(DATE_FORMAT)}
-        </Typography.Text>
-      )
-    },
-  },
-  {
-    title: 'ORDER ID',
-    dataIndex: 'orderId',
-    render: (orderId: Address) => (
-      <Space align="baseline">
-        <Typography.Text
-          onClick={() =>
-            window.open(util.explorer(orderId.toString()), '_blank')
-          }
-          style={{ fontWeight: 700, cursor: 'pointer' }}
-        >
-          {util.shortenAddress(orderId.toString(), 8, '...')}
-        </Typography.Text>
-        <Button
-          type="text"
-          size="small"
-          onClick={() =>
-            window.open(util.explorer(orderId.toString()), '_blank')
-          }
-          icon={<IonIcon name="open-outline" />}
-        />
-      </Space>
+    dataIndex: 'createAt',
+    render: (createAt: BN) => (
+      <Typography.Text>
+        {moment(createAt.toNumber() * 1000).format(DATE_FORMAT)}
+      </Typography.Text>
     ),
   },
   {
     title: 'PAY',
-    dataIndex: 'orderId',
-    render: (orderId: Address) => <BidColumn orderId={orderId} />,
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
   },
   {
     title: 'RECEIVE',
-    dataIndex: 'orderId',
-    render: (orderId: Address) => <AskColumn orderId={orderId} />,
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
   },
   {
     title: 'LOCK TIME',
     dataIndex: 'lockTime',
-    render: (lockTime: BN) => {
-      return <Typography.Text>{lockTime.toString()} days</Typography.Text>
-    },
+    render: (lockTime: BN) => (
+      <Typography.Text>
+        {lockTime.div(new BN(ONE_DAY)).toString()} days
+      </Typography.Text>
+    ),
   },
   {
     title: 'STATUS',
     dataIndex: 'state',
-    render: (state: OrderState) => {
-      return <StatusTag state={state} />
-    },
+    render: (state: OrderState) => <StatusTag state={state} />,
   },
   {
     title: 'ACTIONS',
     dataIndex: 'state',
-    render: (
-      state: OrderState,
-      { orderId }: OrderData & { orderId: Address },
-    ) => {
-      return <OrderAction orderState={state} orderAddress={orderId} />
-    },
+    render: (state: OrderState, { orderAddress }: OrderRequest) => (
+      <OrderAction orderState={state} orderAddress={orderAddress} />
+    ),
   },
 ]

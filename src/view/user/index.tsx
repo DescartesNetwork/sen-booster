@@ -1,13 +1,15 @@
 import { useState } from 'react'
 
 import { Col, Row } from 'antd'
-import Header from 'components/header'
 import Booster from './booster'
 import Redeem from './redeem'
 import Faq from './faq'
 import Layout from 'components/layout'
+import Header from 'components/header'
 
 import { TabId } from 'constant'
+
+import './index.less'
 
 function User() {
   const [tabId, setTabId] = useState(TabId.Booster)
