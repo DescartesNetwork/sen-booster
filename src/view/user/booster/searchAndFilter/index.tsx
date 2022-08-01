@@ -2,8 +2,8 @@ import { memo, useCallback, useState } from 'react'
 import { useDebounce } from 'react-use'
 
 import { Col, Row } from 'antd'
-import Filter from 'components/filter'
-import SearchBooster from 'components/searchBooster'
+import FilterBooster from './filterBooster'
+import SearchBooster from './searchBooster'
 
 type SearchAndFilterProps = {
   onChange: (boosters: string[]) => void
@@ -19,8 +19,6 @@ const SearchAndFilter = memo(({ onChange }: SearchAndFilterProps) => {
       if (!filteredBoosters.includes(addr)) continue
       displayBoosters.push(addr)
     }
-    console.log('searchedBoosters', searchedBoosters)
-    console.log('displayBoosters', displayBoosters)
     onChange(displayBoosters)
   }, [filteredBoosters, onChange, searchedBoosters])
   useDebounce(() => updateDisplayBoosters(), 300, [updateDisplayBoosters])
@@ -31,7 +29,7 @@ const SearchAndFilter = memo(({ onChange }: SearchAndFilterProps) => {
         <SearchBooster onChange={setSearchedBoosters} />
       </Col>
       <Col>
-        <Filter onChange={setFilteredBoosters} />
+        <FilterBooster onChange={setFilteredBoosters} />
       </Col>
     </Row>
   )

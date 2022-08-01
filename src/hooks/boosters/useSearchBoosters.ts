@@ -25,7 +25,7 @@ export const useSearchedBoosters = (searchText: string) => {
         mapMint.has(booster.askMint.toBase58())
       )
         searchedBoosters.push(addr)
-      //TODO: Search
+      //TODO: Search another thing
     }
     return setBoostersSearched(searchedBoosters)
   }, [boosters, searchText, tokenProvider])

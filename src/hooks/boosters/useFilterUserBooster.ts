@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { BoosterFilter } from 'components/filter'
+import { BoosterFilter } from 'view/user/booster/searchAndFilter/filterBooster'
 import { UserBoosterCategory } from 'constant'
 import { AppState } from 'model'
 
