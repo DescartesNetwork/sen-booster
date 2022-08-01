@@ -1,39 +1,39 @@
-import { useDispatch } from 'react-redux'
+import { memo, useCallback, useState } from 'react'
+import { useDebounce } from 'react-use'
 
 import { Col, Row } from 'antd'
 import Filter from 'components/filter'
-import SearchBooster from 'components/searchInput'
+import SearchBooster from 'components/searchBooster'
 
-import { UserBoosterCategory } from 'constant'
-import { AppDispatch } from 'model'
-import { setFilterUserBooster } from 'model/searchBoosters.controller'
+type SearchAndFilterProps = {
+  onChange: (boosters: string[]) => void
+}
 
-const filterOptions = Object.entries(UserBoosterCategory).map(
-  ([key, value]) => ({
-    key,
-    value,
-  }),
-)
+const SearchAndFilter = memo(({ onChange }: SearchAndFilterProps) => {
+  const [searchedBoosters, setSearchedBoosters] = useState<string[]>([])
+  const [filteredBoosters, setFilteredBoosters] = useState<string[]>([])
 
-const SearchAndFilter = () => {
-  // const filterUserBooster = useSelector(
-  //   (state: AppState) => state.searchBoosters.filterUserBooster,
-  // )
-  const dispatch = useDispatch<AppDispatch>()
-  const onFilter = (value: UserBoosterCategory) => {
-    dispatch(setFilterUserBooster(value))
-  }
+  const updateDisplayBoosters = useCallback(() => {
+    const displayBoosters: string[] = []
+    for (const addr of searchedBoosters) {
+      if (!filteredBoosters.includes(addr)) continue
+      displayBoosters.push(addr)
+    }
+    console.log('searchedBoosters', searchedBoosters)
+    console.log('displayBoosters', displayBoosters)
+    onChange(displayBoosters)
+  }, [filteredBoosters, onChange, searchedBoosters])
+  useDebounce(() => updateDisplayBoosters(), 300, [updateDisplayBoosters])
 
   return (
     <Row>
       <Col span={8} style={{ marginRight: 12 }}>
-        <SearchBooster />
+        <SearchBooster onChange={setSearchedBoosters} />
       </Col>
       <Col>
-        <Filter options={filterOptions} onFilter={onFilter} />
+        <Filter onChange={setFilteredBoosters} />
       </Col>
     </Row>
   )
-}
-
+})
 export default SearchAndFilter

@@ -1,69 +1,75 @@
-import { useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useWallet } from '@sentre/senhub'
+import { useState } from 'react'
 
-import { Col, Row, Space, Typography } from 'antd'
-import Filter from '../filter'
-import TokenFilter from 'components/filter/tokenFilter'
+import { MintAvatar, MintSymbol } from '@sen-use/components'
+import { Col, Row, Select, Space, Typography } from 'antd'
 
-import { setTimeFilter, setTokenFilter } from 'model/ordersFilter.controller'
-import { AppDispatch, AppState } from 'model'
-import { Mode, STATUS_FILTER_OPTIONS, TIME_FILTER_OPTIONS } from 'constant'
+import { ALL, STATUS_FILTER_OPTIONS, TIME_FILTER_OPTIONS } from 'constant'
+import { useMintFilterOptions } from 'hooks/useMintFilterOptions'
 
 const OrderFilterSet = () => {
-  const orders = useSelector((state: AppState) => state.orders)
-  const boosters = useSelector((state: AppState) => state.boosters)
-  const mode = useSelector((state: AppState) => state.settings.mode)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const [filter, setFilter] = useState({
+    token: '',
+    time: '',
+    status: '',
+  })
+  const mintOptions = useMintFilterOptions()
 
-  const tokenOptions = useMemo(() => {
-    let mintItems: Set<string> = new Set()
-
-    for (const { retailer, authority } of Object.values(orders)) {
-      if (mode === Mode.User && authority.toBase58() !== walletAddress) continue
-      const boosterData = boosters[retailer.toBase58()]
-      if (!boosterData) continue
-      const { bidMint, askMint } = boosterData
-      mintItems.add(bidMint.toBase58())
-      mintItems.add(askMint.toBase58())
-    }
-    return Array.from(mintItems)
-  }, [boosters, mode, orders, walletAddress])
-
-  const dispatch = useDispatch<AppDispatch>()
-
-  const onTokenFilter = (value: string) => {
-    dispatch(setTokenFilter(value))
-  }
-
-  const onTimeFilter = (value: string) => {
-    dispatch(setTimeFilter(value))
-  }
-
-  const onStatusFilter = (value: string) => {
-    dispatch(setTokenFilter(value))
-  }
+  //TODO: Set filter default
 
   return (
     <Row gutter={[12, 12]}>
+      {/* Filter Token */}
       <Col>
         <Space size={4} direction="vertical">
           <Typography.Text>Token</Typography.Text>
-          <TokenFilter options={tokenOptions} onFilter={onTokenFilter} />
+          <Select
+            style={{ width: 120 }}
+            onChange={(mint) => setFilter({ ...filter, token: mint })}
+            placement="bottomRight"
+            defaultValue={ALL}
+          >
+            <Select.Option value={ALL}>All token</Select.Option>
+            {mintOptions.map((mint) => (
+              <Select.Option value={mint}>
+                <Space>
+                  <MintAvatar mintAddress={mint} />
+                  <MintSymbol mintAddress={mint} />
+                </Space>
+              </Select.Option>
+            ))}
+          </Select>
         </Space>
       </Col>
+      {/* Filter Time */}
       <Col>
         <Space size={4} direction="vertical">
           <Typography.Text>Time</Typography.Text>
-          <Filter options={TIME_FILTER_OPTIONS} onFilter={onTimeFilter} />
+          <Select
+            style={{ width: 120 }}
+            onChange={(val) => setFilter({ ...filter, time: val })}
+            placement="bottomRight"
+            value={filter.time}
+          >
+            {TIME_FILTER_OPTIONS.map((val) => (
+              <Select.Option value={val}>{val}</Select.Option>
+            ))}
+          </Select>
         </Space>
       </Col>
+      {/* Filter Status */}
       <Col>
         <Space size={4} direction="vertical">
           <Typography.Text>Status</Typography.Text>
-          <Filter options={STATUS_FILTER_OPTIONS} onFilter={onStatusFilter} />
+          <Select
+            style={{ width: 120 }}
+            onChange={(val) => setFilter({ ...filter, status: val })}
+            placement="bottomRight"
+            value={filter.status}
+          >
+            {STATUS_FILTER_OPTIONS.map((val) => (
+              <Select.Option value={val}>{val}</Select.Option>
+            ))}
+          </Select>
         </Space>
       </Col>
     </Row>

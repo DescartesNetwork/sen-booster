@@ -1,28 +1,39 @@
+import { useEffect, useState } from 'react'
 import { Col, Row, Select } from 'antd'
 
-const { Option } = Select
+import { UserBoosterCategory, USER_BOOSTER_CATEGORIES } from 'constant'
+import { useFilterUserBooster } from 'hooks/boosters/useFilterUserBooster'
 
+export type BoosterFilter = {
+  category: UserBoosterCategory
+}
 type FilterProps = {
-  options: { key: string; value: any }[]
-  onFilter: (value: any) => void
+  onChange: (value: string[]) => void
 }
 
-const Filter = ({ onFilter, options }: FilterProps) => {
-  const firstOption = options[0]
+const FilterBooster = ({ onChange }: FilterProps) => {
+  const [filter, setFilter] = useState<BoosterFilter>({
+    category: UserBoosterCategory.AllBooster,
+  })
+  const filteredBooster = useFilterUserBooster(filter)
+
+  useEffect(() => {
+    onChange(filteredBooster)
+  }, [filteredBooster, onChange])
 
   return (
     <Row>
       <Col>
         <Select
           style={{ width: 120 }}
-          onChange={onFilter}
+          onChange={(category) => setFilter({ ...filter, category })}
           placement="bottomRight"
-          defaultValue={firstOption.value}
+          value={filter.category}
         >
-          {options.map((val) => (
-            <Option value={val.value} key={val.key}>
-              {val.key}
-            </Option>
+          {USER_BOOSTER_CATEGORIES.map((val) => (
+            <Select.Option value={val} key={val}>
+              {val}
+            </Select.Option>
           ))}
         </Select>
       </Col>
@@ -30,4 +41,4 @@ const Filter = ({ onFilter, options }: FilterProps) => {
   )
 }
 
-export default Filter
+export default FilterBooster

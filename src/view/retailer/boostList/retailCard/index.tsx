@@ -22,7 +22,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
   const vouchers = useVoucherPrintersByBooster(boosterAddress)
 
   return (
-    <Card bordered={false}>
+    <Card>
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <Row gutter={[16, 16]}>
