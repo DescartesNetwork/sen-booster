@@ -1,7 +1,9 @@
+import { memo } from 'react'
+
 import { Card, Col, Row, Space, Tag } from 'antd'
 import BoosterSymbol from 'components/boosterSymbol'
 import BoosterAvatar from 'components/boosterAvatar'
-import BoosterProcess from '../../../../components/boosterProcess'
+import BoosterProcess from 'components/boosterProcess'
 import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
 
@@ -9,7 +11,7 @@ type BoosterCardProps = {
   boosterAddress: string
 }
 
-const BoosterCard = ({ boosterAddress }: BoosterCardProps) => {
+const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
   const isNFT = true
   return (
     <Card>
@@ -37,6 +39,6 @@ const BoosterCard = ({ boosterAddress }: BoosterCardProps) => {
       </Row>
     </Card>
   )
-}
+})
 
 export default BoosterCard

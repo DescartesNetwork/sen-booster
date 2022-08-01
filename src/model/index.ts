@@ -3,7 +3,6 @@ import { devTools, bigintSerializationMiddleware } from 'model/devTools'
 
 import main from 'model/main.controller'
 import boosters from 'model/booster.controller'
-import searchBoosters from 'model/searchBoosters.controller'
 import orders from 'model/order.controller'
 import ordersFilter from 'model/ordersFilter.controller'
 import voucherPrinters from 'model/voucherPrinter.controller'
@@ -20,7 +19,6 @@ const model = configureStore({
   reducer: {
     main,
     boosters,
-    searchBoosters,
     orders,
     ordersFilter,
     voucherPrinters,

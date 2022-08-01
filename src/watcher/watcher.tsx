@@ -9,6 +9,7 @@ import {
 } from 'react'
 
 import { notifyError } from 'helper'
+import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
 
 type UseWatcherProps = {
   program: Program<any>
@@ -58,7 +59,16 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
         upset(address, accountData)
       },
       'confirmed',
-      [{ dataSize: accountClient.size }, ...filter],
+      [
+        { dataSize: accountClient.size },
+        {
+          memcmp: {
+            offset: 0,
+            bytes: encodeIxData(accountDiscriminator(name)),
+          },
+        },
+        ...filter,
+      ],
     )
     setWatchId(newWatcherId)
   }, [
