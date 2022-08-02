@@ -5,7 +5,7 @@ import OrdersWatcher from './orders.watcher'
 import VouchersWatcher from './vouchers.watcher'
 import VoucherPrintersWatcher from './voucherPrinter.watcher'
 
-export const AppWatcher: FunctionComponent = (props) => {
+export const AppWatcher: React.FC = (props) => {
   return (
     <BoostersWatcher>
       <OrdersWatcher>
