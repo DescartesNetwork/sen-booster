@@ -43,7 +43,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const [checked, setChecked] = useState(true)
+  const [isAgree, setIsAgree] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -85,13 +85,6 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       appliedNFTs: nftAddresses,
     })
     setIsVisible(false)
-  }
-
-  const onCheck = (e: any) => {
-    if (e.target.checked) {
-      return setChecked(false)
-    }
-    return setChecked(true)
   }
 
   return (
@@ -224,7 +217,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
-            <Checkbox onChange={onCheck}>
+            <Checkbox
+              value={isAgree}
+              onChange={(e) => setIsAgree(e.target.checked)}
+            >
               I agree with this transaction
             </Checkbox>
           </Col>
@@ -234,7 +230,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               type="primary"
               onClick={onBuy}
               loading={loading}
-              disabled={checked || !amount || !estimatedReceive}
+              disabled={!isAgree || !amount || !estimatedReceive}
               block
             >
               {!amount ? 'Enter an amount' : 'Buy'}
