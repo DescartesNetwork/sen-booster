@@ -18,7 +18,7 @@ const RejectOrder = ({ orderAddress }: RejectOrderProps) => {
   return (
     <Button
       loading={loading}
-      disabled={!!state.approved || !!state.rejected}
+      disabled={!!state.approved || !!state.rejected || !!state.done}
       onClick={() => rejectOrder({ orderAddress })}
     >
       Reject

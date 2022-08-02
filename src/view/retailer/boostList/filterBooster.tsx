@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Checkbox, Col, Row, Space, Typography, Switch } from 'antd'
 
 import { useOwnBoosters } from 'hooks/boosters/useOwnBoosters'
 import { AppState } from 'model'
+import useAmountVoucher from 'hooks/boosters/useAmountVoucher'
 
 type FilterBoosterProps = {
   onChange: (boosterAddresses: string[]) => void
@@ -14,22 +15,9 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
   const [isHideExpired, setIsHideExpired] = useState(true)
   const [isHideFreeze, setIsHideFreeze] = useState(true)
   const [isBoost, setIsBoost] = useState(false)
-  const boosters = useSelector((state: AppState) => state.boosters)
-  const voucherPrinters = useSelector(
-    (state: AppState) => state.voucherPrinters,
-  )
   const { ownBoosters } = useOwnBoosters()
-
-  const getAmountVoucher = useCallback(
-    (boosterAddress: string) => {
-      let count = 0
-      for (const { retailer } of Object.values(voucherPrinters))
-        if (retailer.toBase58() === boosterAddress) count++
-
-      return count
-    },
-    [voucherPrinters],
-  )
+  const { getAmountVoucher } = useAmountVoucher()
+  const boosters = useSelector((state: AppState) => state.boosters)
 
   const filteredBooster = useMemo(() => {
     const boosterAddress: string[] = []
