@@ -1,4 +1,5 @@
 import { Col, Collapse, Row, Typography } from 'antd'
+import { forwardRef, useRef } from 'react'
 
 const { Panel } = Collapse
 
@@ -25,9 +26,11 @@ const FAQ = [
   },
 ]
 
-function Faq() {
+function Faq(_: any, ref: any) {
+  const innerRef = useRef(ref)
+
   return (
-    <Row>
+    <Row ref={innerRef}>
       <Col span={24}>
         <Typography.Title level={3}>FAQ</Typography.Title>
       </Col>
@@ -49,4 +52,4 @@ function Faq() {
   )
 }
 
-export default Faq
+export default forwardRef(Faq)

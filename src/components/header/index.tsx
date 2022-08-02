@@ -24,6 +24,7 @@ type HeaderProps = {
   tabId: TabId
   setTabId: (newValue: any) => void
   isRetailer?: boolean
+  onFaq?: () => void
 }
 
 const RETAILER_TABS = [
@@ -36,7 +37,12 @@ const USER_TABS = [
   { label: 'Redeem', value: TabId.Redeem },
 ]
 
-const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
+const Header = ({
+  tabId,
+  setTabId,
+  isRetailer = false,
+  onFaq,
+}: HeaderProps) => {
   const { pushHistory } = useAppRouter()
   const dispatch = useDispatch<AppDispatch>()
 
@@ -73,7 +79,11 @@ const Header = ({ tabId, setTabId, isRetailer = false }: HeaderProps) => {
       <Col>
         <Space size={12}>
           {!retailerMode && (
-            <Button icon={<IonIcon name="arrow-down-outline" />} ghost>
+            <Button
+              icon={<IonIcon name="arrow-down-outline" />}
+              onClick={onFaq}
+              ghost
+            >
               FAQ
             </Button>
           )}
