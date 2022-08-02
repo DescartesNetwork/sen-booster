@@ -9,13 +9,16 @@ export enum Mode {
   User = 'user',
   Retailer = 'retailer',
 }
-
+// Booster's category with User Mode
 export enum UserBoosterCategory {
   AllBooster = 'All booster',
   HotBooster = 'Hot booster',
   HighBuyBackRate = 'High buy-back rate',
   BoostOnly = 'Boost only',
 }
+export const USER_BOOSTER_CATEGORIES = Object.entries(UserBoosterCategory).map(
+  ([_, value]) => value,
+)
 
 export enum RetailerBoosterCategory {
   AvailableBooster = 'Available booster',
@@ -30,11 +33,6 @@ export const LOCK_TIME_DAY: Record<string, number> = {
   '90 days': 90,
   '120 days': 120,
   '365 days': 365,
-}
-
-export type MetaBooster = {
-  budget: string
-  payRate: Record<string, number>
 }
 
 export const DATE_FORMAT = 'MMM DD, YYYY HH:mm'
