@@ -26,19 +26,35 @@ const Banner = () => {
               <IonIcon
                 name="checkmark-circle"
                 style={{
-                  fontSize: 14,
+                  fontSize: 29,
+                  color: '#0FB5B8',
                 }}
               />
-              <Typography.Title level={5}> No Slippage</Typography.Title>
+              <Typography.Title
+                level={5}
+                style={{
+                  color: '#212433',
+                }}
+              >
+                No Slippage
+              </Typography.Title>
             </Space>
             <Space>
               <IonIcon
                 name="checkmark-circle"
                 style={{
-                  fontSize: 14,
+                  fontSize: 29,
+                  color: '#0FB5B8',
                 }}
               />
-              <Typography.Title level={5}> No Price impact</Typography.Title>
+              <Typography.Title
+                level={5}
+                style={{
+                  color: '#212433',
+                }}
+              >
+                No Price impact
+              </Typography.Title>
             </Space>
           </Space>
         </Space>
