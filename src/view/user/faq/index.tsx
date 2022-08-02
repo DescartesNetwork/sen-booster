@@ -52,7 +52,7 @@ function Faq() {
             <Panel
               header={
                 <Typography.Text>
-                  {idx + 1}. {val.question}
+                  {`${idx + 1}. ${val.question}`}
                 </Typography.Text>
               }
               key={idx}
