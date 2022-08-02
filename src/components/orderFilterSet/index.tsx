@@ -9,8 +9,8 @@ import { useMintFilterOptions } from 'hooks/useMintFilterOptions'
 const OrderFilterSet = () => {
   const [filter, setFilter] = useState({
     token: '',
-    time: '',
-    status: '',
+    time: TIME_FILTER_OPTIONS[0],
+    status: STATUS_FILTER_OPTIONS[0],
   })
   const mintOptions = useMintFilterOptions()
 
@@ -30,7 +30,7 @@ const OrderFilterSet = () => {
           >
             <Select.Option value={ALL}>All token</Select.Option>
             {mintOptions.map((mint) => (
-              <Select.Option value={mint}>
+              <Select.Option value={mint} key={mint}>
                 <Space>
                   <MintAvatar mintAddress={mint} />
                   <MintSymbol mintAddress={mint} />
@@ -50,8 +50,10 @@ const OrderFilterSet = () => {
             placement="bottomRight"
             value={filter.time}
           >
-            {TIME_FILTER_OPTIONS.map((val) => (
-              <Select.Option value={val}>{val}</Select.Option>
+            {TIME_FILTER_OPTIONS.map((option) => (
+              <Select.Option value={option.value} key={option.value}>
+                {option.key}
+              </Select.Option>
             ))}
           </Select>
         </Space>
@@ -66,8 +68,10 @@ const OrderFilterSet = () => {
             placement="bottomRight"
             value={filter.status}
           >
-            {STATUS_FILTER_OPTIONS.map((val) => (
-              <Select.Option value={val}>{val}</Select.Option>
+            {STATUS_FILTER_OPTIONS.map((option) => (
+              <Select.Option value={option.value} key={option.value}>
+                {option.key}
+              </Select.Option>
             ))}
           </Select>
         </Space>
