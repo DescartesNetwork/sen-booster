@@ -28,7 +28,6 @@ import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 import { AppState } from 'model'
-import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { LOCK_TIME_DAY } from 'constant'
 
 import './index.less'
@@ -44,7 +43,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const [disabled, setDisabled] = useState(true)
+  const [checked, setChecked] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -88,11 +87,11 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
     setIsVisible(false)
   }
 
-  const onCheck = (e: CheckboxChangeEvent) => {
+  const onCheck = (e: any) => {
     if (e.target.checked) {
-      return setDisabled(false)
+      return setChecked(false)
     }
-    return setDisabled(true)
+    return setChecked(true)
   }
 
   return (
@@ -235,10 +234,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
               type="primary"
               onClick={onBuy}
               loading={loading}
-              disabled={disabled}
+              disabled={checked || !amount || !estimatedReceive}
               block
             >
-              Buy
+              {!amount ? 'Enter an amount' : 'Buy'}
             </Button>
           </Col>
         </Row>
