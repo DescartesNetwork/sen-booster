@@ -90,7 +90,21 @@ const NftUpload = ({
   return (
     <Row gutter={[8, 8]}>
       <Col span={24}>
-        <Typography.Text>Use NFTs to increase Buy-back rate</Typography.Text>
+        <Space align="center" size={8}>
+          <Typography.Text>Use NFTs to increase Buy-back rate</Typography.Text>
+          <Tooltip
+            placement="right"
+            title={
+              <Typography.Text style={{ color: '#E9E9EB' }}>
+                Only retailer-approved NFTs can be used for this booster. There
+                are 3 slots in all to use NFTs, with each slot used will
+                increase the payout rate by 2.5%.
+              </Typography.Text>
+            }
+          >
+            <IonIcon name="information-circle-outline" />
+          </Tooltip>
+        </Space>
       </Col>
       <Col onClick={(e) => e} span={24}>
         <Space>

@@ -6,6 +6,7 @@ import { utilsBN } from '@sen-use/web3'
 
 import {
   Button,
+  Checkbox,
   Col,
   InputNumber,
   Modal,
@@ -42,6 +43,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const { askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
+  const [isAgree, setIsAgree] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
@@ -149,9 +151,18 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           <Col span={24}>
             <Row gutter={[8, 8]}>
               <Col span={24}>
-                <Space>
+                <Space align="center" size={8}>
                   <Typography.Text>Lock time</Typography.Text>
-                  <Tooltip title="For each lock time, there will be a corresponding Buy-back rate, you will receive tokens after the selected lock time.">
+                  <Tooltip
+                    placement="right"
+                    title={
+                      <Typography.Text>
+                        For each lock time, there will be a corresponding
+                        Buy-back rate, you will receive tokens after the
+                        selected lock time.
+                      </Typography.Text>
+                    }
+                  >
                     <IonIcon name="information-circle-outline" />
                   </Tooltip>
                 </Space>
@@ -206,14 +217,23 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
             />
           </Col>
           <Col span={24}>
+            <Checkbox
+              value={isAgree}
+              onChange={(e) => setIsAgree(e.target.checked)}
+            >
+              I agree with this transaction
+            </Checkbox>
+          </Col>
+          <Col span={24}>
             <Button
               size="large"
               type="primary"
-              block
               onClick={onBuy}
               loading={loading}
+              disabled={!isAgree || !amount || !estimatedReceive}
+              block
             >
-              Buy
+              {!amount ? 'Enter an amount' : 'Buy'}
             </Button>
           </Col>
         </Row>

@@ -8,6 +8,8 @@ import {
   useState,
 } from 'react'
 
+import Loading from 'components/loading'
+
 import { notifyError } from 'helper'
 import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
 
@@ -18,11 +20,10 @@ type UseWatcherProps = {
   upset: (key: string, value: any) => void
   init: (bulk: Record<string, any>) => void
   children?: ReactNode
-  Loading?: ReactNode
 }
 
 const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
-  const { program, name, filter, upset, init, Loading, children } = props
+  const { program, name, filter, upset, init, children } = props
   const [watchId, setWatchId] = useState(0)
   const [loading, setLoading] = useState(true)
 
@@ -94,7 +95,7 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
     }
   }, [connection, fetchData, watchData, watchId])
 
-  if (loading) return <Fragment>{Loading}</Fragment>
+  if (loading) return <Loading />
   return <Fragment>{children}</Fragment>
 }
 
