@@ -1,12 +1,10 @@
-import { OrderData } from 'sen-exchange-core'
-import { Address } from '@project-serum/anchor'
-
 import { Col, Row, Table } from 'antd'
 
 import { REDEEM_COLUMNS } from './column'
+import { OrderRequest } from 'view/retailer/orderList'
 
 type RedeemTableProps = {
-  dataSource: (OrderData & { orderId: Address })[]
+  dataSource: OrderRequest[]
 }
 
 const RedeemTable = ({ dataSource }: RedeemTableProps) => {
@@ -15,10 +13,10 @@ const RedeemTable = ({ dataSource }: RedeemTableProps) => {
       <Col span={24}>
         <Table
           columns={REDEEM_COLUMNS}
-          dataSource={dataSource}
           rowClassName={(_, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
-          scroll={{ x: 1000 }}
+          dataSource={dataSource}
+          rowKey={(record) => record.orderAddress}
         />
       </Col>
     </Row>

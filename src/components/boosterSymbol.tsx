@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 import { MintSymbol } from '@sen-use/components'
-import { Space } from 'antd'
+import { Typography } from 'antd'
 
 import { AppState } from 'model'
 
@@ -15,11 +15,10 @@ const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
   )
 
   return (
-    <Space>
-      <MintSymbol mintAddress={bidMint} separator={'.'} />
-      -
-      <MintSymbol mintAddress={askMint} separator={'.'} />
-    </Space>
+    <Typography.Title level={5}>
+      <MintSymbol mintAddress={askMint.toBase58()} /> -{' '}
+      <MintSymbol mintAddress={bidMint.toBase58()} />
+    </Typography.Title>
   )
 }
 

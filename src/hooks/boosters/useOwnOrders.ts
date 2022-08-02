@@ -1,30 +1,32 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useWallet } from '@sentre/senhub'
 
 import { AppState } from 'model'
-import { useOwnBoosters } from 'hooks/boosters/useOwnBoosters'
 import { OrderRequest } from 'view/retailer/orderList'
 
-export const useOrderRequests = () => {
+export const useOwnOrders = () => {
   const orders = useSelector((state: AppState) => state.orders)
-  const { ownBoosters } = useOwnBoosters()
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
 
-  const filteredOrderRequests = useMemo(
+  const filteredOrder = useMemo(
     () =>
       Object.keys(orders)
         .map((orderAddress) => ({
           ...orders[orderAddress],
           orderAddress,
         }))
-        .filter(({ retailer }) => ownBoosters.includes(retailer.toBase58())),
-    [ownBoosters, orders],
+        .filter(({ authority }) => authority.toBase58() === walletAddress),
+    [orders, walletAddress],
   )
 
-  const sortedOrderRequests = filteredOrderRequests.sort(
+  const sortedOrderRequests = filteredOrder.sort(
     (a: OrderRequest, b: OrderRequest) => {
       return Number(b.createAt) - Number(a.createAt)
     },
   )
 
-  return { orderRequests: sortedOrderRequests }
+  return { ownOrders: sortedOrderRequests }
 }

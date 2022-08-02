@@ -17,8 +17,8 @@ export const useRedeemOrder = () => {
           order: orderAddress,
         })
 
-        notifySuccess('Redeem Booster', txId)
-      } catch (error: any) {
+        notifySuccess('Redeemed', txId)
+      } catch (error) {
         notifyError(error)
       } finally {
         setLoading(false)

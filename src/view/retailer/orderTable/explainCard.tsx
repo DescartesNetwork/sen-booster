@@ -6,6 +6,8 @@ import RejectOrder from 'actions/retailerRejectOrder'
 import SpaceVertical from 'components/spaceVertical'
 
 import { AppState } from 'model'
+import { useMintPrice } from 'hooks/useMintPrice'
+import { util } from '@sentre/senhub'
 
 type ExplainCardProps = {
   orderAddress: string
@@ -13,7 +15,10 @@ type ExplainCardProps = {
 
 const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
   const orderData = useSelector((state: AppState) => state.orders[orderAddress])
-  console.log(orderData)
+  const boosters = useSelector((state: AppState) => state.boosters)
+  const retailerAddress = orderData.retailer.toBase58()
+  const askMintAddress = boosters[retailerAddress].askMint.toBase58() || ''
+  const askPrice = useMintPrice(askMintAddress)
 
   return (
     <Row gutter={[8, 8]} align="middle">
@@ -22,7 +27,11 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
           <Col>
             <SpaceVertical
               label="Market price"
-              value={<Typography.Text>1 LP = 6.12 USDC</Typography.Text>}
+              value={
+                <Typography.Text>
+                  1 LP = {util.numeric(askPrice).format('0,0.[0000]')} USDC
+                </Typography.Text>
+              }
             />
           </Col>
           <Col>

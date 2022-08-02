@@ -7,8 +7,6 @@ import SearchAndFilter from './searchAndFilter'
 const Booster = () => {
   const [displayBoosters, setDisplayBoosters] = useState<string[]>([])
 
-  console.log('displayBoosters', displayBoosters)
-
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>

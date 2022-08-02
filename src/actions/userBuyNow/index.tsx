@@ -39,7 +39,7 @@ const ONE_DAY = 24 * 60 * 60
 const ONE_NFT_DISCOUNT = 2.5
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const { askMint, bidMint } = useSelector(
+  const { askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
   const [isVisible, setIsVisible] = useState(false)
@@ -73,13 +73,13 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   }
 
   const onBuy = async () => {
-    const bidDecimal = await getDecimals(bidMint.toBase58())
+    const askDecimal = await getDecimals(askMint.toBase58())
     const lockDayValue = LOCK_TIME_DAY[lockDay]
     await buy({
       retailer: boosterAddress,
-      bidAmount: utilsBN.decimalize(amount, bidDecimal),
+      askAmount: utilsBN.decimalize(amount, askDecimal),
       lockTime: new BN(lockDayValue * ONE_DAY),
-      askAmount: estimatedReceive,
+      bidAmount: estimatedReceive,
       appliedNFTs: nftAddresses,
     })
     setIsVisible(false)
