@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Empty, Row } from 'antd'
 import Filter from 'components/orderFilterSet'
 import RetailCard from './retailCard'
 
@@ -28,11 +28,20 @@ const BoostList = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[24, 24]}>
-          {ownBoosters.map((boosterAddress) => (
-            <Col xs={24} md={12} key={boosterAddress}>
-              <RetailCard boosterAddress={boosterAddress} />
+          {!ownBoosters.length ? (
+            <Col span={24}>
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={'You have not created any booster'}
+              />
             </Col>
-          ))}
+          ) : (
+            ownBoosters.map((boosterAddress) => (
+              <Col xs={24} md={12} key={boosterAddress}>
+                <RetailCard boosterAddress={boosterAddress} />
+              </Col>
+            ))
+          )}
         </Row>
       </Col>
     </Row>
