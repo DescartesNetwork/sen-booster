@@ -1,5 +1,3 @@
-import { FunctionComponent } from 'react'
-
 import BoostersWatcher from './boosters.watcher'
 import OrdersWatcher from './orders.watcher'
 import VouchersWatcher from './vouchers.watcher'
