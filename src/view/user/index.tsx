@@ -14,8 +14,10 @@ import './index.less'
 function User() {
   const [tabId, setTabId] = useState(TabId.Booster)
   const faqRef = useRef<HTMLDivElement>(null)
+  
   const scrollToFAQ = () => {
-    if (faqRef.current) window.scrollTo(0, faqRef.current.offsetTop)
+    if (!faqRef.current) return
+    return window.scrollTo(0, faqRef.current.offsetTop)
   }
 
   return (
