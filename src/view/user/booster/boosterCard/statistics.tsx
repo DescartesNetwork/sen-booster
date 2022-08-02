@@ -3,15 +3,16 @@ import { useMemo } from 'react'
 import moment from 'moment'
 import BN from 'bn.js'
 import { util } from '@sentre/senhub'
+import { utilsBN } from '@sen-use/web3'
 
 import { Space, Typography } from 'antd'
-import { MintSymbol } from '@sen-use/components/dist'
+import { MintSymbol } from '@sen-use/components'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
-import { utilsBN } from '@sen-use/web3/dist'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
+import { DATE_FORMAT } from 'constant'
 
 type StatisticsProps = {
   boosterAddress: string
@@ -73,7 +74,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
       <Space direction="vertical">
         <Typography.Text type="secondary">End date</Typography.Text>
         <Typography.Text>
-          {moment(endAt.toNumber() * 1000).format('MMM DD, YYYY HH:mm')}
+          {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
         </Typography.Text>
       </Space>
     </Space>

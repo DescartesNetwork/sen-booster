@@ -8,7 +8,7 @@ import ColumnPay from './columnPay'
 import StatusTag from 'components/statusTag'
 import ColumnProfit from './columnProfit'
 
-import { DATE_FORMAT, ONE_DAY } from 'constant'
+import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
 
 export const ORDER_COLUMNS = [
   {
@@ -47,7 +47,7 @@ export const ORDER_COLUMNS = [
     render: (lockTime: BN) => {
       return (
         <Typography.Text>
-          {lockTime.div(new BN(ONE_DAY)).toString()} days
+          {lockTime.div(new BN(SECONDS_PER_DAY)).toString()} days
         </Typography.Text>
       )
     },

@@ -8,7 +8,7 @@ import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
 import StatusTag from 'components/statusTag'
 
-import { DATE_FORMAT, ONE_DAY } from 'constant'
+import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
 import { OrderRequest } from 'view/retailer/orderList'
 
 export const REDEEM_COLUMNS = [
@@ -36,7 +36,7 @@ export const REDEEM_COLUMNS = [
     dataIndex: 'lockTime',
     render: (lockTime: BN) => (
       <Typography.Text>
-        {lockTime.div(new BN(ONE_DAY)).toString()} days
+        {lockTime.div(new BN(SECONDS_PER_DAY)).toString()} days
       </Typography.Text>
     ),
   },
