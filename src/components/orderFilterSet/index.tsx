@@ -21,7 +21,7 @@ const OrderFilterSet = () => {
       {/* Filter Token */}
       <Col>
         <Space size={4} direction="vertical">
-          <Typography.Text>Token</Typography.Text>
+          <Typography.Text type="secondary">Token</Typography.Text>
           <Select
             style={{ width: 120 }}
             onChange={(mint) => setFilter({ ...filter, token: mint })}
@@ -43,7 +43,7 @@ const OrderFilterSet = () => {
       {/* Filter Time */}
       <Col>
         <Space size={4} direction="vertical">
-          <Typography.Text>Time</Typography.Text>
+          <Typography.Text type="secondary">Time</Typography.Text>
           <Select
             style={{ width: 120 }}
             onChange={(val) => setFilter({ ...filter, time: val })}
@@ -61,7 +61,7 @@ const OrderFilterSet = () => {
       {/* Filter Status */}
       <Col>
         <Space size={4} direction="vertical">
-          <Typography.Text>Status</Typography.Text>
+          <Typography.Text type="secondary">Status</Typography.Text>
           <Select
             style={{ width: 120 }}
             onChange={(val) => setFilter({ ...filter, status: val })}

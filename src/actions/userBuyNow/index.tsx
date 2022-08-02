@@ -6,6 +6,7 @@ import { utilsBN } from '@sen-use/web3'
 
 import {
   Button,
+  Card,
   Checkbox,
   Col,
   InputNumber,
@@ -127,24 +128,35 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                 </Row>
               </Col>
               <Col span={24}>
-                <InputNumber
+                <Card
                   className="user-input"
-                  placeholder="0"
-                  prefix={<MintSymbol mintAddress={askMint} />}
-                  addonAfter={
-                    <Button
-                      type="text"
-                      style={{ marginRight: -7 }}
-                      onClick={() => setAmount(Number(mintInfo.balance))}
-                    >
-                      MAX
-                    </Button>
-                  }
-                  value={amount}
-                  onChange={setAmount}
-                  max={Number(mintInfo.balance)}
-                  style={{ width: '100%' }}
-                />
+                  style={{ borderRadius: 8 }}
+                  bodyStyle={{ padding: 0 }}
+                >
+                  <Row wrap={false} align="middle">
+                    <Col flex="auto">
+                      <InputNumber
+                        placeholder="0"
+                        prefix={<MintSymbol mintAddress={askMint} />}
+                        value={amount}
+                        onChange={setAmount}
+                        max={Number(mintInfo.balance)}
+                        style={{ width: '100%' }}
+                        bordered={false}
+                      />
+                    </Col>
+                    <Col>
+                      <Button
+                        type="text"
+                        size="small"
+                        style={{ background: 'none' }}
+                        onClick={() => setAmount(Number(mintInfo.balance))}
+                      >
+                        MAX
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card>
               </Col>
             </Row>
           </Col>

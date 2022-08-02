@@ -16,12 +16,17 @@ input {
 }
 
 .sen_booster-segmented-lg {
-  background-color: transparent !important;
-  .sen_booster-segmented-item-selected {
+  .sen_booster-segmented-item {
+    &-selected {
+    background: linear-gradient(
+      86.62deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 100%
+    ) !important;
     border-radius: 8px;
-    border: 1px solid rgba(15, 181, 184, 0.3);
+    border: 1px solid rgba(15, 181, 184, 0.2);
     color: #0fb5b8 !important;
-  }
+  }}
 }
 
 .sen_booster-card {
@@ -106,7 +111,7 @@ input {
     }
   }
   & > tr.sen_booster-table-row-level-0:hover > td {
-    background-color: #f4f4f5 !important;
+    background-color: transparent !important;
   }
   .sen_booster-table-row-expand-icon {
     &:hover {
@@ -127,7 +132,8 @@ input {
 
 #dark {
   .sen_booster-segmented-item-selected {
-    border: 1px solid rgba(15, 181, 184, 0.2);
+    background: linear-gradient(86.62deg, rgba(10, 19, 41, 0.8) 0%, rgba(10, 19, 41, 0.4) 100%) !important;
+    border: 1px solid rgba(15, 181, 184, 0.3);
   }
   input {
     border-radius: 8px;
@@ -166,4 +172,10 @@ input {
 
 .sen_booster-collapse-content-box {
   padding-top: 0px !important;
+}
+
+.search-lp {
+  .sen_booster-input {
+    background: transparent !important;
+  }
 }
