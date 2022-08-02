@@ -13,24 +13,22 @@ import './index.less'
 
 function User() {
   const [tabId, setTabId] = useState(TabId.Booster)
-  const faqRef = useRef(null)
-  const onFaq = () => {
-    console.log('faq ref: ', faqRef)
-    //@ts-ignore
-    faqRef.current.scrollIntoView()
+  const faqRef = useRef<HTMLDivElement>(null)
+  const scrollToFAQ = () => {
+    if (faqRef.current) window.scrollTo(0, faqRef.current.offsetTop)
   }
 
   return (
     <Layout>
       <Row gutter={[24, 24]}>
         <Col span={24}>
-          <Header tabId={tabId} setTabId={setTabId} onFaq={onFaq} />
+          <Header tabId={tabId} setTabId={setTabId} scrollToFAQ={scrollToFAQ} />
         </Col>
         <Col span={24}>
           {tabId === TabId.Booster ? <Booster /> : <Redeem />}
         </Col>
-        <Col span={24}>
-          <Faq ref={faqRef} />
+        <Col span={24} ref={faqRef}>
+          <Faq />
         </Col>
       </Row>
     </Layout>

@@ -24,7 +24,7 @@ type HeaderProps = {
   tabId: TabId
   setTabId: (newValue: any) => void
   isRetailer?: boolean
-  onFaq?: () => void
+  scrollToFAQ?: () => void
 }
 
 const RETAILER_TABS = [
@@ -41,7 +41,7 @@ const Header = ({
   tabId,
   setTabId,
   isRetailer = false,
-  onFaq,
+  scrollToFAQ,
 }: HeaderProps) => {
   const { pushHistory } = useAppRouter()
   const dispatch = useDispatch<AppDispatch>()
@@ -81,7 +81,7 @@ const Header = ({
           {!retailerMode && (
             <Button
               icon={<IonIcon name="arrow-down-outline" />}
-              onClick={onFaq}
+              onClick={scrollToFAQ}
               ghost
             >
               FAQ
