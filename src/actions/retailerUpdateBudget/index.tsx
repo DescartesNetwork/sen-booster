@@ -20,7 +20,7 @@ const RetailerUpdateBudget = ({
     (state: AppState) => state.boosters[boosterAddress].bidMint,
   )
   const { updateBudget, loading } = useUpdateBudget()
-  const metaBooster = useMetaBooster(boosterAddress)
+  const { metaBooster, loading: metaLoading } = useMetaBooster(boosterAddress)
 
   const onUpdate = async () => {
     const boosterMetadata = {
@@ -46,6 +46,7 @@ const RetailerUpdateBudget = ({
             defaultValue={metaBooster.budget}
             onChange={(e) => setNextBudget(e.target.value)}
             className="input-budget"
+            disabled={metaLoading}
           />
         </Space>
       </Col>
@@ -56,6 +57,7 @@ const RetailerUpdateBudget = ({
           block
           type="primary"
           onClick={onUpdate}
+          disabled={metaLoading}
         >
           Update
         </Button>
