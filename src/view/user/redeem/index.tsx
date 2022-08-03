@@ -7,11 +7,11 @@ import FilterOrders from 'components/filterOrder'
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
 import { OrderRequest } from 'view/retailer/orderList'
 
-const DEFAULT_ORDER_QUANTITY = 10
+const DEFAULT_PAGE_SIZE = 10
 
 const Redeem = () => {
   const [orders, setOrders] = useState<OrderRequest[]>([])
-  const [amountOrders, setAmountOrders] = useState(DEFAULT_ORDER_QUANTITY)
+  const [page, setPage] = useState(1)
   const { ownOrders } = useOwnOrders()
 
   return (
@@ -21,14 +21,12 @@ const Redeem = () => {
           <FilterOrders orderList={ownOrders} onChange={setOrders} />
         </Col>
         <Col span={24}>
-          <RedeemTable dataSource={orders.slice(0, amountOrders)} />
+          <RedeemTable dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)} />
         </Col>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Button
-            onClick={() =>
-              setAmountOrders(amountOrders + DEFAULT_ORDER_QUANTITY)
-            }
-            disabled={amountOrders >= orders.length}
+            onClick={() => setPage(page + 1)}
+            disabled={page * DEFAULT_PAGE_SIZE >= orders.length}
           >
             View more
           </Button>

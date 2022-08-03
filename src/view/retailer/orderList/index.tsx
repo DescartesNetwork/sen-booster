@@ -9,11 +9,11 @@ import { useOrderRequests } from 'hooks/boosters/useOrderRequest'
 
 export type OrderRequest = OrderData & { orderAddress: string }
 
-const DEFAULT_ORDER_QUANTITY = 10
+const DEFAULT_PAGE_SIZE = 10
 
 function OrderList() {
   const [orders, setOrders] = useState<OrderRequest[]>([])
-  const [amountOrders, setAmountOrders] = useState(DEFAULT_ORDER_QUANTITY)
+  const [page, setPage] = useState(1)
   const { orderRequests } = useOrderRequests()
 
   return (
@@ -23,14 +23,12 @@ function OrderList() {
           <FilterOrders onChange={setOrders} orderList={orderRequests} />
         </Col>
         <Col span={24}>
-          <OrderTable dataSource={orders.slice(0, amountOrders)} />
+          <OrderTable dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)} />
         </Col>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Button
-            onClick={() =>
-              setAmountOrders(amountOrders + DEFAULT_ORDER_QUANTITY)
-            }
-            disabled={amountOrders >= orders.length}
+            onClick={() => setPage(page + 1)}
+            disabled={page * DEFAULT_PAGE_SIZE >= orders.length}
           >
             View more
           </Button>
