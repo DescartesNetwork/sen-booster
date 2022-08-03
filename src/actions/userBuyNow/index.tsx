@@ -89,6 +89,7 @@ const BuyNow = ({ boosterAddress, block }: BuyNowProps) => {
       lockTime: new BN(lockDayValue * ONE_DAY),
       bidAmount: estimatedReceive,
       appliedNFTs: nftAddresses,
+      discount: payRate[lockDay] + nftDiscount,
     })
     setIsVisible(false)
   }
@@ -200,7 +201,11 @@ const BuyNow = ({ boosterAddress, block }: BuyNowProps) => {
                     <Row gutter={[6, 6]} justify="center">
                       {Object.keys(payRate).map((days) => (
                         <Col xs={12} md={8} key={days}>
-                          <Radio.Button style={{ width: '100%' }} value={days}>
+                          <Radio.Button
+                            disabled={!payRate[days]}
+                            style={{ width: '100%' }}
+                            value={days}
+                          >
                             {days}
                           </Radio.Button>
                         </Col>
