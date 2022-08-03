@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-import { Col, Row } from 'antd'
+import { Col, Empty, Row } from 'antd'
 import BoosterCard from './boosterCard'
 import SortAndFilter from './sortAndFilter'
 
@@ -27,11 +27,20 @@ const Booster = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          {filteredBooster.map((boosterAddress) => (
-            <Col span={24} key={boosterAddress}>
-              <BoosterCard boosterAddress={boosterAddress} />
+          {!filteredBooster.length ? (
+            <Col span={24}>
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={'No booster exist'}
+              />
             </Col>
-          ))}
+          ) : (
+            filteredBooster.map((boosterAddress) => (
+              <Col span={24} key={boosterAddress}>
+                <BoosterCard boosterAddress={boosterAddress} />
+              </Col>
+            ))
+          )}
         </Row>
       </Col>
     </Row>

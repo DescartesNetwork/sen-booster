@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Empty, Row } from 'antd'
+
 import RetailCard from './retailCard'
 import FilterBooster from './filterBooster'
 
@@ -29,11 +30,20 @@ const BoostList = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[24, 24]}>
-          {filteredBoosters.map((boosterAddress) => (
-            <Col xs={24} md={12} key={boosterAddress}>
-              <RetailCard boosterAddress={boosterAddress} />
+          {!filteredBoosters.length ? (
+            <Col span={24}>
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={'You have not created any booster'}
+              />
             </Col>
-          ))}
+          ) : (
+            filteredBoosters.map((boosterAddress) => (
+              <Col xs={24} md={12} key={boosterAddress}>
+                <RetailCard boosterAddress={boosterAddress} />
+              </Col>
+            ))
+          )}
         </Row>
       </Col>
     </Row>
