@@ -14,6 +14,7 @@ import {
   Radio,
   Row,
   Space,
+  Spin,
   Switch,
   Tooltip,
   Typography,
@@ -52,7 +53,10 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
   const voucherPrintersByBooster = useVoucherPrintersByBooster(boosterAddress)
-  const { payRate } = useMetaBooster(boosterAddress)
+  const {
+    metaBooster: { payRate },
+    loading: metaLoading,
+  } = useMetaBooster(boosterAddress)
   const { getDecimals } = useMint()
   const { buy, loading } = useBuy()
   const nftDiscount = nftAddresses.length * ONE_NFT_DISCOUNT
@@ -180,22 +184,24 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
                 </Space>
               </Col>
               <Col span={24}>
-                <Radio.Group
-                  size="middle"
-                  onChange={(e) => setLockDay(e.target.value)}
-                  style={{ width: '100%' }}
-                  value={lockDay}
-                >
-                  <Row gutter={[6, 6]}>
-                    {Object.keys(payRate).map((days) => (
-                      <Col xs={12} md={8} key={days}>
-                        <Radio.Button style={{ width: '100%' }} value={days}>
-                          {days}
-                        </Radio.Button>
-                      </Col>
-                    ))}
-                  </Row>
-                </Radio.Group>
+                <Spin spinning={metaLoading} size="small">
+                  <Radio.Group
+                    size="middle"
+                    onChange={(e) => setLockDay(e.target.value)}
+                    style={{ width: '100%' }}
+                    value={lockDay}
+                  >
+                    <Row gutter={[6, 6]} justify="center">
+                      {Object.keys(payRate).map((days) => (
+                        <Col xs={12} md={8} key={days}>
+                          <Radio.Button style={{ width: '100%' }} value={days}>
+                            {days}
+                          </Radio.Button>
+                        </Col>
+                      ))}
+                    </Row>
+                  </Radio.Group>
+                </Spin>
               </Col>
               <Col span={24} style={{ textAlign: 'right' }}>
                 <Space size={8}>

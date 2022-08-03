@@ -4,7 +4,7 @@ import { util } from '@sentre/senhub'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import moment from 'moment'
 
-import { Button, Card, Col, Row, Space, Tooltip, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Spin, Tooltip, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import { numeric, shortenAddress } from '@sentre/senhub/dist/shared/util'
 import { MintSymbol } from '@sen-use/components'
@@ -25,7 +25,10 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
   const { bidMint, askMint, startAt, endAt } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const { budget } = useMetaBooster(boosterAddress)
+  const {
+    metaBooster: { budget },
+    loading,
+  } = useMetaBooster(boosterAddress)
 
   const onCopy = async (mintAddress: string) => {
     setCopied(mintAddress)
@@ -118,10 +121,12 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
               <SpaceVertical
                 label="Budget"
                 value={
-                  <Typography.Text>
-                    {numeric(budget).format('0.0,[000]')}{' '}
-                    <MintSymbol mintAddress={bidMint} />
-                  </Typography.Text>
+                  <Spin spinning={loading} size="small">
+                    <Typography.Text>
+                      {numeric(budget).format('0.0,[000]')}{' '}
+                      <MintSymbol mintAddress={bidMint} />
+                    </Typography.Text>
+                  </Spin>
                 }
               />
             </Col>

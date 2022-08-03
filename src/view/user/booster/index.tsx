@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import LazyLoad from '@sentre/react-lazyload'
 
 import { Col, Empty, Row } from 'antd'
 import BoosterCard from './boosterCard'
@@ -37,7 +38,15 @@ const Booster = () => {
           ) : (
             filteredBooster.map((boosterAddress) => (
               <Col span={24} key={boosterAddress}>
-                <BoosterCard boosterAddress={boosterAddress} />
+                <LazyLoad
+                  height={276}
+                  scrollContainer={
+                    document.getElementById('sen-booster-scroll-lazyload') ||
+                    undefined
+                  }
+                >
+                  <BoosterCard boosterAddress={boosterAddress} />
+                </LazyLoad>
               </Col>
             ))
           )}

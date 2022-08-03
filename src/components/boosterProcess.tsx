@@ -5,7 +5,7 @@ import { util } from '@sentre/senhub'
 import { numeric } from '@sentre/senhub/dist/shared/util'
 
 import { MintSymbol } from '@sen-use/components'
-import { Col, Progress, Row, Space, Typography } from 'antd'
+import { Col, Progress, Row, Space, Spin, Typography } from 'antd'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
@@ -19,7 +19,10 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
   const { bidReserve, bidMint, bidTotal } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const { budget } = useMetaBooster(boosterAddress)
+  const {
+    metaBooster: { budget },
+    loading,
+  } = useMetaBooster(boosterAddress)
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   const processAmount = utilsBN.undecimalize(
@@ -37,23 +40,27 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Row justify="space-between">
           <Col>
-            <Space direction="vertical">
-              <Typography.Text type="secondary">Process</Typography.Text>
-              <Typography.Text>
-                {numeric(processAmount).format('0.0,[0000]')}{' '}
-                <MintSymbol mintAddress={bidMint.toBase58()} />(
-                {util.numeric(percentage).format('0,0.[00]%')})
-              </Typography.Text>
-            </Space>
+            <Spin spinning={loading} size="small">
+              <Space direction="vertical">
+                <Typography.Text type="secondary">Process</Typography.Text>
+                <Typography.Text>
+                  {numeric(processAmount).format('0.0,[0000]')}{' '}
+                  <MintSymbol mintAddress={bidMint.toBase58()} />(
+                  {util.numeric(percentage).format('0,0.[00]%')})
+                </Typography.Text>
+              </Space>
+            </Spin>
           </Col>
           <Col>
-            <Space direction="vertical" align="end">
-              <Typography.Text type="secondary">Budget</Typography.Text>
-              <Typography.Text>
-                {numeric(budget).format('0.0,[0000]')}{' '}
-                <MintSymbol mintAddress={bidMint.toBase58()} />
-              </Typography.Text>
-            </Space>
+            <Spin spinning={loading} size="small">
+              <Space direction="vertical" align="end">
+                <Typography.Text type="secondary">Budget</Typography.Text>
+                <Typography.Text>
+                  {numeric(budget).format('0.0,[0000]')}{' '}
+                  <MintSymbol mintAddress={bidMint.toBase58()} />
+                </Typography.Text>
+              </Space>
+            </Spin>
           </Col>
         </Row>
       </Col>

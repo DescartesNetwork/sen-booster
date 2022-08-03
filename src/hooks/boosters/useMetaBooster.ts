@@ -14,13 +14,17 @@ export const useMetaBooster = (boosterAddress: string) => {
     budget: '',
     payRate: {},
   })
+  const [loading, setLoading] = useState(true)
 
   const fetchMetaData = useCallback(async () => {
     try {
+      setLoading(true)
       const metaInfo = await Ipfs.methods.booster.get(metadata)
       return setMetaBooster(metaInfo)
     } catch (error) {
       return notifyError(error)
+    } finally {
+      setLoading(false)
     }
   }, [metadata])
 
@@ -28,5 +32,5 @@ export const useMetaBooster = (boosterAddress: string) => {
     fetchMetaData()
   }, [fetchMetaData])
 
-  return metaBooster
+  return { metaBooster, loading }
 }
