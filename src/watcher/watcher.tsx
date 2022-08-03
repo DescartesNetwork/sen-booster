@@ -1,17 +1,9 @@
 import { Program, web3 } from '@project-serum/anchor'
-import {
-  Fragment,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-
-import Loading from 'components/loading'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { notifyError } from 'helper'
 import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
+import { createGlobalState } from 'react-use'
 
 type UseWatcherProps = {
   program: Program<any>
@@ -19,13 +11,14 @@ type UseWatcherProps = {
   filter: web3.GetProgramAccountsFilter[]
   upset: (key: string, value: any) => void
   init: (bulk: Record<string, any>) => void
-  children?: ReactNode
 }
 
-const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
-  const { program, name, filter, upset, init, children } = props
+export const useWatcherLoading = createGlobalState<Record<string, boolean>>({})
+
+const Watcher = (props: UseWatcherProps) => {
+  const { program, name, filter, upset, init } = props
   const [watchId, setWatchId] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loadingInfo, setLoadingInfo] = useWatcherLoading()
 
   const { accountClient, connection } = useMemo(() => {
     const accountClient = program?.account?.[name]
@@ -34,8 +27,9 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
   }, [name, program?.account])
 
   const fetchData = useCallback(async () => {
+    if (loadingInfo[name] !== undefined) return
     try {
-      setLoading(true)
+      setLoadingInfo({ ...loadingInfo, [name]: true })
       const accountInfos = await accountClient.all()
       const bulk: any = {}
       for (const info of accountInfos) {
@@ -45,9 +39,9 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
     } catch (error) {
       notifyError(error)
     } finally {
-      setLoading(false)
+      setLoadingInfo({ ...loadingInfo, [name]: false })
     }
-  }, [accountClient, init])
+  }, [accountClient, init, loadingInfo, name, setLoadingInfo])
 
   const watchData = useCallback(async () => {
     if (watchId) return
@@ -85,6 +79,9 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
 
   useEffect(() => {
     fetchData()
+  }, [fetchData])
+
+  useEffect(() => {
     watchData()
     return () => {
       ;(async () => {
@@ -93,10 +90,9 @@ const Watcher: React.FC<UseWatcherProps> = (props: UseWatcherProps) => {
         setWatchId(0)
       })()
     }
-  }, [connection, fetchData, watchData, watchId])
+  }, [connection, watchData, watchId])
 
-  if (loading) return <Loading />
-  return <Fragment>{children}</Fragment>
+  return <Fragment />
 }
 
 export default Watcher

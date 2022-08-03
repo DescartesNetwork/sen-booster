@@ -2,15 +2,28 @@ import BoostersWatcher from './boosters.watcher'
 import OrdersWatcher from './orders.watcher'
 import VouchersWatcher from './vouchers.watcher'
 import VoucherPrintersWatcher from './voucherPrinter.watcher'
+import { Fragment, useMemo } from 'react'
+import { useWatcherLoading } from './watcher'
 
-export const AppWatcher: React.FC = (props) => {
+import Loading from 'components/loading'
+
+export const AppWatcher: React.FC = ({ children }) => {
+  const [loadingInfo] = useWatcherLoading()
+
+  const loading = useMemo(
+    () =>
+      !Object.values(loadingInfo).length ||
+      Object.values(loadingInfo).includes(true),
+    [loadingInfo],
+  )
+
   return (
-    <BoostersWatcher>
-      <OrdersWatcher>
-        <VoucherPrintersWatcher>
-          <VouchersWatcher>{props.children}</VouchersWatcher>
-        </VoucherPrintersWatcher>
-      </OrdersWatcher>
-    </BoostersWatcher>
+    <Fragment>
+      <BoostersWatcher />
+      <OrdersWatcher />
+      <VoucherPrintersWatcher />
+      <VouchersWatcher />
+      {loading ? <Loading /> : children}
+    </Fragment>
   )
 }
