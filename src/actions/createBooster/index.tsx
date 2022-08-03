@@ -1,9 +1,9 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Button, Card, Col, Row, Typography } from 'antd'
-import GeneralInfo, { GeneralRef } from './generalInfo'
+import GeneralInfo, { GeneralData } from './generalInfo'
 import BoostNFT from './boostNFT'
-import PayRate, { PayRateState } from './payRate'
+import PayRate, { DATES, PayRateState } from './payRate'
 import ActionCancel from './actionCancel'
 
 import { useInitializeBooster } from 'hooks/actions/useInitializeBooster'
@@ -13,9 +13,15 @@ import './index.less'
 
 const CreateBooster = () => {
   // Booster data
-  const generalRef = useRef<GeneralRef>({} as GeneralRef)
   const [payRate, setPayRate] = useState<PayRateState>({})
   const [collections, setCollections] = useState<string[]>([])
+  const [generalData, setGeneralData] = useState<GeneralData>({
+    bidMint: '',
+    askMint: '',
+    budget: '',
+    startTime: 0,
+    endTime: 0,
+  })
   // Component state
   const [visible, setVisible] = useState(false)
   const { initializeBooster, loading } = useInitializeBooster()
@@ -28,15 +34,37 @@ const CreateBooster = () => {
   }
 
   const onCreateBooster = async () => {
-    const generalData = generalRef.current.collect()
-    await initializeBooster({ ...generalData, payRate, collections })
+    const nextPayRate = { ...payRate }
+    for (const date of DATES) {
+      if (!nextPayRate[date]) nextPayRate[date] = 0
+    }
+    await initializeBooster({
+      ...generalData,
+      payRate: nextPayRate,
+      collections,
+    })
     return pushHistory('/retailer')
   }
 
+  const onGeneralDataChange = (
+    value: string | number,
+    name: keyof GeneralData,
+  ) => {
+    return setGeneralData({ ...generalData, [name]: value })
+  }
+
   const disabled = useMemo(() => {
-    const rate = Object.keys(payRate)
-    return rate.length < 6
-  }, [payRate])
+    const { askMint, bidMint, budget, endTime, startTime } = generalData
+    const listRate = Object.keys(payRate)
+    return (
+      !askMint ||
+      !bidMint ||
+      !budget ||
+      !endTime ||
+      !startTime ||
+      listRate.length < 1
+    )
+  }, [payRate, generalData])
 
   return (
     <Row justify="center">
@@ -47,7 +75,10 @@ const CreateBooster = () => {
               <Typography.Title level={4}>Create booster</Typography.Title>
             </Col>
             <Col span={24}>
-              <GeneralInfo ref={generalRef} />
+              <GeneralInfo
+                generateData={generalData}
+                onChange={onGeneralDataChange}
+              />
             </Col>
             <Col span={24}>
               <PayRate payRate={payRate} setPayRate={onChangePayRate} />

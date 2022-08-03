@@ -1,4 +1,4 @@
-import { IPFS } from '@sen-use/web3'
+import { IPFS } from '@sen-use/app'
 import { PayRateState } from 'actions/createBooster/payRate'
 
 const KEY =
@@ -9,10 +9,16 @@ export type BoosterMetadata = {
   budget: string
 }
 
+export type OrderMetadata = {
+  appliedNFTs: string[]
+  discount: number
+}
+
 type MapTypes = {
   booster: BoosterMetadata
+  order: OrderMetadata
 }
-type Idl = ['booster']
-const IDL: Idl = ['booster']
+type Idl = ['booster', 'order']
+const IDL: Idl = ['booster', 'order']
 
 export const Ipfs = new IPFS<MapTypes, Idl>(KEY, IDL)

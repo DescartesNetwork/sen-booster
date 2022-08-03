@@ -2,7 +2,7 @@ import { Col, InputNumber, Row, Space, Tooltip, Typography } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import Content from './content'
 
-const DATES = [
+export const DATES = [
   '7 days',
   '30 days',
   '60 days',

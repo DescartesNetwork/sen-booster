@@ -1,4 +1,6 @@
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { notifyError } from '@sen-use/app'
 
 import { Col, Row, Space, Typography } from 'antd'
 import ApproveOrder from 'actions/retailerApproveOrder'
@@ -8,17 +10,35 @@ import SpaceVertical from 'components/spaceVertical'
 import { AppState } from 'model'
 import { useMintPrice } from 'hooks/useMintPrice'
 import { util } from '@sentre/senhub'
+import { Ipfs, OrderMetadata } from 'senUse/ipfs'
 
 type ExplainCardProps = {
   orderAddress: string
 }
 
 const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
+  const [orderMetadata, setOrderMetadata] = useState<OrderMetadata>({
+    appliedNFTs: [],
+    discount: 0,
+  })
   const orderData = useSelector((state: AppState) => state.orders[orderAddress])
   const boosters = useSelector((state: AppState) => state.boosters)
   const retailerAddress = orderData.retailer.toBase58()
   const askMintAddress = boosters[retailerAddress].askMint.toBase58() || ''
   const askPrice = useMintPrice(askMintAddress)
+
+  const fetchMetaData = useCallback(async () => {
+    try {
+      const metaInfo = await Ipfs.methods.order.get(orderData.metadata)
+      if (metaInfo) setOrderMetadata(metaInfo)
+    } catch (error) {
+      notifyError(error)
+    }
+  }, [orderData.metadata])
+
+  useEffect(() => {
+    fetchMetaData()
+  }, [fetchMetaData])
 
   return (
     <Row gutter={[8, 8]} align="middle">
@@ -37,13 +57,21 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
           <Col>
             <SpaceVertical
               label="Used NFT slot"
-              value={<Typography.Text>1</Typography.Text>}
+              value={
+                <Typography.Text>
+                  {orderMetadata.appliedNFTs
+                    ? orderMetadata.appliedNFTs.length
+                    : 0}
+                </Typography.Text>
+              }
             />
           </Col>
           <Col>
             <SpaceVertical
               label="Total boost rate"
-              value={<Typography.Text>110,5%</Typography.Text>}
+              value={
+                <Typography.Text>{orderMetadata.discount}%</Typography.Text>
+              }
             />
           </Col>
         </Row>

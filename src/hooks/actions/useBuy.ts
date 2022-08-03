@@ -7,6 +7,7 @@ import { useSenExchange } from 'hooks/useSenExchange'
 
 import { notifyError, notifySuccess } from 'helper'
 import { AppState } from 'model'
+import { Ipfs, OrderMetadata } from 'senUse/ipfs'
 
 type BuyProps = {
   retailer: Address
@@ -14,6 +15,7 @@ type BuyProps = {
   askAmount: BN
   lockTime: BN
   appliedNFTs: string[]
+  discount: number
 }
 
 export const useBuy = () => {
@@ -51,9 +53,15 @@ export const useBuy = () => {
       askAmount,
       lockTime,
       appliedNFTs,
+      discount,
     }: BuyProps) => {
       try {
         setLoading(true)
+        const metadata: OrderMetadata = {
+          appliedNFTs,
+          discount,
+        }
+        const { digest } = await Ipfs.methods.order.set(metadata)
         const { provider } = senExchange
         const trans = new web3.Transaction()
         const order = web3.Keypair.generate()
@@ -66,6 +74,7 @@ export const useBuy = () => {
           lockTime,
           sendAndConfirm: false,
           order,
+          metadata: digest,
         })
         trans.add(txInitializeOrder)
 

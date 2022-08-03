@@ -1,4 +1,3 @@
-import { forwardRef, useImperativeHandle, useState } from 'react'
 import { useUI } from '@sentre/senhub'
 import moment from 'moment'
 
@@ -9,15 +8,17 @@ import Content from './content'
 
 import { DATE_FORMAT } from 'constant'
 
-type GeneralData = {
+export type GeneralData = {
   bidMint: string
   askMint: string
   budget: string
   startTime: number
   endTime: number
 }
-export type GeneralRef = {
-  collect: () => GeneralData
+
+type GeneralInfoProps = {
+  onChange: (value: string | number, name: keyof GeneralData) => void
+  generateData: GeneralData
 }
 
 const MINT_STYLE = {
@@ -37,27 +38,11 @@ const MINT_STYLE = {
   },
 }
 
-const GeneralInfo = forwardRef((_, ref) => {
-  const [bidMint, setBidMint] = useState('')
-  const [askMint, setAskMint] = useState('')
-  const [budget, setBudget] = useState('')
-  const [startTime, setStartTime] = useState<number>(0)
-  const [endTime, setEndTime] = useState<number>(0)
+const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
+  const { askMint, bidMint, budget, endTime, startTime } = generateData
   const {
     ui: { theme },
   } = useUI()
-
-  useImperativeHandle<any, GeneralRef>(ref, () => ({
-    collect: () => {
-      return {
-        bidMint,
-        askMint,
-        budget,
-        startTime,
-        endTime,
-      }
-    },
-  }))
 
   return (
     <Row gutter={[8, 8]}>
@@ -72,7 +57,7 @@ const GeneralInfo = forwardRef((_, ref) => {
               value={
                 <MintSelection
                   value={askMint}
-                  onChange={setAskMint}
+                  onChange={(value) => onChange(value, 'askMint')}
                   placeholder="Select LP"
                   style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
                 />
@@ -85,7 +70,7 @@ const GeneralInfo = forwardRef((_, ref) => {
               value={
                 <MintSelection
                   value={bidMint}
-                  onChange={setBidMint}
+                  onChange={(value) => onChange(value, 'bidMint')}
                   placeholder="Select a token"
                   style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
                 />
@@ -97,7 +82,7 @@ const GeneralInfo = forwardRef((_, ref) => {
               label="Budget"
               value={
                 <Input
-                  onChange={(e) => setBudget(e.target.value)}
+                  onChange={(e) => onChange(e.target.value, 'budget')}
                   value={budget}
                   placeholder="Input the budget amount of pay token"
                   className="retailer-input"
@@ -114,7 +99,9 @@ const GeneralInfo = forwardRef((_, ref) => {
                   placeholder="Select time"
                   suffixIcon={<IonIcon name="time-outline" />}
                   className="date-option"
-                  onChange={(date) => setStartTime(date?.valueOf() || 0)}
+                  onChange={(date) =>
+                    onChange(date?.valueOf() || 0, 'startTime')
+                  }
                   clearIcon={null}
                   value={startTime ? moment(startTime) : null}
                   showTime={{ showSecond: false }}
@@ -132,7 +119,7 @@ const GeneralInfo = forwardRef((_, ref) => {
                   placeholder="Select time"
                   suffixIcon={<IonIcon name="time-outline" />}
                   className="date-option"
-                  onChange={(date) => setEndTime(date?.valueOf() || 0)}
+                  onChange={(date) => onChange(date?.valueOf() || 0, 'endTime')}
                   clearIcon={null}
                   value={endTime ? moment(endTime) : null}
                   showTime={{ showSecond: false }}
@@ -146,6 +133,6 @@ const GeneralInfo = forwardRef((_, ref) => {
       </Col>
     </Row>
   )
-})
+}
 
 export default GeneralInfo

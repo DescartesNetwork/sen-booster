@@ -14,6 +14,7 @@ const OrderTable = ({ dataSource }: OrderTableProps) => {
       dataSource={dataSource}
       pagination={false}
       rowKey={(record) => record.orderAddress}
+      expandRowByClick
       expandable={{
         expandedRowRender: (record) => (
           <ExplainCard orderAddress={record.orderAddress} />
