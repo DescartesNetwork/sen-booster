@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useUI } from '@sentre/senhub'
 
 import { Button, Col, Empty, Row } from 'antd'
 
@@ -10,18 +11,22 @@ import { useAppRouter } from 'hooks/useAppRouter'
 const BoostList = () => {
   const [filteredBoosters, setFilteredBoosters] = useState<string[]>([])
   const { pushHistory } = useAppRouter()
-
+  const {
+    ui: { width },
+  } = useUI()
+  const isMobile = width < 767
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Row justify="space-between" gutter={[24, 24]}>
-          <Col span={12}>
+        <Row align="middle" gutter={[24, 24]}>
+          <Col xs={24} md={20} lg={20} xl={12}>
             <FilterBooster onChange={setFilteredBoosters} />
           </Col>
-          <Col>
+          <Col xs={24} md={4} lg={4} xl={12} style={{ textAlign: 'right' }}>
             <Button
               type="primary"
               onClick={() => pushHistory('/create-booster')}
+              block={isMobile}
             >
               Add booster
             </Button>

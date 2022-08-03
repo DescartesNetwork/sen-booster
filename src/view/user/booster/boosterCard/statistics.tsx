@@ -5,7 +5,7 @@ import BN from 'bn.js'
 import { util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 
-import { Space, Typography } from 'antd'
+import { Col, Row, Space, Typography } from 'antd'
 import { MintSymbol } from '@sen-use/components'
 
 import { AppState } from 'model'
@@ -13,6 +13,7 @@ import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
 import { DATE_FORMAT } from 'constant'
+import SpaceVertical from 'components/spaceVertical'
 
 type StatisticsProps = {
   boosterAddress: string
@@ -48,36 +49,50 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
   }, [payRate])
 
   return (
-    <Space size={48}>
-      <Space direction="vertical" className="buy-back_tag">
-        <Typography.Text type="secondary">Buy-back</Typography.Text>
-        <Typography.Title style={{ color: '#0FB5B8' }} level={4}>
-          {biggestDiscount}%
-        </Typography.Title>
-      </Space>
-      <Space direction="vertical">
-        <Typography.Text type="secondary">Your bought</Typography.Text>
-        <Typography.Text>
-          {util.numeric(boughtAmount).format('0,0.[0000]')}{' '}
-          <MintSymbol mintAddress={bidMint} />
-        </Typography.Text>
-      </Space>
-      <Space direction="vertical">
-        <Typography.Text type="secondary">Total value paid</Typography.Text>
-        <Typography.Text>
-          {util
-            .numeric(utilsBN.undecimalize(askTotal, askDecimal))
-            .format('0,0.[0000]')}{' '}
-          LP
-        </Typography.Text>
-      </Space>
-      <Space direction="vertical">
-        <Typography.Text type="secondary">End date</Typography.Text>
-        <Typography.Text>
-          {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
-        </Typography.Text>
-      </Space>
-    </Space>
+    <Row gutter={[48, 16]}>
+      <Col xs={12} md={5} lg={4}>
+        <Space direction="vertical" className="buy-back_tag">
+          <Typography.Text type="secondary">Buy-back</Typography.Text>
+          <Typography.Title style={{ color: '#0FB5B8' }} level={4}>
+            {biggestDiscount}%
+          </Typography.Title>
+        </Space>
+      </Col>
+      <Col xs={12} md={6} lg={4}>
+        <SpaceVertical
+          label="Your bought"
+          value={
+            <Typography.Text>
+              {util.numeric(boughtAmount).format('0,0.[0000]')}{' '}
+              <MintSymbol mintAddress={bidMint} />
+            </Typography.Text>
+          }
+        />
+      </Col>
+      <Col xs={12} md={6} lg={4}>
+        <SpaceVertical
+          label="Total value paid"
+          value={
+            <Typography.Text>
+              {util
+                .numeric(utilsBN.undecimalize(askTotal, askDecimal))
+                .format('0,0.[0000]')}{' '}
+              LP
+            </Typography.Text>
+          }
+        />
+      </Col>
+      <Col xs={12} md={7} lg={6}>
+        <SpaceVertical
+          label="End date"
+          value={
+            <Typography.Text>
+              {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
+            </Typography.Text>
+          }
+        />
+      </Col>
+    </Row>
   )
 }
 
