@@ -45,8 +45,10 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
                 <Typography.Text type="secondary">Process</Typography.Text>
                 <Typography.Text>
                   {numeric(processAmount).format('0.0,[0000]')}{' '}
-                  <MintSymbol mintAddress={bidMint.toBase58()} />(
-                  {util.numeric(percentage).format('0,0.[00]%')})
+                  <MintSymbol mintAddress={bidMint.toBase58()} />
+                  <Typography.Text type="secondary">
+                    {`(${util.numeric(percentage).format('0,0.[00]%')})`}
+                  </Typography.Text>
                 </Typography.Text>
               </Space>
             </Spin>

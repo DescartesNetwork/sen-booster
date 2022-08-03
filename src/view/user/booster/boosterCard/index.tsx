@@ -30,7 +30,7 @@ const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
           <Row justify="space-between">
             <Col>
               <Space size={16}>
-                <BoosterAvatar boosterAddress={boosterAddress} />
+                <BoosterAvatar boosterAddress={boosterAddress} size={32} />
                 <BoosterSymbol boosterAddress={boosterAddress} />
                 {!!amountVoucher && <Tag>Boost</Tag>}
               </Space>
