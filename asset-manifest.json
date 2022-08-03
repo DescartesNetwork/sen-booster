@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.45e52180.js",
+    "main.js": "/static/js/main.f568cd0f.js",
     "sen_booster.js": "/index.js",
     "static/js/src_bootstrap_tsx.6cb39e5b.chunk.js": "/static/js/src_bootstrap_tsx.6cb39e5b.chunk.js",
     "static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js": "/static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/node_modules_react-router-dom_esm_react-router-dom_js-_d6f00.47df2d94.chunk.js": "/static/js/node_modules_react-router-dom_esm_react-router-dom_js-_d6f00.47df2d94.chunk.js",
     "static/js/node_modules_react_index_js.15aee102.chunk.js": "/static/js/node_modules_react_index_js.15aee102.chunk.js",
     "static/css/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.fe892788.chunk.css": "/static/css/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.fe892788.chunk.css",
-    "static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.7e9656c7.chunk.js": "/static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.7e9656c7.chunk.js",
+    "static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.930163f9.chunk.js": "/static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.930163f9.chunk.js",
     "static/js/vendors-node_modules_react-dom_index_js.9ee16fcd.chunk.js": "/static/js/vendors-node_modules_react-dom_index_js.9ee16fcd.chunk.js",
     "static/js/_18f2-_0b7d-_25ed-_8131-_3fc0-_e4dd-_7bec-_ec71-_df0e-_887c-_c738-_9820-_7d1a-_b254-_ed1b-_d1-147343.8ffe752a.chunk.js": "/static/js/_18f2-_0b7d-_25ed-_8131-_3fc0-_e4dd-_7bec-_ec71-_df0e-_887c-_c738-_9820-_7d1a-_b254-_ed1b-_d1-147343.8ffe752a.chunk.js",
     "static/js/node_modules_web-vitals_dist_web-vitals_js.81f6bf40.chunk.js": "/static/js/node_modules_web-vitals_dist_web-vitals_js.81f6bf40.chunk.js",
@@ -19,7 +19,7 @@
     "static/js/vendors-node_modules_antd_es_index_js.e9db700c.chunk.js": "/static/js/vendors-node_modules_antd_es_index_js.e9db700c.chunk.js",
     "static/js/vendors-node_modules_react-router_esm_react-router_js.095fcb03.chunk.js": "/static/js/vendors-node_modules_react-router_esm_react-router_js.095fcb03.chunk.js",
     "static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css": "/static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css",
-    "static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.21cc5269.chunk.js": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.21cc5269.chunk.js",
+    "static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.4c187d97.chunk.js": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.4c187d97.chunk.js",
     "static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js": "/static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js",
     "static/js/vendors-node_modules_sen-use_components_dist_mint_mintSelection_index_js-node_modules_sen-use-7b3b9c.e6c988fc.chunk.js": "/static/js/vendors-node_modules_sen-use_components_dist_mint_mintSelection_index_js-node_modules_sen-use-7b3b9c.e6c988fc.chunk.js",
     "static/media/dark-bg-welcome.png": "/static/media/dark-bg-welcome.cfbd7a4df10674ca1e2b.png",
@@ -67,7 +67,7 @@
     "static/media/icon-telegram.svg": "/static/media/icon-telegram.2450489f40d03000fe65fc1c6f238d85.svg",
     "static/media/README.md": "/static/media/README.118bc629645ae59e5bd2.md",
     "static.app.tsx": "/sen_booster-asset-senhub.json",
-    "main.45e52180.js.map": "/static/js/main.45e52180.js.map",
+    "main.f568cd0f.js.map": "/static/js/main.f568cd0f.js.map",
     "index.js.map": "/index.js.map",
     "src_bootstrap_tsx.6cb39e5b.chunk.js.map": "/static/js/src_bootstrap_tsx.6cb39e5b.chunk.js.map",
     "vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js.map": "/static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js.map",
@@ -77,7 +77,7 @@
     "node_modules_react-router-dom_esm_react-router-dom_js-_d6f00.47df2d94.chunk.js.map": "/static/js/node_modules_react-router-dom_esm_react-router-dom_js-_d6f00.47df2d94.chunk.js.map",
     "node_modules_react_index_js.15aee102.chunk.js.map": "/static/js/node_modules_react_index_js.15aee102.chunk.js.map",
     "src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.fe892788.chunk.css.map": "/static/css/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.fe892788.chunk.css.map",
-    "src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.7e9656c7.chunk.js.map": "/static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.7e9656c7.chunk.js.map",
+    "src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.930163f9.chunk.js.map": "/static/js/src_bootstrap_app_tsx-src_static_images_BG_DARK_png-src_static_images_BG_LIGHT_png-src_static-a99de8.930163f9.chunk.js.map",
     "vendors-node_modules_react-dom_index_js.9ee16fcd.chunk.js.map": "/static/js/vendors-node_modules_react-dom_index_js.9ee16fcd.chunk.js.map",
     "node_modules_web-vitals_dist_web-vitals_js.81f6bf40.chunk.js.map": "/static/js/node_modules_web-vitals_dist_web-vitals_js.81f6bf40.chunk.js.map",
     "node_modules_react-router-dom_esm_react-router-dom_js-_d6f01.ec2a54e1.chunk.js.map": "/static/js/node_modules_react-router-dom_esm_react-router-dom_js-_d6f01.ec2a54e1.chunk.js.map",
@@ -85,11 +85,11 @@
     "vendors-node_modules_antd_es_index_js.e9db700c.chunk.js.map": "/static/js/vendors-node_modules_antd_es_index_js.e9db700c.chunk.js.map",
     "vendors-node_modules_react-router_esm_react-router_js.095fcb03.chunk.js.map": "/static/js/vendors-node_modules_react-router_esm_react-router_js.095fcb03.chunk.js.map",
     "vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css.map": "/static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css.map",
-    "vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.21cc5269.chunk.js.map": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.21cc5269.chunk.js.map",
+    "vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.4c187d97.chunk.js.map": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.4c187d97.chunk.js.map",
     "vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js.map": "/static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js.map",
     "vendors-node_modules_sen-use_components_dist_mint_mintSelection_index_js-node_modules_sen-use-7b3b9c.e6c988fc.chunk.js.map": "/static/js/vendors-node_modules_sen-use_components_dist_mint_mintSelection_index_js-node_modules_sen-use-7b3b9c.e6c988fc.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.45e52180.js"
+    "static/js/main.f568cd0f.js"
   ]
 }
