@@ -1,20 +1,22 @@
+import { useState } from 'react'
+
 import { Button, Col, Empty, Row } from 'antd'
-import Filter from 'components/orderFilterSet'
+
 import RetailCard from './retailCard'
+import FilterBooster from './filterBooster'
 
 import { useAppRouter } from 'hooks/useAppRouter'
-import { useOwnBoosters } from 'hooks/boosters/useOwnBoosters'
 
 const BoostList = () => {
+  const [filteredBoosters, setFilteredBoosters] = useState<string[]>([])
   const { pushHistory } = useAppRouter()
-  const { ownBoosters } = useOwnBoosters()
 
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Row>
-          <Col flex="auto">
-            <Filter />
+        <Row justify="space-between" gutter={[24, 24]}>
+          <Col span={12}>
+            <FilterBooster onChange={setFilteredBoosters} />
           </Col>
           <Col>
             <Button
@@ -28,7 +30,7 @@ const BoostList = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[24, 24]}>
-          {!ownBoosters.length ? (
+          {!filteredBoosters.length ? (
             <Col span={24}>
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -36,7 +38,7 @@ const BoostList = () => {
               />
             </Col>
           ) : (
-            ownBoosters.map((boosterAddress) => (
+            filteredBoosters.map((boosterAddress) => (
               <Col xs={24} md={12} key={boosterAddress}>
                 <RetailCard boosterAddress={boosterAddress} />
               </Col>

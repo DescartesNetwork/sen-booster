@@ -7,12 +7,16 @@ import BoosterProcess from 'components/boosterProcess'
 import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
 
+import { useTotalVoucherOfBooster } from 'hooks/boosters/useTotalVoucherOfBooster'
+
 type BoosterCardProps = {
   boosterAddress: string
 }
 
 const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
-  const isNFT = true
+  const { getAmountVoucher } = useTotalVoucherOfBooster()
+  const amountVoucher = getAmountVoucher(boosterAddress)
+
   return (
     <Card>
       <Row gutter={[24, 24]}>
@@ -22,7 +26,7 @@ const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
               <Space size={16}>
                 <BoosterAvatar boosterAddress={boosterAddress} />
                 <BoosterSymbol boosterAddress={boosterAddress} />
-                {isNFT && <Tag>Boost</Tag>}
+                {!!amountVoucher && <Tag>Boost</Tag>}
               </Space>
             </Col>
             <Col>

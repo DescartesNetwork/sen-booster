@@ -1,19 +1,35 @@
-import { Card, Col, Row } from 'antd'
+import { useState } from 'react'
+
+import { Button, Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
-import OrderFilterSet from 'components/orderFilterSet'
+import FilterOrders from 'components/filterOrder'
 
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
+import { OrderRequest } from 'view/retailer/orderList'
+
+const DEFAULT_PAGE_SIZE = 10
 
 const Redeem = () => {
+  const [orders, setOrders] = useState<OrderRequest[]>([])
+  const [page, setPage] = useState(1)
   const { ownOrders } = useOwnOrders()
+
   return (
     <Card bodyStyle={{ padding: '24px 0px' }}>
       <Row gutter={[16, 16]}>
-        <Col span={24} style={{ padding: '0 24px' }}>
-          <OrderFilterSet />
+        <Col span={24} style={{ paddingRight: 24, paddingLeft: 24 }}>
+          <FilterOrders orderList={ownOrders} onChange={setOrders} />
         </Col>
         <Col span={24}>
-          <RedeemTable dataSource={ownOrders} />
+          <RedeemTable dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)} />
+        </Col>
+        <Col span={24} style={{ textAlign: 'center' }}>
+          <Button
+            onClick={() => setPage(page + 1)}
+            disabled={page * DEFAULT_PAGE_SIZE >= orders.length}
+          >
+            View more
+          </Button>
         </Col>
       </Row>
     </Card>

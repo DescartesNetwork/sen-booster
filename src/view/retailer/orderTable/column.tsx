@@ -3,10 +3,10 @@ import moment from 'moment'
 import { OrderData, OrderState } from 'sen-exchange-core'
 
 import { Typography } from 'antd'
-import ColumnBuyBack from './columnBuyBack'
-import ColumnPay from './columnPay'
 import StatusTag from 'components/statusTag'
 import ColumnProfit from './columnProfit'
+import AskColumn from 'components/askColumn'
+import BidColumn from 'components/bidColumn'
 
 import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
 
@@ -21,24 +21,18 @@ export const ORDER_COLUMNS = [
       </Typography.Text>
     ),
   },
+
   {
     title: 'BUY-BACK',
-    dataIndex: 'askAmount',
-    key: 'askAmount',
-    render: (askAmount: BN, { retailer }: OrderData) => (
-      <ColumnBuyBack
-        askAmount={askAmount}
-        boosterAddress={retailer.toBase58()}
-      />
-    ),
+    dataIndex: 'orderAddress',
+    key: 'orderAddress',
+    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
   },
   {
     title: 'PAY',
-    dataIndex: 'bidAmount',
-    key: 'bidAmount',
-    render: (bidAmount: BN, { retailer }: OrderData) => (
-      <ColumnPay bidAmount={bidAmount} boosterAddress={retailer.toBase58()} />
-    ),
+    dataIndex: 'orderAddress',
+    key: 'orderAddress',
+    render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
   },
   {
     title: 'LOCK TIME',

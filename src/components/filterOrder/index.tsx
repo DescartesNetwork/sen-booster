@@ -1,20 +1,57 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { MintAvatar, MintSymbol } from '@sen-use/components'
 import { Col, Row, Select, Space, Typography } from 'antd'
 
-import { ALL, STATUS_FILTER_OPTIONS, TIME_FILTER_OPTIONS } from 'constant'
+import {
+  ALL,
+  SECONDS_PER_DAY,
+  TIME_FILTER_OPTIONS,
+  STATUS_OPTIONS,
+} from 'constant'
 import { useMintFilterOptions } from 'hooks/useMintFilterOptions'
+import { OrderRequest } from 'view/retailer/orderList'
+import { AppState } from 'model'
 
-const OrderFilterSet = () => {
+type FilterOrdersProps = {
+  onChange: (orders: OrderRequest[]) => void
+  orderList: OrderRequest[]
+}
+
+const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
   const [filter, setFilter] = useState({
-    token: '',
-    time: TIME_FILTER_OPTIONS[0],
-    status: STATUS_FILTER_OPTIONS[0],
+    token: ALL,
+    time: TIME_FILTER_OPTIONS[0].value,
+    status: ALL,
   })
   const mintOptions = useMintFilterOptions()
+  const boosters = useSelector((state: AppState) => state.boosters)
+  const mode = useSelector((state: AppState) => state.settings.mode)
 
-  //TODO: Set filter default
+  const filteredOrders = useMemo(() => {
+    const now = Date.now() / 1000
+    const pastTime = now - filter.time * SECONDS_PER_DAY
+    const orderRequest = orderList.filter((order) => {
+      const { retailer, createAt, state } = order
+      const { askMint, bidMint } = boosters[retailer.toBase58()]
+      const listMintAddress = [askMint.toBase58(), bidMint.toBase58()]
+      //Filter Params
+      if (filter.status !== ALL && Object.keys(state)[0] !== filter.status)
+        return false
+      if (createAt.toNumber() < pastTime) return false
+      if (filter.token !== ALL && !listMintAddress.includes(filter.token))
+        return false
+
+      return true
+    })
+
+    return orderRequest
+  }, [boosters, filter, orderList])
+
+  useEffect(() => {
+    onChange(filteredOrders)
+  }, [filteredOrders, onChange])
 
   return (
     <Row gutter={[12, 12]}>
@@ -26,7 +63,7 @@ const OrderFilterSet = () => {
             style={{ width: '100%' }}
             onChange={(mint) => setFilter({ ...filter, token: mint })}
             placement="bottomRight"
-            defaultValue={ALL}
+            value={filter.token}
           >
             <Select.Option value={ALL}>All token</Select.Option>
             {mintOptions.map((mint) => (
@@ -68,7 +105,7 @@ const OrderFilterSet = () => {
             placement="bottomRight"
             value={filter.status}
           >
-            {STATUS_FILTER_OPTIONS.map((option) => (
+            {STATUS_OPTIONS[mode].map((option) => (
               <Select.Option value={option.value} key={option.value}>
                 {option.key}
               </Select.Option>
@@ -80,4 +117,4 @@ const OrderFilterSet = () => {
   )
 }
 
-export default OrderFilterSet
+export default FilterOrders
