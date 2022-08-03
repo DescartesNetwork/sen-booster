@@ -20,6 +20,7 @@ const SearchBooster = ({ onChange }: SearchBoosterProps) => {
     <Row>
       <Col span={24}>
         <Input
+          className="search-lp"
           placeholder="Search LP, token"
           value={searchText}
           prefix={
@@ -43,7 +44,7 @@ const SearchBooster = ({ onChange }: SearchBoosterProps) => {
             )
           }
           onChange={(e) => setSearchText(e.target.value)}
-          style={{ height: '32px' }}
+          style={{ height: '32px', background: 'transparent' }}
         />
       </Col>
     </Row>

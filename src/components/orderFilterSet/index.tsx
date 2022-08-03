@@ -19,11 +19,11 @@ const OrderFilterSet = () => {
   return (
     <Row gutter={[12, 12]}>
       {/* Filter Token */}
-      <Col>
-        <Space size={4} direction="vertical">
-          <Typography.Text>Token</Typography.Text>
+      <Col span={4}>
+        <Space size={4} direction="vertical" style={{ width: '100%' }}>
+          <Typography.Text type="secondary">Token</Typography.Text>
           <Select
-            style={{ width: 120 }}
+            style={{ width: '100%' }}
             onChange={(mint) => setFilter({ ...filter, token: mint })}
             placement="bottomRight"
             defaultValue={ALL}
@@ -41,11 +41,11 @@ const OrderFilterSet = () => {
         </Space>
       </Col>
       {/* Filter Time */}
-      <Col>
-        <Space size={4} direction="vertical">
-          <Typography.Text>Time</Typography.Text>
+      <Col span={4}>
+        <Space size={4} direction="vertical" style={{ width: '100%' }}>
+          <Typography.Text type="secondary">Time</Typography.Text>
           <Select
-            style={{ width: 120 }}
+            style={{ width: '100%' }}
             onChange={(val) => setFilter({ ...filter, time: val })}
             placement="bottomRight"
             value={filter.time}
@@ -59,11 +59,11 @@ const OrderFilterSet = () => {
         </Space>
       </Col>
       {/* Filter Status */}
-      <Col>
-        <Space size={4} direction="vertical">
-          <Typography.Text>Status</Typography.Text>
+      <Col span={4}>
+        <Space size={4} direction="vertical" style={{ width: '100%' }}>
+          <Typography.Text type="secondary">Status</Typography.Text>
           <Select
-            style={{ width: 120 }}
+            style={{ width: '100%' }}
             onChange={(val) => setFilter({ ...filter, status: val })}
             placement="bottomRight"
             value={filter.status}
