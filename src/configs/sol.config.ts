@@ -21,7 +21,7 @@ const conf: Record<Net, Conf> = {
     spltAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
     splataAddress: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
     metaplexNFT: new metaplexNFT(rpc),
-    senExchangeProgram: '3GXMn8DXgNeUVtBrFfrWEDHRQ6JEgKtptWf6Bqzmo4w4',
+    senExchangeProgram: 'CK8nXzNXNQaobUeJa62pPpXg9iDbCKkjwosDE3shhjr1',
   },
 
   /**

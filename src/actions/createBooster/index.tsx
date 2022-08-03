@@ -98,6 +98,7 @@ const CreateBooster = () => {
                     onClick={onCreateBooster}
                     loading={loading}
                     disabled={disabled}
+                    type="primary"
                   >
                     Create
                   </Button>

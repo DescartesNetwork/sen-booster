@@ -13,6 +13,7 @@ type UseWatcherProps = {
   init: (bulk: Record<string, any>) => void
 }
 
+const GLOBAL_WATCHER: Record<string, boolean> = {}
 export const useWatcherLoading = createGlobalState<Record<string, boolean>>({})
 
 const Watcher = (props: UseWatcherProps) => {
@@ -27,9 +28,10 @@ const Watcher = (props: UseWatcherProps) => {
   }, [name, program?.account])
 
   const fetchData = useCallback(async () => {
-    if (loadingInfo[name] !== undefined) return
+    if (GLOBAL_WATCHER[name] !== undefined) return
     try {
-      setLoadingInfo({ ...loadingInfo, [name]: true })
+      GLOBAL_WATCHER[name] = true
+      setLoadingInfo({ ...GLOBAL_WATCHER, [name]: true })
       const accountInfos = await accountClient.all()
       const bulk: any = {}
       for (const info of accountInfos) {
@@ -45,6 +47,7 @@ const Watcher = (props: UseWatcherProps) => {
 
   const watchData = useCallback(async () => {
     if (watchId) return
+    console.log('watch data')
     const newWatcherId = connection.onProgramAccountChange(
       accountClient.programId,
       async (info) => {

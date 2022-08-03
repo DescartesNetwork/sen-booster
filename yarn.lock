@@ -1993,10 +1993,25 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@sen-use/components@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-1.2.5.tgz#f8711217041a9df79ac9875767076b3b6d020fc8"
-  integrity sha512-NGOVY1zoZDeTj7DbapuNwiyezMNddasM1lsuDZq4JGB0XsMjTgdkGQEEUq7NI3UyhN0J76srXZf5b/hetbddrQ==
+"@sen-use/app@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@sen-use/app/-/app-2.0.2.tgz#aefad5553adde2ed95bc8af420b8fe4563d7534f"
+  integrity sha512-yOaAirm2up4p3vHF5iN1W30tp8PaOqTDJt5aEFNdh6ZbkI1uM/xm8Vuli/kitJvzJdxU+UzCWxASXg0WX/xYZQ==
+  dependencies:
+    "@project-serum/anchor" "^0.24.2"
+    "@solana/web3.js" "^1.50.0"
+    bn.js "^5.2.1"
+    bs58 "^5.0.0"
+    localforage "^1.10.0"
+    web3.storage "^4.2.0"
+
+"@sen-use/components@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-2.0.2.tgz#ccea4c8569ae1e15222e10dde80acac78c3e8cef"
+  integrity sha512-hwSGq0eRjnQHEa5yEmIbWQVyy+o4wMyZMceRB7VxeLT1wrvNl7Pm7aU8IXwSj9tS0pAgRg0UMHxXGcBdVar4KQ==
+  dependencies:
+    "@metaplex/js" "^4.12.0"
+    lunr "^2.3.9"
 
 "@sen-use/web3@^1.0.9":
   version "1.0.9"
@@ -2007,10 +2022,10 @@
     bn.js "^5.2.1"
     web3.storage "^4.2.0"
 
-"@sen-use/web3@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-1.2.5.tgz#dda3671624adb97f3f24300a681097591d786016"
-  integrity sha512-K4/SSqlzhMDxymHpLQPp21BVH0cg1QRqllGdOz6uJ6dL060JAO7bNMe3/wEL7dk5GELBvODEAWpjg+atqb/DcQ==
+"@sen-use/web3@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-2.0.2.tgz#6fd78c2aa85cd78acbfb96cae34989674cb698c4"
+  integrity sha512-VKoO8AvtkjGsfkJNPh17bFERDFIEJpEgaz27P8H1P3Iu3zNTpzNkxZvsP0quoOeqCoKKiZNFk5/TLHkcviOlAw==
   dependencies:
     "@project-serum/anchor" "^0.24.2"
     "@solana/web3.js" "^1.50.0"
