@@ -13,7 +13,6 @@ const RedeemTable = ({ dataSource }: RedeemTableProps) => {
       <Col span={24}>
         <Table
           columns={REDEEM_COLUMNS}
-          rowClassName={(_, index) => (index % 2 ? 'odd-row' : 'even-row')}
           pagination={false}
           dataSource={dataSource}
           rowKey={(record) => record.orderAddress}

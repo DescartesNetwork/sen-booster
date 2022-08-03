@@ -19,7 +19,7 @@ const ApproveOrder = ({ orderAddress }: ApproveOrderProps) => {
     <Button
       type="primary"
       loading={loading}
-      disabled={!!state.approved || !!state.rejected}
+      disabled={!state.open}
       onClick={() => approveOrder(orderAddress)}
     >
       Approve

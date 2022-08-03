@@ -17,10 +17,10 @@ export enum Mode {
 }
 // Booster's category with User Mode
 export enum UserBoosterCategory {
-  AllBooster = 'All booster',
-  HotBooster = 'Hot booster',
-  HighBuyBackRate = 'High buy-back rate',
-  BoostOnly = 'Boost only',
+  LPHighToLow = 'Lp paid: High to low',
+  LPLowToHigh = 'Lp paid: Low to high',
+  RateHighToLow = 'Buy-back rate: High to low',
+  RateLowToHigh = 'Buy-back rate: Low to high',
 }
 export const USER_BOOSTER_CATEGORIES = Object.entries(UserBoosterCategory).map(
   ([_, value]) => value,
@@ -46,10 +46,19 @@ export const TIME_FILTER_OPTIONS = [
   { key: 'Past 30 days', value: 30 },
 ]
 
-export const STATUS_FILTER_OPTIONS = [
-  { key: 'All', value: ALL },
-  { key: 'Pending', value: 'pending' },
-  { key: 'Approved', value: 'approved' },
-  { key: 'Reject', value: 'reject' },
-  { key: 'Done', value: 'done' },
-]
+export const STATUS_OPTIONS = {
+  retailer: [
+    { key: 'All', value: ALL },
+    { key: 'Approved', value: 'approved' },
+    { key: 'Reject', value: 'reject' },
+    { key: 'Done', value: 'done' },
+    { key: 'Open', value: 'open' },
+  ],
+  user: [
+    { key: 'All', value: ALL },
+    { key: 'Approved', value: 'approved' },
+    { key: 'Canceled', value: 'canceled' },
+    { key: 'Done', value: 'done' },
+    { key: 'Waiting', value: 'open' },
+  ],
+}

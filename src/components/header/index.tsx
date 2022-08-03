@@ -17,7 +17,6 @@ import {
 import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
 import { AppDispatch } from 'model'
-import { resetFilter } from 'model/ordersFilter.controller'
 import { setMode } from 'model/settings.controller'
 
 type HeaderProps = {
@@ -57,13 +56,12 @@ const Header = ({
   }, [location.pathname])
 
   const onSwitch = (checked: boolean) => {
-    dispatch(resetFilter())
     if (checked) {
       dispatch(setMode(Mode.Retailer))
       return pushHistory('/retailer')
     }
-    dispatch(setMode(Mode.Retailer))
-    pushHistory('/user')
+    dispatch(setMode(Mode.User))
+    return pushHistory('/user')
   }
 
   return (

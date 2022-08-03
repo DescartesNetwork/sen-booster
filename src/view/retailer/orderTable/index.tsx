@@ -7,7 +7,6 @@ import { ORDER_COLUMNS } from './column'
 type OrderTableProps = {
   dataSource: OrderRequest[]
 }
-
 const OrderTable = ({ dataSource }: OrderTableProps) => {
   return (
     <Table
