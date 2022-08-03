@@ -1,8 +1,8 @@
+import { Fragment, useMemo } from 'react'
 import BoostersWatcher from './boosters.watcher'
 import OrdersWatcher from './orders.watcher'
 import VouchersWatcher from './vouchers.watcher'
 import VoucherPrintersWatcher from './voucherPrinter.watcher'
-import { Fragment, useMemo } from 'react'
 import { useWatcherLoading } from './watcher'
 
 import Loading from 'components/loading'

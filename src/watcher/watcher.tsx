@@ -1,9 +1,9 @@
-import { Program, web3 } from '@project-serum/anchor'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import { Program, web3 } from '@project-serum/anchor'
+import { createGlobalState } from 'react-use'
+import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
 
 import { notifyError } from 'helper'
-import { encodeIxData, accountDiscriminator } from '@sen-use/web3'
-import { createGlobalState } from 'react-use'
 
 type UseWatcherProps = {
   program: Program<any>
