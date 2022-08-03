@@ -46,7 +46,7 @@ export const TIME_FILTER_OPTIONS = [
   { key: 'Past 30 days', value: 30 },
 ]
 
-export const STATUS_OPTION = {
+export const STATUS_OPTIONS = {
   retailer: [
     { key: 'All', value: ALL },
     { key: 'Approved', value: 'approved' },

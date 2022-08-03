@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { AppState } from 'model'
 
-const useAmountVoucher = () => {
+export const useTotalVoucherOfBooster = () => {
   const voucherPrinters = useSelector(
     (state: AppState) => state.voucherPrinters,
   )
@@ -20,5 +20,3 @@ const useAmountVoucher = () => {
 
   return { getAmountVoucher }
 }
-
-export default useAmountVoucher

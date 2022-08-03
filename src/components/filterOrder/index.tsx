@@ -8,7 +8,7 @@ import {
   ALL,
   SECONDS_PER_DAY,
   TIME_FILTER_OPTIONS,
-  STATUS_OPTION,
+  STATUS_OPTIONS,
 } from 'constant'
 import { useMintFilterOptions } from 'hooks/useMintFilterOptions'
 import { OrderRequest } from 'view/retailer/orderList'
@@ -26,36 +26,32 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
     status: ALL,
   })
   const mintOptions = useMintFilterOptions()
-  const booster = useSelector((state: AppState) => state.boosters)
+  const boosters = useSelector((state: AppState) => state.boosters)
   const mode = useSelector((state: AppState) => state.settings.mode)
 
   const filteredOrders = useMemo(() => {
-    const orderRequest: OrderRequest[] = []
     const now = Date.now() / 1000
     const pastTime = now - filter.time * SECONDS_PER_DAY
-    for (const order of orderList) {
-      let valid = true
+    const orderRequest = orderList.filter((order) => {
       const { retailer, createAt, state } = order
-      const { askMint, bidMint } = booster[retailer.toBase58()]
+      const { askMint, bidMint } = boosters[retailer.toBase58()]
       const listMintAddress = [askMint.toBase58(), bidMint.toBase58()]
-
       //Filter Params
       if (filter.status !== ALL && Object.keys(state)[0] !== filter.status)
-        valid = false
-      if (createAt.toNumber() < pastTime) valid = false
+        return false
+      if (createAt.toNumber() < pastTime) return false
       if (filter.token !== ALL && !listMintAddress.includes(filter.token))
-        valid = false
+        return false
 
-      if (valid) orderRequest.push(order)
-    }
+      return true
+    })
+
     return orderRequest
-  }, [booster, filter, orderList])
+  }, [boosters, filter, orderList])
 
   useEffect(() => {
     onChange(filteredOrders)
   }, [filteredOrders, onChange])
-
-  //TODO: Set filter default
 
   return (
     <Row gutter={[12, 12]}>
@@ -109,7 +105,7 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
             placement="bottomRight"
             value={filter.status}
           >
-            {STATUS_OPTION[mode].map((option) => (
+            {STATUS_OPTIONS[mode].map((option) => (
               <Select.Option value={option.value} key={option.value}>
                 {option.key}
               </Select.Option>

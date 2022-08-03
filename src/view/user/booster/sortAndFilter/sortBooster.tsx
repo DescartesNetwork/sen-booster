@@ -55,16 +55,18 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
         const discount_a = listPayRate[address_a]
         const discount_b = listPayRate[address_b]
 
-        if (sortBy.category === UserBoosterCategory.LPHighToLow)
-          return totalLP_b - totalLP_a
-        if (sortBy.category === UserBoosterCategory.LPLowToHigh)
-          return totalLP_a - totalLP_b
-        if (sortBy.category === UserBoosterCategory.RateHighToLow)
-          return discount_b - discount_a
-        if (sortBy.category === UserBoosterCategory.RateLowToHigh)
-          return discount_a - discount_b
-
-        return 0
+        switch (sortBy.category) {
+          case UserBoosterCategory.LPHighToLow:
+            return totalLP_b - totalLP_a
+          case UserBoosterCategory.LPLowToHigh:
+            return totalLP_a - totalLP_b
+          case UserBoosterCategory.RateHighToLow:
+            return discount_b - discount_a
+          case UserBoosterCategory.RateLowToHigh:
+            return discount_a - discount_b
+          default:
+            return 0
+        }
       },
     )
 

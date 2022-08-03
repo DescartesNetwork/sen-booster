@@ -7,7 +7,7 @@ import FilterBooster from './filterBooster'
 import { useAppRouter } from 'hooks/useAppRouter'
 
 const BoostList = () => {
-  const [boosterAddresses, setBoosterAddr] = useState<string[]>([])
+  const [filteredBoosters, setFilteredBoosters] = useState<string[]>([])
   const { pushHistory } = useAppRouter()
 
   return (
@@ -15,7 +15,7 @@ const BoostList = () => {
       <Col span={24}>
         <Row justify="space-between" gutter={[24, 24]}>
           <Col span={12}>
-            <FilterBooster onChange={setBoosterAddr} />
+            <FilterBooster onChange={setFilteredBoosters} />
           </Col>
           <Col>
             <Button
@@ -29,7 +29,7 @@ const BoostList = () => {
       </Col>
       <Col span={24}>
         <Row gutter={[24, 24]}>
-          {boosterAddresses.map((boosterAddress) => (
+          {filteredBoosters.map((boosterAddress) => (
             <Col xs={24} md={12} key={boosterAddress}>
               <RetailCard boosterAddress={boosterAddress} />
             </Col>

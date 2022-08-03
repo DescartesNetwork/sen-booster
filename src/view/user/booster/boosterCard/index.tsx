@@ -6,14 +6,15 @@ import BoosterAvatar from 'components/boosterAvatar'
 import BoosterProcess from 'components/boosterProcess'
 import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
-import useAmountVoucher from 'hooks/boosters/useAmountVoucher'
+
+import { useTotalVoucherOfBooster } from 'hooks/boosters/useTotalVoucherOfBooster'
 
 type BoosterCardProps = {
   boosterAddress: string
 }
 
 const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
-  const { getAmountVoucher } = useAmountVoucher()
+  const { getAmountVoucher } = useTotalVoucherOfBooster()
   const amountVoucher = getAmountVoucher(boosterAddress)
 
   return (
@@ -25,7 +26,7 @@ const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
               <Space size={16}>
                 <BoosterAvatar boosterAddress={boosterAddress} />
                 <BoosterSymbol boosterAddress={boosterAddress} />
-                {amountVoucher && <Tag>Boost</Tag>}
+                {!!amountVoucher && <Tag>Boost</Tag>}
               </Space>
             </Col>
             <Col>

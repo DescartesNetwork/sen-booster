@@ -2,16 +2,16 @@ import { useState } from 'react'
 
 import { Button, Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
-import FilterOrders from 'components/orderFilters'
+import FilterOrders from 'components/filterOrder'
 
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
 import { OrderRequest } from 'view/retailer/orderList'
 
-const DEFAULT_AMOUNT = 10
+const DEFAULT_ORDER_QUANTITY = 10
 
 const Redeem = () => {
   const [orders, setOrders] = useState<OrderRequest[]>([])
-  const [amountOrders, setAmountOrders] = useState(DEFAULT_AMOUNT)
+  const [amountOrders, setAmountOrders] = useState(DEFAULT_ORDER_QUANTITY)
   const { ownOrders } = useOwnOrders()
 
   return (
@@ -25,7 +25,9 @@ const Redeem = () => {
         </Col>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Button
-            onClick={() => setAmountOrders(amountOrders + DEFAULT_AMOUNT)}
+            onClick={() =>
+              setAmountOrders(amountOrders + DEFAULT_ORDER_QUANTITY)
+            }
             disabled={amountOrders >= orders.length}
           >
             View more

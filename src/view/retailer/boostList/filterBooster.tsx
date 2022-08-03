@@ -5,18 +5,18 @@ import { Checkbox, Col, Row, Space, Typography, Switch } from 'antd'
 
 import { useOwnBoosters } from 'hooks/boosters/useOwnBoosters'
 import { AppState } from 'model'
-import useAmountVoucher from 'hooks/boosters/useAmountVoucher'
+import { useTotalVoucherOfBooster } from 'hooks/boosters/useTotalVoucherOfBooster'
 
 type FilterBoosterProps = {
   onChange: (boosterAddresses: string[]) => void
 }
 
 const FilterBooster = ({ onChange }: FilterBoosterProps) => {
-  const [isHideExpired, setIsHideExpired] = useState(true)
-  const [isHideFreeze, setIsHideFreeze] = useState(true)
+  const [hideExpired, setHideExpired] = useState(true)
+  const [hideFrozen, setIsHideFrozen] = useState(true)
   const [isBoost, setIsBoost] = useState(false)
   const { ownBoosters } = useOwnBoosters()
-  const { getAmountVoucher } = useAmountVoucher()
+  const { getAmountVoucher } = useTotalVoucherOfBooster()
   const boosters = useSelector((state: AppState) => state.boosters)
 
   const filteredBooster = useMemo(() => {
@@ -28,8 +28,8 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
       let valid = true
 
       //Filter params
-      if (isHideExpired && numEndAt < now) valid = false
-      if (isHideFreeze && state.frozen) valid = false
+      if (hideExpired && numEndAt < now) valid = false
+      if (hideFrozen && state.frozen) valid = false
       if (isBoost && !getAmountVoucher(address)) valid = false
 
       if (valid) boosterAddress.push(address)
@@ -39,8 +39,8 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
     boosters,
     getAmountVoucher,
     isBoost,
-    isHideExpired,
-    isHideFreeze,
+    hideExpired,
+    hideFrozen,
     ownBoosters,
   ])
 
@@ -53,8 +53,8 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
       <Col>
         <Space>
           <Checkbox
-            checked={isHideExpired}
-            onChange={(e) => setIsHideExpired(e.target.checked)}
+            checked={hideExpired}
+            onChange={(e) => setHideExpired(e.target.checked)}
           />
           <Typography.Text>Hide expired booster</Typography.Text>
         </Space>
@@ -62,8 +62,8 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
       <Col>
         <Space>
           <Checkbox
-            checked={isHideFreeze}
-            onChange={(e) => setIsHideFreeze(e.target.checked)}
+            checked={hideFrozen}
+            onChange={(e) => setIsHideFrozen(e.target.checked)}
           />
           <Typography.Text>Hide freeze booster</Typography.Text>
         </Space>
