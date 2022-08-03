@@ -27,9 +27,10 @@ const Booster = () => {
               <Col span={24} key={boosterAddress}>
                 <LazyLoad
                   height={276}
-                  overflow
-                  // scrollContainer={document.}
-                  throttle={300}
+                  scrollContainer={
+                    document.getElementById('sen-booster-scroll-lazyload') ||
+                    undefined
+                  }
                 >
                   <BoosterCard boosterAddress={boosterAddress} />
                 </LazyLoad>

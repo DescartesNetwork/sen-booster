@@ -26,14 +26,19 @@ const View = () => {
   return (
     <AppLoader>
       <AppWatcher>
-        <Switch>
-          <Route path={`${appRoute}/user`} component={User} />
-          <Route path={`${appRoute}/retailer`} component={Retailer} />
-          <Route path={`${appRoute}/create-booster`} component={AddBooster} />
-          <Route path="*">
-            <Redirect to={`${appRoute}/user`} />
-          </Route>
-        </Switch>
+        <div
+          style={{ maxHeight: 'calc(100vh - 100px)', overflowX: 'auto' }}
+          id="sen-booster-scroll-lazyload"
+        >
+          <Switch>
+            <Route path={`${appRoute}/user`} component={User} />
+            <Route path={`${appRoute}/retailer`} component={Retailer} />
+            <Route path={`${appRoute}/create-booster`} component={AddBooster} />
+            <Route path="*">
+              <Redirect to={`${appRoute}/user`} />
+            </Route>
+          </Switch>
+        </div>
       </AppWatcher>
     </AppLoader>
   )
