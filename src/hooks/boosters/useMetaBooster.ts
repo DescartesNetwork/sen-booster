@@ -14,7 +14,7 @@ export const useMetaBooster = (boosterAddress: string) => {
     budget: '',
     payRate: {},
   })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const fetchMetaData = useCallback(async () => {
     try {
