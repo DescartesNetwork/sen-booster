@@ -31,14 +31,14 @@ const ColumnProfit = ({ retailerAddress, orderAddress }: ColumnProfitProps) => {
   const totalAsk = numAskAmount * askPrice
 
   // Calculate current discount
-  const currentDiscount = (totalAsk - totalBid) / totalBid
+  const profit = (totalAsk - totalBid) / totalAsk
   return (
     <Typography.Text
       style={{
-        color: currentDiscount >= 0 ? '#14E041' : '#F9575E',
+        color: profit >= 0 ? '#14E041' : '#F9575E',
       }}
     >
-      {util.numeric(currentDiscount).format('0,0.[00]%')}
+      {util.numeric(profit).format('0,0.[00]%')}
     </Typography.Text>
   )
 }

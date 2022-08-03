@@ -8,17 +8,18 @@ import { AppState } from 'model'
 
 type BoosterAvatarProps = {
   boosterAddress: string
+  size?: number
 }
-const BoosterAvatar = ({ boosterAddress }: BoosterAvatarProps) => {
+const BoosterAvatar = ({ boosterAddress, size }: BoosterAvatarProps) => {
   const { bidMint, askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
 
   return (
     <Space>
-      <MintAvatar mintAddress={askMint.toBase58()} />
+      <MintAvatar mintAddress={askMint.toBase58()} size={size} />
       <IonIcon name="arrow-forward-outline" />
-      <MintAvatar mintAddress={bidMint.toBase58()} />
+      <MintAvatar mintAddress={bidMint.toBase58()} size={size} />
     </Space>
   )
 }
