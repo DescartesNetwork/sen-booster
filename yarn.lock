@@ -1993,10 +1993,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz#0c8b74c50f29ee44f423f7416829c0bf8bb5eb27"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@sen-use/app@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sen-use/app/-/app-2.0.2.tgz#aefad5553adde2ed95bc8af420b8fe4563d7534f"
-  integrity sha512-yOaAirm2up4p3vHF5iN1W30tp8PaOqTDJt5aEFNdh6ZbkI1uM/xm8Vuli/kitJvzJdxU+UzCWxASXg0WX/xYZQ==
+"@sen-use/app@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@sen-use/app/-/app-2.0.3.tgz#23221b10f98f165b457a6e457da46e8a12369097"
+  integrity sha512-5vdZVI9OBNcu+YWVDTZAnkLi0EGS4KCJN0gh/mw/f/DYyec6wZNbdGRfj91C1Np9UasCWzUk9758XEn1k774CA==
   dependencies:
     "@project-serum/anchor" "^0.24.2"
     "@solana/web3.js" "^1.50.0"
@@ -2005,10 +2005,10 @@
     localforage "^1.10.0"
     web3.storage "^4.2.0"
 
-"@sen-use/components@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-2.0.2.tgz#ccea4c8569ae1e15222e10dde80acac78c3e8cef"
-  integrity sha512-hwSGq0eRjnQHEa5yEmIbWQVyy+o4wMyZMceRB7VxeLT1wrvNl7Pm7aU8IXwSj9tS0pAgRg0UMHxXGcBdVar4KQ==
+"@sen-use/components@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@sen-use/components/-/components-2.0.3.tgz#3082b1a8bb871174ede0ee2d35aa92008a6fc064"
+  integrity sha512-/X4jXKyVKpsEHO8JgiATM4QxbrixuspOZ3vkFh9EbGfh6OKAUUlNswHHfIVbnoLmo6e5/aq790gH66edOFSEhw==
   dependencies:
     "@metaplex/js" "^4.12.0"
     lunr "^2.3.9"
@@ -2022,10 +2022,10 @@
     bn.js "^5.2.1"
     web3.storage "^4.2.0"
 
-"@sen-use/web3@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-2.0.2.tgz#6fd78c2aa85cd78acbfb96cae34989674cb698c4"
-  integrity sha512-VKoO8AvtkjGsfkJNPh17bFERDFIEJpEgaz27P8H1P3Iu3zNTpzNkxZvsP0quoOeqCoKKiZNFk5/TLHkcviOlAw==
+"@sen-use/web3@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@sen-use/web3/-/web3-2.0.3.tgz#876e5be3a6478003cd8fd6e322381bb3ed6f2f32"
+  integrity sha512-x3ww+prjvyHoYicovvaIs9L/v48Zcvk6Qdyfsjw8NJcdv/GDaR+6ASAJW9oYMkBfW7ivTa1rslwj+ip+p9dZRQ==
   dependencies:
     "@project-serum/anchor" "^0.24.2"
     "@solana/web3.js" "^1.50.0"
