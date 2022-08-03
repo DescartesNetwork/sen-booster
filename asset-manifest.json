@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.b1370bb3.js",
+    "main.js": "/static/js/main.c61222ca.js",
     "sen_booster.js": "/index.js",
     "static/js/src_bootstrap_tsx.82272cd0.chunk.js": "/static/js/src_bootstrap_tsx.82272cd0.chunk.js",
     "static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js": "/static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js",
@@ -21,7 +21,7 @@
     "static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css": "/static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css",
     "static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.e85ec5fe.chunk.js": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.e85ec5fe.chunk.js",
     "static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js": "/static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js",
-    "static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.178e5abf.chunk.js": "/static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.178e5abf.chunk.js",
+    "static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.cf76f97a.chunk.js": "/static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.cf76f97a.chunk.js",
     "static/media/dark-bg-welcome.png": "/static/media/dark-bg-welcome.cfbd7a4df10674ca1e2b.png",
     "static/media/store-panel1.png": "/static/media/store-panel1.8b9b3b2cad894ca90c18.png",
     "static/media/BG_DARK.png": "/static/media/BG_DARK.5abc7ba13b3fa80a3764.png",
@@ -67,7 +67,7 @@
     "static/media/icon-telegram.svg": "/static/media/icon-telegram.2450489f40d03000fe65fc1c6f238d85.svg",
     "static/media/README.md": "/static/media/README.118bc629645ae59e5bd2.md",
     "static.app.tsx": "/sen_booster-asset-senhub.json",
-    "main.b1370bb3.js.map": "/static/js/main.b1370bb3.js.map",
+    "main.c61222ca.js.map": "/static/js/main.c61222ca.js.map",
     "index.js.map": "/index.js.map",
     "src_bootstrap_tsx.82272cd0.chunk.js.map": "/static/js/src_bootstrap_tsx.82272cd0.chunk.js.map",
     "vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js.map": "/static/js/vendors-node_modules_reduxjs_toolkit_dist_redux-toolkit_esm_js.851fb3fe.chunk.js.map",
@@ -87,9 +87,9 @@
     "vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css.map": "/static/css/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.425bc3c8.chunk.css.map",
     "vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.e85ec5fe.chunk.js.map": "/static/js/vendors-node_modules_sentre_senhub_dist_index_js-node_modules_sentre_senhub_dist_static_image-55fa97.e85ec5fe.chunk.js.map",
     "vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js.map": "/static/js/vendors-node_modules_ant-design_icons_es_icons_LoadingOutlined_js-node_modules_moment_moment_js.3258e91b.chunk.js.map",
-    "vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.178e5abf.chunk.js.map": "/static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.178e5abf.chunk.js.map"
+    "vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.cf76f97a.chunk.js.map": "/static/js/vendors-node_modules_sen-use_app_dist_helper_js-node_modules_sen-use_app_dist_ipfs_js-node_mo-edeb7a.cf76f97a.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.b1370bb3.js"
+    "static/js/main.c61222ca.js"
   ]
 }
