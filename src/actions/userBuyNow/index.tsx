@@ -236,7 +236,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
           </Col>
           <Col span={24}>
             <Checkbox
-              value={isAgree}
+              checked={isAgree}
               onChange={(e) => setIsAgree(e.target.checked)}
             >
               I agree with this transaction

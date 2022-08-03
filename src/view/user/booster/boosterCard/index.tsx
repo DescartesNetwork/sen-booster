@@ -21,7 +21,7 @@ const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
     <Card>
       <Row gutter={[24, 24]}>
         <Col span={24}>
-          <Row justify="space-between">
+          <Row justify="space-between" gutter={[12, 12]}>
             <Col flex="auto">
               <Space size={16}>
                 <BoosterAvatar boosterAddress={boosterAddress} />
