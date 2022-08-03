@@ -36,12 +36,13 @@ import './index.less'
 
 type BuyNowProps = {
   boosterAddress: string
+  block?: boolean
 }
 
 const ONE_DAY = 24 * 60 * 60
 const ONE_NFT_DISCOUNT = 2.5
 
-const BuyNow = ({ boosterAddress }: BuyNowProps) => {
+const BuyNow = ({ boosterAddress, block }: BuyNowProps) => {
   const { askMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
@@ -94,7 +95,12 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
 
   return (
     <Fragment>
-      <Button size="large" type="primary" onClick={() => setIsVisible(true)}>
+      <Button
+        block
+        size="large"
+        type="primary"
+        onClick={() => setIsVisible(true)}
+      >
         Buy Now
       </Button>
       <Modal

@@ -40,10 +40,7 @@ const Booster = () => {
               <Col span={24} key={boosterAddress}>
                 <LazyLoad
                   height={276}
-                  scrollContainer={
-                    document.getElementById('sen-booster-scroll-lazyload') ||
-                    undefined
-                  }
+                  scrollContainer="#sen-booster-scroll-lazyload"
                 >
                   <BoosterCard boosterAddress={boosterAddress} />
                 </LazyLoad>

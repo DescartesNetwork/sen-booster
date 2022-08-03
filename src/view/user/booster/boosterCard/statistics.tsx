@@ -7,6 +7,7 @@ import { utilsBN } from '@sen-use/web3'
 
 import { Col, Row, Space, Spin, Typography } from 'antd'
 import { MintSymbol } from '@sen-use/components'
+import SpaceVertical from 'components/spaceVertical'
 
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
@@ -51,9 +52,9 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
   }, [payRate])
 
   return (
-    <Row gutter={[24, 24]} justify="space-between">
+    <Row gutter={[48, 16]}>
       {/* Buy-back */}
-      <Col>
+      <Col xs={12} md={5} lg={4}>
         <Spin spinning={loading} size="small">
           <Space direction="vertical" className="buy-back_tag">
             <Typography.Text type="secondary">Buy-back</Typography.Text>
@@ -63,36 +64,48 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
           </Space>
         </Spin>
       </Col>
-      {/* Your bought */}
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Your bought</Typography.Text>
-          <Typography.Text>
-            {util.numeric(boughtAmount).format('0,0.[0000]')}{' '}
-            <MintSymbol mintAddress={bidMint} />
-          </Typography.Text>
-        </Space>
+      {/* BYour bought */}
+      <Col xs={12} md={6} lg={4}>
+        <Spin spinning={loading} size="small">
+          <SpaceVertical
+            label="Your bought"
+            value={
+              <Typography.Text>
+                {util.numeric(boughtAmount).format('0,0.[0000]')}{' '}
+                <MintSymbol mintAddress={bidMint} />
+              </Typography.Text>
+            }
+          />
+        </Spin>
       </Col>
-      {/* Total value pai */}
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">Total value paid</Typography.Text>
-          <Typography.Text>
-            {util
-              .numeric(utilsBN.undecimalize(askTotal, askDecimal))
-              .format('0,0.[0000]')}{' '}
-            LP
-          </Typography.Text>
-        </Space>
+      {/* Total value paid */}
+      <Col xs={12} md={6} lg={4}>
+        <Spin spinning={loading} size="small">
+          <SpaceVertical
+            label="Total value paid"
+            value={
+              <Typography.Text>
+                {util
+                  .numeric(utilsBN.undecimalize(askTotal, askDecimal))
+                  .format('0,0.[0000]')}{' '}
+                LP
+              </Typography.Text>
+            }
+          />
+        </Spin>
       </Col>
-      {/* End date */}
-      <Col>
-        <Space direction="vertical">
-          <Typography.Text type="secondary">End date</Typography.Text>
-          <Typography.Text>
-            {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
-          </Typography.Text>
-        </Space>
+      {/* End date*/}
+      <Col xs={12} md={7} lg={6}>
+        <Spin spinning={loading} size="small">
+          <SpaceVertical
+            label="End date"
+            value={
+              <Typography.Text>
+                {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
+              </Typography.Text>
+            }
+          />
+        </Spin>
       </Col>
     </Row>
   )

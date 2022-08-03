@@ -28,6 +28,7 @@ const View = () => {
       <AppWatcher>
         <div
           style={{ maxHeight: 'calc(100vh - 100px)', overflowX: 'auto' }}
+          className="scrollbar"
           id="sen-booster-scroll-lazyload"
         >
           <Switch>

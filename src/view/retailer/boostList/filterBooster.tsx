@@ -49,7 +49,7 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
   }, [filteredBooster, onChange])
 
   return (
-    <Row justify="space-between">
+    <Row gutter={[16, 16]}>
       <Col>
         <Space>
           <Checkbox
