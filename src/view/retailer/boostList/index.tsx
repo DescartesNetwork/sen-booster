@@ -1,13 +1,14 @@
+import { useState } from 'react'
+
 import { Button, Col, Row } from 'antd'
 import RetailCard from './retailCard'
 import FilterBooster from './filterBooster'
 
 import { useAppRouter } from 'hooks/useAppRouter'
-import { useState } from 'react'
 
 const BoostList = () => {
-  const { pushHistory } = useAppRouter()
   const [boosterAddresses, setBoosterAddr] = useState<string[]>([])
+  const { pushHistory } = useAppRouter()
 
   return (
     <Row gutter={[16, 16]}>

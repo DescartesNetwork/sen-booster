@@ -14,10 +14,8 @@ const Booster = () => {
   const filteredBooster = useMemo(() => {
     const boosterAddress: string[] = []
     for (const address of displayBoosters) {
-      let valid = true
-      if (isBoost && !getAmountVoucher(address)) valid = false
-
-      if (valid) boosterAddress.push(address)
+      if (isBoost && !getAmountVoucher(address)) continue
+      boosterAddress.push(address)
     }
     return boosterAddress
   }, [displayBoosters, getAmountVoucher, isBoost])
