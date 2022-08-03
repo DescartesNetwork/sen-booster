@@ -40,31 +40,27 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       <Col span={24}>
         <Row justify="space-between">
           <Col>
-            <Space direction="vertical">
-              <Typography.Text type="secondary">Process</Typography.Text>
-              {loading ? (
-                <Spin />
-              ) : (
+            <Spin spinning={loading} size="small">
+              <Space direction="vertical">
+                <Typography.Text type="secondary">Process</Typography.Text>
                 <Typography.Text>
                   {numeric(processAmount).format('0.0,[0000]')}{' '}
                   <MintSymbol mintAddress={bidMint.toBase58()} />(
                   {util.numeric(percentage).format('0,0.[00]%')})
                 </Typography.Text>
-              )}
-            </Space>
+              </Space>
+            </Spin>
           </Col>
           <Col>
-            <Space direction="vertical" align="end">
-              <Typography.Text type="secondary">Budget</Typography.Text>
-              {loading ? (
-                <Spin />
-              ) : (
+            <Spin spinning={loading} size="small">
+              <Space direction="vertical" align="end">
+                <Typography.Text type="secondary">Budget</Typography.Text>
                 <Typography.Text>
                   {numeric(budget).format('0.0,[0000]')}{' '}
                   <MintSymbol mintAddress={bidMint.toBase58()} />
                 </Typography.Text>
-              )}
-            </Space>
+              </Space>
+            </Spin>
           </Col>
         </Row>
       </Col>

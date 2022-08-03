@@ -121,14 +121,12 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
               <SpaceVertical
                 label="Budget"
                 value={
-                  loading ? (
-                    <Spin />
-                  ) : (
+                  <Spin spinning={loading} size="small">
                     <Typography.Text>
                       {numeric(budget).format('0.0,[000]')}{' '}
                       <MintSymbol mintAddress={bidMint} />
                     </Typography.Text>
-                  )
+                  </Spin>
                 }
               />
             </Col>

@@ -52,16 +52,16 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
 
   return (
     <Space size={48}>
-      <Space direction="vertical" className="buy-back_tag">
-        <Typography.Text type="secondary">Buy-back</Typography.Text>
-        {loading ? (
-          <Spin />
-        ) : (
+      {/* Buy-back */}
+      <Spin spinning={loading} size="small">
+        <Space direction="vertical" className="buy-back_tag">
+          <Typography.Text type="secondary">Buy-back</Typography.Text>
           <Typography.Title style={{ color: '#0FB5B8' }} level={4}>
             {biggestDiscount}%
           </Typography.Title>
-        )}
-      </Space>
+        </Space>
+      </Spin>
+      {/* Your bought */}
       <Space direction="vertical">
         <Typography.Text type="secondary">Your bought</Typography.Text>
         <Typography.Text>
@@ -69,6 +69,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
           <MintSymbol mintAddress={bidMint} />
         </Typography.Text>
       </Space>
+      {/* Total value pai */}
       <Space direction="vertical">
         <Typography.Text type="secondary">Total value paid</Typography.Text>
         <Typography.Text>
@@ -78,6 +79,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
           LP
         </Typography.Text>
       </Space>
+      {/* End date */}
       <Space direction="vertical">
         <Typography.Text type="secondary">End date</Typography.Text>
         <Typography.Text>
