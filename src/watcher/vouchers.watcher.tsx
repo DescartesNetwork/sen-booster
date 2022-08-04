@@ -9,7 +9,7 @@ import Watcher from './watcher'
 const NAME = 'voucher'
 const FILTER: web3.GetProgramAccountsFilter[] = []
 
-const VouchersWatcher: React.FC = ({ children }) => {
+const VouchersWatcher = () => {
   const dispatch = useDispatch()
 
   // TODO: init all account data
@@ -28,9 +28,7 @@ const VouchersWatcher: React.FC = ({ children }) => {
       filter={FILTER}
       init={init}
       upset={upset}
-    >
-      {children}
-    </Watcher>
+    />
   )
 }
 export default VouchersWatcher

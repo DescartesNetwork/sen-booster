@@ -13,7 +13,6 @@ export const useValidBooster = () => {
       const numEndAt = endAt.toNumber() * 1000
       return numEndAt >= now
     })
-
     return boosterAddress
   }, [boosters])
 

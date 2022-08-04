@@ -9,7 +9,7 @@ import Watcher from './watcher'
 const NAME = 'retailer'
 const FILTER: web3.GetProgramAccountsFilter[] = []
 
-const BoostersWatcher: React.FC = ({ children }) => {
+const BoostersWatcher = () => {
   const dispatch = useDispatch()
 
   // TODO: init all account data
@@ -28,9 +28,7 @@ const BoostersWatcher: React.FC = ({ children }) => {
       filter={FILTER}
       init={init}
       upset={upset}
-    >
-      {children}
-    </Watcher>
+    />
   )
 }
 export default BoostersWatcher
