@@ -36,7 +36,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
   }, [budget, processAmount])
 
   return (
-    <Row>
+    <Row gutter={[8, 8]}>
       <Col span={24}>
         <Row justify="space-between">
           <Col>
@@ -68,6 +68,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
       </Col>
       <Col span={24}>
         <Progress
+          className="flex-progress"
           strokeColor={'#0FB5B8'}
           percent={percentage * 100}
           showInfo={false}

@@ -61,7 +61,7 @@ const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
         </Col>
         {isMobile && (
           <Col span={24}>
-            <BuyNow block boosterAddress={boosterAddress} />
+            <BuyNow boosterAddress={boosterAddress} />
           </Col>
         )}
       </Row>
