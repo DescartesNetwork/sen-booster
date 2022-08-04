@@ -15,7 +15,7 @@ const BoosterSymbol = ({ boosterAddress }: BoosterSymbolProps) => {
   )
 
   return (
-    <Typography.Title level={5}>
+    <Typography.Title level={4}>
       <MintSymbol mintAddress={askMint.toBase58()} /> -{' '}
       <MintSymbol mintAddress={bidMint.toBase58()} />
     </Typography.Title>
