@@ -25,7 +25,7 @@ export const AppLoader: React.FC = ({ children }) => {
 
   const getCurrentMode = useCallback(async () => {
     const pdb = new PDB(address).createInstance(appId)
-    const currentMode = (await pdb.getItem('mode')) as Mode
+    const currentMode: Mode = (await pdb.getItem('mode')) || Mode.User
     dispatch(setMode(currentMode))
     return pushHistory(`/${currentMode}`)
   }, [address, dispatch, pushHistory])
