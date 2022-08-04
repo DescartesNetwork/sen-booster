@@ -47,7 +47,6 @@ const Watcher = (props: UseWatcherProps) => {
 
   const watchData = useCallback(async () => {
     if (watchId) return
-    console.log('watch data')
     const newWatcherId = connection.onProgramAccountChange(
       accountClient.programId,
       async (info) => {

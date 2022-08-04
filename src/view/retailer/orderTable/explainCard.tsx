@@ -11,6 +11,7 @@ import { AppState } from 'model'
 import { useMintPrice } from 'hooks/useMintPrice'
 import { util } from '@sentre/senhub'
 import { Ipfs, OrderMetadata } from 'senUse/ipfs'
+import { useAmountAppliedNFT } from 'hooks/boosters/useAmountAppliedNFT'
 
 type ExplainCardProps = {
   orderAddress: string
@@ -24,8 +25,13 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
   const orderData = useSelector((state: AppState) => state.orders[orderAddress])
   const boosters = useSelector((state: AppState) => state.boosters)
   const retailerAddress = orderData.retailer.toBase58()
+  const owner = orderData.authority.toBase58()
   const askMintAddress = boosters[retailerAddress].askMint.toBase58() || ''
   const askPrice = useMintPrice(askMintAddress)
+  const { nftUsedInThisBooster } = useAmountAppliedNFT({
+    owner,
+    boosterAddress: retailerAddress,
+  })
 
   const fetchMetaData = useCallback(async () => {
     try {
@@ -57,13 +63,7 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
           <Col>
             <SpaceVertical
               label="Used NFT slot"
-              value={
-                <Typography.Text>
-                  {orderMetadata.appliedNFTs
-                    ? orderMetadata.appliedNFTs.length
-                    : 0}
-                </Typography.Text>
-              }
+              value={<Typography.Text>{nftUsedInThisBooster}</Typography.Text>}
             />
           </Col>
           <Col>

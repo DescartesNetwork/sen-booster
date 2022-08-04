@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { PDB, useWallet } from '@sentre/senhub'
 
 import IonIcon from '@sentre/antd-ionicon'
 import {
@@ -16,13 +16,17 @@ import {
 
 import { Mode, TabId } from 'constant'
 import { useAppRouter } from 'hooks/useAppRouter'
-import { AppDispatch } from 'model'
+import { AppDispatch, AppState } from 'model'
 import { setMode } from 'model/settings.controller'
+import configs from 'configs'
+
+const {
+  manifest: { appId },
+} = configs
 
 type HeaderProps = {
   tabId: TabId
   setTabId: (newValue: any) => void
-  isRetailer?: boolean
   scrollToFAQ?: () => void
 }
 
@@ -36,39 +40,30 @@ const USER_TABS = [
   { label: 'Redeem', value: TabId.Redeem },
 ]
 
-const Header = ({
-  tabId,
-  setTabId,
-  isRetailer = false,
-  scrollToFAQ,
-}: HeaderProps) => {
+const Header = ({ tabId, setTabId, scrollToFAQ }: HeaderProps) => {
+  const { mode } = useSelector((state: AppState) => state.settings)
   const { pushHistory } = useAppRouter()
   const dispatch = useDispatch<AppDispatch>()
+  const {
+    wallet: { address: walletAddress },
+  } = useWallet()
 
-  const [retailerMode, setRetailerMode] = useState(false)
-  const location = useLocation()
+  const pdb = new PDB(walletAddress).createInstance(appId)
+  const isRetailerMode = useMemo(() => mode === Mode.Retailer, [mode])
 
-  useEffect(() => {
-    if (location.pathname.includes('retailer')) {
-      return setRetailerMode(true)
-    }
-    setRetailerMode(false)
-  }, [location.pathname])
+  const onSwitch = async (checked: boolean) => {
+    const mode = checked ? Mode.Retailer : Mode.User
 
-  const onSwitch = (checked: boolean) => {
-    if (checked) {
-      dispatch(setMode(Mode.Retailer))
-      return pushHistory('/retailer')
-    }
-    dispatch(setMode(Mode.User))
-    return pushHistory('/user')
+    dispatch(setMode(mode))
+    await pdb.setItem('mode', mode)
+    return pushHistory(`/${mode}`)
   }
 
   return (
     <Row>
       <Col flex="auto">
         <Segmented
-          options={isRetailer ? RETAILER_TABS : USER_TABS}
+          options={isRetailerMode ? RETAILER_TABS : USER_TABS}
           value={tabId}
           onChange={setTabId}
           size="large"
@@ -76,7 +71,7 @@ const Header = ({
       </Col>
       <Col>
         <Space size={12}>
-          {!retailerMode && (
+          {!isRetailerMode && (
             <Button
               icon={<IonIcon name="arrow-down-outline" />}
               onClick={scrollToFAQ}
@@ -92,7 +87,7 @@ const Header = ({
                 <Typography.Text>Retailer mode</Typography.Text>
                 <Switch
                   size="small"
-                  checked={retailerMode}
+                  checked={isRetailerMode}
                   onChange={onSwitch}
                 />
               </Space>
