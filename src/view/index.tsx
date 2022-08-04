@@ -21,31 +21,19 @@ const View = () => {
 
   useEffect(() => {
     setBackground({ light: BG_LIGHT, dark: BG_DARK })
-    // Trick: Fix prevent scroll browser
-    // Refer: https://stackoverflow.com/questions/39962757/prevent-scrolling-using-css-on-react-rendered-components
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
   }, [setBackground])
 
   return (
     <AppLoader>
       <AppWatcher>
-        <div
-          style={{ maxHeight: 'calc(100vh - 100px)', overflowX: 'auto' }}
-          className="scrollbar"
-          id="sen-booster-scroll-lazyload"
-        >
-          <Switch>
-            <Route path={`${appRoute}/user`} component={User} />
-            <Route path={`${appRoute}/retailer`} component={Retailer} />
-            <Route path={`${appRoute}/create-booster`} component={AddBooster} />
-            <Route path="*">
-              <Redirect to={`${appRoute}/user`} />
-            </Route>
-          </Switch>
-        </div>
+        <Switch>
+          <Route path={`${appRoute}/user`} component={User} />
+          <Route path={`${appRoute}/retailer`} component={Retailer} />
+          <Route path={`${appRoute}/create-booster`} component={AddBooster} />
+          <Route path="*">
+            <Redirect to={`${appRoute}/user`} />
+          </Route>
+        </Switch>
       </AppWatcher>
     </AppLoader>
   )
