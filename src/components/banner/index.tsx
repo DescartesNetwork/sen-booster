@@ -15,10 +15,10 @@ const Banner = () => {
         <Col span={24}>
           <Space direction="vertical" size={20}>
             <Typography.Title
-              level={2}
+              level={1}
               style={{ color: '#0B358F', lineHeight: '120%' }}
             >
-              100% OTC Market built on Smart Contracts
+              Buy your Fav Tokens at Better than Market price
             </Typography.Title>
             <Space>
               <Space>
@@ -29,7 +29,9 @@ const Banner = () => {
                     color: '#0FB5B8',
                   }}
                 />
-                <Typography.Title level={5}>No Slippage</Typography.Title>
+                <Typography.Title level={5} className="typography-banner-5">
+                  Boost with NFTs
+                </Typography.Title>
               </Space>
               <Space>
                 <IonIcon
@@ -39,7 +41,9 @@ const Banner = () => {
                     color: '#0FB5B8',
                   }}
                 />
-                <Typography.Title level={5}>No Price impact</Typography.Title>
+                <Typography.Title level={5} className="typography-banner-5">
+                  Zero Fee & Slippage
+                </Typography.Title>
               </Space>
             </Space>
           </Space>
