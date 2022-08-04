@@ -9,7 +9,48 @@ input {
       border-radius: 16px !important;
     }
   }
+  .sen_booster-card-body {
+    padding: 0px !important;
+    .sen_booster-image {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      img {
+        height: 100% !important;
+      }
+    }
+    .banner-material {
+      height: 98px;
+      width: 173px !important;
+      position: absolute !important;
+      top: 23px;
+      right: 32px;
+    }
+    .banner-body {
+      padding: 32px;
+    }
+    @media only screen and (max-width: 575px) {
+      .banner-material {
+        height: 98px;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        .sen_booster-image {
+          text-align: center;
+          &-img {
+            width: 173px !important;
+          }
+        }
+      }
+      .banner-body {
+        padding: 16px;
+      }
+    }
+  }
 }
+
 .sen_booster-select-selector {
   border-color: rgba(33, 36, 51, 0.1) !important;
   background: transparent !important;
