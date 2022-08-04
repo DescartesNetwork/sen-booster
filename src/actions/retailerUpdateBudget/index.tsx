@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { Button, Col, Input, Row, Space, Typography } from 'antd'
+import { Button, Col, Row, Space, Typography } from 'antd'
 import { MintSymbol } from '@sen-use/components'
 import InputNumberCard from 'components/inputNumberCard'
 
