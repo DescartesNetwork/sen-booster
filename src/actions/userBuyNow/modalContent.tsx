@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { AppState } from 'model'
 import { useMint, util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 import BN from 'bn.js'
@@ -30,6 +29,7 @@ import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersBy
 import { useBuy } from 'hooks/actions/useBuy'
 import { useEstimatedReceive } from 'hooks/boosters/useEstimatedReceive'
 import { LOCK_TIME_DAY } from 'constant'
+import { AppState } from 'model'
 
 const ONE_DAY = 24 * 60 * 60
 const ONE_NFT_DISCOUNT = 2.5

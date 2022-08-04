@@ -8,10 +8,9 @@ import './index.less'
 
 type BuyNowProps = {
   boosterAddress: string
-  block?: boolean
 }
 
-const BuyNow = ({ boosterAddress, block }: BuyNowProps) => {
+const BuyNow = ({ boosterAddress }: BuyNowProps) => {
   const [isVisible, setIsVisible] = useState(false)
 
   return (
