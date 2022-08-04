@@ -168,6 +168,15 @@ input {
   }
 }
 
+.sen_booster-progress {
+  &.flex-progress {
+    display: flex !important;
+    .sen_booster-progress-outer {
+      display: flex !important;
+    }
+  }
+}
+
 #dark {
   .sen_booster-segmented-item-selected {
     background: linear-gradient(
@@ -226,15 +235,6 @@ input {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     &.upload-box {
       border: 1px dashed #4e4f5c !important;
-    }
-  }
-
-  .sen_booster-progress {
-    &.flex-progress {
-      display: flex !important;
-      .sen_booster-progress-outer {
-        display: flex !important;
-      }
     }
   }
 }
