@@ -42,8 +42,8 @@ const RetailerUpdateBudget = ({
         <Space direction="vertical" style={{ width: '100%' }}>
           <Typography.Text>Amount</Typography.Text>
           <InputNumberCard
-            value={Number(nextBudget)}
-            onValue={(val: number) => setNextBudget(val)}
+            value={nextBudget}
+            onValue={setNextBudget}
             prefix={<MintSymbol mintAddress={bidMint} />}
             disabled={metaLoading}
           />

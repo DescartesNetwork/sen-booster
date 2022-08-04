@@ -121,7 +121,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
           <Col span={24}>
             <InputNumberCard
               value={amount}
-              onValue={(val: number) => setAmount(val)}
+              onValue={setAmount}
               prefix={<MintSymbol mintAddress={askMint} />}
               max={Number(mintInfo.balance)}
               suffix={
