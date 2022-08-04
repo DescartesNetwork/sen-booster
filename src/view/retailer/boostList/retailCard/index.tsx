@@ -35,7 +35,10 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                   />
                 </Col>
                 <Col>
-                  <IonIcon name="arrow-forward-outline" />
+                  <IonIcon
+                    name="arrow-forward-outline"
+                    style={{ fontSize: 20 }}
+                  />
                 </Col>
                 <Col>
                   <SpaceVertical

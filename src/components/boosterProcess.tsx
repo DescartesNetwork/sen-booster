@@ -41,7 +41,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
         <Row justify="space-between">
           <Col>
             <Spin spinning={loading} size="small">
-              <Space direction="vertical">
+              <Space direction="vertical" size={0}>
                 <Typography.Text type="secondary">Process</Typography.Text>
                 <Typography.Text>
                   {numeric(processAmount).format('0.0,[0000]')}{' '}
@@ -55,7 +55,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
           </Col>
           <Col>
             <Spin spinning={loading} size="small">
-              <Space direction="vertical" align="end">
+              <Space direction="vertical" align="end" size={0}>
                 <Typography.Text type="secondary">Budget</Typography.Text>
                 <Typography.Text>
                   {numeric(budget).format('0.0,[0000]')}{' '}

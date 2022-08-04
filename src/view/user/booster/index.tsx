@@ -39,7 +39,7 @@ const Booster = () => {
             filteredBooster.map((boosterAddress) => (
               <Col span={24} key={boosterAddress}>
                 <LazyLoad
-                  height={276}
+                  height={226}
                   scrollContainer="#sen-booster-scroll-lazyload"
                 >
                   <BoosterCard boosterAddress={boosterAddress} />
