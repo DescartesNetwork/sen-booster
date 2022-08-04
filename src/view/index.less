@@ -21,6 +21,7 @@ input {
 .sen_booster-segmented-lg {
   .sen_booster-segmented-item {
     &-selected {
+      box-shadow: none !important;
       background: linear-gradient(
         86.62deg,
         rgba(255, 255, 255, 0.8) 0%,
@@ -134,24 +135,6 @@ input {
   }
 }
 
-.upload-box {
-  border: 1px dashed #d3d3d6 !important;
-  height: 64px;
-  width: 64px;
-  display: flex;
-  justify-content: center;
-  border-radius: 8px !important;
-  background: transparent !important;
-  cursor: pointer;
-  &:hover {
-    border-color: #0fb5b8 !important;
-  }
-  .sen_booster-card-body {
-    border-radius: 8px !important;
-    margin: auto 0px !important;
-    padding: 0 !important;
-  }
-}
 
 .sen_booster-collapse-content-box {
   padding-top: 0px !important;
@@ -160,6 +143,37 @@ input {
 .search-lp {
   .sen_booster-input {
     background: transparent !important;
+  }
+}
+
+.sen_booster-card-bordered {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  &.upload-box {
+    border: 1px dashed #d3d3d6 !important;
+    height: 64px;
+    width: 64px;
+    display: flex;
+    justify-content: center;
+    border-radius: 8px !important;
+    background: transparent !important;
+    cursor: pointer;
+    &:hover {
+      border-color: #0fb5b8 !important;
+    }
+    .sen_booster-card-body {
+      border-radius: 8px !important;
+      margin: auto 0px !important;
+      padding: 0 !important;
+    }
+  }
+}
+
+.sen_booster-progress {
+  &.flex-progress {
+    display: flex !important;
+    .sen_booster-progress-outer {
+      display: flex !important;
+    }
   }
 }
 
@@ -217,4 +231,11 @@ input {
   .sen_booster-select-selector {
     border: solid 1px rgba(255, 255, 255, 0.2) !important;
   }
+  .sen_booster-card-bordered {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    &.upload-box {
+      border: 1px dashed #4e4f5c !important;
+    }
+  }
 }
+

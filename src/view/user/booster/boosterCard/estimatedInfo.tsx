@@ -27,7 +27,11 @@ const EstimatedInfo = ({
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
   return (
-    <Card style={{ borderRadius: 8 }} bodyStyle={{ padding: '12px 16px' }}>
+    <Card
+      style={{ borderRadius: 8 }}
+      bodyStyle={{ padding: '12px 16px' }}
+      bordered={false}
+    >
       <Row gutter={[8, 8]}>
         <Col span={24}>
           <Row>

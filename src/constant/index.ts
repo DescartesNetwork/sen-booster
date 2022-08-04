@@ -1,4 +1,4 @@
-export const DATE_FORMAT = 'MMM DD, YYYY HH:mm'
+export const DATE_FORMAT = 'DD MMM, YYYY HH:mm'
 
 export const ALL = 'all'
 

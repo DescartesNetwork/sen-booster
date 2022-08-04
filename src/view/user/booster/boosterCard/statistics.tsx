@@ -56,7 +56,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
       {/* Buy-back */}
       <Col xs={12} md={5} lg={4}>
         <Spin spinning={loading} size="small">
-          <Space direction="vertical" className="buy-back_tag">
+          <Space direction="vertical" className="buy-back_tag" size={4}>
             <Typography.Text type="secondary">Buy-back</Typography.Text>
             <Typography.Title style={{ color: '#0FB5B8' }} level={4}>
               {biggestDiscount}%
@@ -75,6 +75,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
                 <MintSymbol mintAddress={bidMint} />
               </Typography.Text>
             }
+            size={4}
           />
         </Spin>
       </Col>
@@ -91,6 +92,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
                 LP
               </Typography.Text>
             }
+            size={4}
           />
         </Spin>
       </Col>
@@ -104,6 +106,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
                 {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
               </Typography.Text>
             }
+            size={4}
           />
         </Spin>
       </Col>
