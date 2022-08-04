@@ -44,8 +44,8 @@ export const useInitializeBooster = () => {
           budget,
         }
         const { digest } = await Ipfs.methods.booster.set(metadata)
-        const startAfter = startTime - Date.now()
-        const endAfter = endTime - Date.now()
+        const startAfter = startTime ? startTime - Date.now() : startTime
+        const endAfter = endTime ? endTime - Date.now() : endTime
         const { provider } = senExchange
         const trans = new web3.Transaction()
         const retailer = web3.Keypair.generate()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useMint, util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
@@ -45,7 +45,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
   const [isAgree, setIsAgree] = useState(false)
   const [useBoost, setUseBoost] = useState(false)
   const [amount, setAmount] = useState(0)
-  const [lockDay, setLockDay] = useState('7 days')
+  const [lockDay, setLockDay] = useState('')
   const [nftAddresses, setNFTAddresses] = useState<string[]>([])
 
   const mintInfo = useAccountBalanceByMintAddress(askMint.toBase58())
@@ -90,6 +90,21 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     })
     onClose()
   }
+
+  const selectDefaultLockDay = useCallback(() => {
+    const lockDays = Object.keys(payRate)
+    let defaultLockDay = ''
+    for (const day of lockDays) {
+      const rate = payRate[day]
+      if (!rate || rate > payRate[defaultLockDay]) continue
+      defaultLockDay = day
+    }
+    return setLockDay(defaultLockDay)
+  }, [payRate])
+
+  useEffect(() => {
+    selectDefaultLockDay()
+  }, [selectDefaultLockDay])
 
   return (
     <Row justify="space-between" gutter={[16, 16]}>
@@ -166,18 +181,28 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
                 style={{ width: '100%' }}
                 value={lockDay}
               >
-                <Row gutter={[6, 6]} justify="center">
-                  {Object.keys(payRate).map((days) => (
-                    <Col xs={12} md={8} key={days}>
-                      <Radio.Button
-                        disabled={!payRate[days]}
-                        style={{ width: '100%' }}
-                        value={days}
+                <Row gutter={[12, 12]} justify="center">
+                  {Object.keys(payRate).map((days) => {
+                    const isNone = days === 'No lock time'
+                    return (
+                      <Col
+                        xs={isNone ? 24 : 12}
+                        md={isNone ? 24 : 8}
+                        key={days}
                       >
-                        {days}
-                      </Radio.Button>
-                    </Col>
-                  ))}
+                        <Radio.Button
+                          disabled={!payRate[days]}
+                          style={{
+                            width: '100%',
+                            textAlign: isNone ? 'center' : 'left',
+                          }}
+                          value={days}
+                        >
+                          {isNone ? 'None' : days}
+                        </Radio.Button>
+                      </Col>
+                    )
+                  })}
                 </Row>
               </Radio.Group>
             </Spin>

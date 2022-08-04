@@ -66,7 +66,9 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                     label="End date"
                     value={
                       <Typography.Text>
-                        {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
+                        {endAt.isZero()
+                          ? 'Unlimited'
+                          : moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
                       </Typography.Text>
                     }
                   />

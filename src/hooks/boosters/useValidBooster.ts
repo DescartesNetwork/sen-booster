@@ -9,6 +9,7 @@ export const useValidBooster = () => {
   const filteredBooster = useMemo(() => {
     const boosterAddress = Object.keys(boosters).filter((address) => {
       const { endAt } = boosters[address]
+      if (endAt.isZero()) return true
       const now = Date.now()
       const numEndAt = endAt.toNumber() * 1000
       return numEndAt >= now

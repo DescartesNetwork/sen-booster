@@ -35,6 +35,7 @@ export enum RetailerBoosterCategory {
 }
 
 export const LOCK_TIME_DAY: Record<string, number> = {
+  'No lock time': 0,
   '7 days': 7,
   '30 days': 30,
   '60 days': 60,
