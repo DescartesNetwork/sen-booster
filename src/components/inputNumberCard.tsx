@@ -21,7 +21,7 @@ const InputNumberCard = ({
 }: InputNumberCardProps) => {
   return (
     <Card
-      className="user-input"
+      className="input-number-card"
       style={{ borderRadius: 8 }}
       bodyStyle={{ padding: 0 }}
     >
