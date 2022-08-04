@@ -11,7 +11,7 @@ type BuyNowProps = {
 }
 
 const BuyNow = ({ boosterAddress }: BuyNowProps) => {
-  const [isVisible, setIsVisible] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   return (
     <Fragment>
@@ -19,14 +19,14 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
         block
         size="large"
         type="primary"
-        onClick={() => setIsVisible(true)}
+        onClick={() => setVisible(true)}
       >
         Buy Now
       </Button>
       <Modal
-        visible={isVisible}
+        visible={visible}
         closeIcon={<IonIcon name="close-outline" />}
-        onCancel={() => setIsVisible(false)}
+        onCancel={() => setVisible(false)}
         footer={null}
         className="card-manage"
         title={<Typography.Title level={4}>Buy token</Typography.Title>}
@@ -34,9 +34,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       >
         <ModalContent
           boosterAddress={boosterAddress}
-          onClose={() => {
-            setIsVisible(false)
-          }}
+          onClose={() => setVisible(false)}
         />
       </Modal>
     </Fragment>

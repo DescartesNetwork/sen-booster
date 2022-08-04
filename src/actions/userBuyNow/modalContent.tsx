@@ -4,14 +4,13 @@ import { useMint, util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 import BN from 'bn.js'
 
+import InputNumberCard from 'components/inputNumberCard'
 import { MintSymbol } from '@sen-use/components'
 import IonIcon from '@sentre/antd-ionicon'
 import {
   Button,
-  Card,
   Checkbox,
   Col,
-  InputNumber,
   Radio,
   Row,
   Space,
@@ -120,23 +119,12 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
             </Row>
           </Col>
           <Col span={24}>
-            <Card
-              className="user-input"
-              style={{ borderRadius: 8 }}
-              bodyStyle={{ padding: 0 }}
-            >
-              <Row wrap={false} align="middle">
-                <Col flex="auto">
-                  <InputNumber
-                    placeholder="0"
-                    prefix={<MintSymbol mintAddress={askMint} />}
-                    value={amount}
-                    onChange={setAmount}
-                    max={Number(mintInfo.balance)}
-                    style={{ width: '100%' }}
-                    bordered={false}
-                  />
-                </Col>
+            <InputNumberCard
+              value={amount}
+              onValue={setAmount}
+              prefix={<MintSymbol mintAddress={askMint} />}
+              max={Number(mintInfo.balance)}
+              suffix={
                 <Col>
                   <Button
                     type="text"
@@ -147,8 +135,8 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
                     MAX
                   </Button>
                 </Col>
-              </Row>
-            </Card>
+              }
+            />
           </Col>
         </Row>
       </Col>

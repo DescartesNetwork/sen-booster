@@ -7,20 +7,16 @@ import { useSenExchange } from 'hooks/useSenExchange'
 import { PayRateState } from 'actions/createBooster/payRate'
 import { notifyError, notifySuccess } from 'helper'
 import { Ipfs } from 'senUse/ipfs'
+import { BoosterMetadata } from 'constant'
 
 type UseInitializeBoosterProps = {
   payRate: PayRateState
   bidMint: string
   askMint: string
-  budget: string
+  budget: number
   startTime: number
   endTime: number
   collections: string[]
-}
-
-export type Metadata = {
-  payRate: PayRateState
-  budget: string
 }
 
 const MAX_AMOUNT_VOUCHER = 1_000_000
@@ -43,7 +39,7 @@ export const useInitializeBooster = () => {
     }: UseInitializeBoosterProps) => {
       try {
         setLoading(true)
-        const metadata: Metadata = {
+        const metadata: BoosterMetadata = {
           payRate,
           budget,
         }
