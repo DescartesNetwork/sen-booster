@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useUI, util } from '@sentre/senhub'
 import moment from 'moment'
 
@@ -16,7 +17,6 @@ import { MintSelection } from '@sen-use/components'
 import Content from './content'
 
 import { DATE_FORMAT } from 'constant'
-import { useState } from 'react'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 
 export type GeneralData = {
