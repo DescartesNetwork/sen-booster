@@ -19,8 +19,8 @@ export enum Mode {
 }
 // Booster's category with User Mode
 export enum UserBoosterCategory {
-  LPHighToLow = 'Lp paid: High to low',
-  LPLowToHigh = 'Lp paid: Low to high',
+  LPHighToLow = 'LP paid: High to low',
+  LPLowToHigh = 'LP paid: Low to high',
   RateHighToLow = 'Buy-back rate: High to low',
   RateLowToHigh = 'Buy-back rate: Low to high',
 }
