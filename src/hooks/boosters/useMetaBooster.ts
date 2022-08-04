@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Ipfs } from 'senUse/ipfs'
 
 import { AppState } from 'model'
 
 import { notifyError } from 'helper'
-import { Ipfs } from 'senUse/ipfs'
 import { BoosterMetadata } from 'constant'
 
 export const useMetaBooster = (boosterAddress: string) => {
