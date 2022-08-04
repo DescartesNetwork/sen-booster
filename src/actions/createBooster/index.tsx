@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useSetState } from 'react-use'
 
 import { Button, Card, Col, Row, Typography } from 'antd'
 import GeneralInfo, { GeneralData } from './generalInfo'
@@ -15,13 +16,14 @@ const CreateBooster = () => {
   // Booster data
   const [payRate, setPayRate] = useState<PayRateState>({})
   const [collections, setCollections] = useState<string[]>([])
-  const [generalData, setGeneralData] = useState<GeneralData>({
+  const [generalData, setGeneralData] = useSetState({
     bidMint: '',
     askMint: '',
     budget: 0,
     startTime: 0,
     endTime: 0,
   })
+
   // Component state
   const [visible, setVisible] = useState(false)
   const { initializeBooster, loading } = useInitializeBooster()
@@ -50,20 +52,13 @@ const CreateBooster = () => {
     value: string | number,
     name: keyof GeneralData,
   ) => {
-    return setGeneralData({ ...generalData, [name]: value })
+    return setGeneralData(Object.assign(generalData, { [name]: value }))
   }
 
   const disabled = useMemo(() => {
-    const { askMint, bidMint, budget, endTime, startTime } = generalData
+    const { askMint, bidMint, budget } = generalData
     const listRate = Object.keys(payRate)
-    return (
-      !askMint ||
-      !bidMint ||
-      !budget ||
-      !endTime ||
-      !startTime ||
-      listRate.length < 1
-    )
+    return !askMint || !bidMint || !budget || listRate.length < 1
   }, [payRate, generalData])
 
   return (
