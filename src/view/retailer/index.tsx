@@ -16,7 +16,7 @@ function Retailer() {
     <Layout>
       <Row gutter={[24, 24]}>
         <Col span={24}>
-          <Header tabId={tabId} setTabId={setTabId} isRetailer={true} />
+          <Header tabId={tabId} setTabId={setTabId} />
         </Col>
         <Col span={24}>
           {tabId === TabId.BoostList ? <BoostList /> : <OrderList />}
