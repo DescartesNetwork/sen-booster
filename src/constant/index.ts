@@ -1,4 +1,6 @@
-export const DATE_FORMAT = 'DD MMM, YYYY HH:mm'
+import { PayRateState } from 'actions/createBooster/payRate'
+
+export const DATE_FORMAT = 'MMM DD, YYYY HH:mm'
 
 export const ALL = 'all'
 
@@ -61,4 +63,9 @@ export const STATUS_OPTIONS = {
     { key: 'Done', value: 'done' },
     { key: 'Waiting', value: 'open' },
   ],
+}
+
+export type BoosterMetadata = {
+  payRate: PayRateState
+  budget: number
 }

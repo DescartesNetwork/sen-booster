@@ -11,7 +11,7 @@ import { DATE_FORMAT } from 'constant'
 export type GeneralData = {
   bidMint: string
   askMint: string
-  budget: string
+  budget: number
   startTime: number
   endTime: number
 }

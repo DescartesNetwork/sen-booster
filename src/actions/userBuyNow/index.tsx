@@ -34,9 +34,7 @@ const BuyNow = ({ boosterAddress }: BuyNowProps) => {
       >
         <ModalContent
           boosterAddress={boosterAddress}
-          onClose={() => {
-            setIsVisible(false)
-          }}
+          onClose={() => setIsVisible(false)}
         />
       </Modal>
     </Fragment>

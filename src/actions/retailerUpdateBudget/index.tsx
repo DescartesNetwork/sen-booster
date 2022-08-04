@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { Button, Col, Input, Row, Space, Typography } from 'antd'
 import { MintSymbol } from '@sen-use/components'
+import InputNumberCard from 'components/inputNumberCard'
 
 import { useUpdateBudget } from 'hooks/actions/useUpdateBudget'
 import { AppState } from 'model'
@@ -15,7 +16,7 @@ type RetailerUpdateBudgetProps = {
 const RetailerUpdateBudget = ({
   boosterAddress,
 }: RetailerUpdateBudgetProps) => {
-  const [nextBudget, setNextBudget] = useState<string>('0')
+  const [nextBudget, setNextBudget] = useState(0)
   const bidMint = useSelector(
     (state: AppState) => state.boosters[boosterAddress].bidMint,
   )
@@ -40,12 +41,10 @@ const RetailerUpdateBudget = ({
       <Col span={24}>
         <Space direction="vertical" style={{ width: '100%' }}>
           <Typography.Text>Amount</Typography.Text>
-          <Input
-            prefix={<MintSymbol mintAddress={bidMint.toBase58()} />}
-            value={nextBudget}
-            defaultValue={metaBooster.budget}
-            onChange={(e) => setNextBudget(e.target.value)}
-            className="input-budget"
+          <InputNumberCard
+            value={Number(nextBudget)}
+            onValue={(val: number) => setNextBudget(val)}
+            prefix={<MintSymbol mintAddress={bidMint} />}
             disabled={metaLoading}
           />
         </Space>

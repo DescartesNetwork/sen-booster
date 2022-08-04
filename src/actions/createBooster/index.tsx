@@ -18,7 +18,7 @@ const CreateBooster = () => {
   const [generalData, setGeneralData] = useState<GeneralData>({
     bidMint: '',
     askMint: '',
-    budget: '',
+    budget: 0,
     startTime: 0,
     endTime: 0,
   })
