@@ -25,13 +25,9 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
   const orderData = useSelector((state: AppState) => state.orders[orderAddress])
   const boosters = useSelector((state: AppState) => state.boosters)
   const retailerAddress = orderData.retailer.toBase58()
-  const owner = orderData.authority.toBase58()
   const askMintAddress = boosters[retailerAddress].askMint.toBase58() || ''
   const askPrice = useMintPrice(askMintAddress)
-  const { nftUsedInThisBooster } = useAmountAppliedNFT({
-    owner,
-    boosterAddress: retailerAddress,
-  })
+  const { nftUsedInThisBooster } = useAmountAppliedNFT({ orderAddress })
 
   const fetchMetaData = useCallback(async () => {
     try {

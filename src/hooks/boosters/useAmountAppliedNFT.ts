@@ -4,15 +4,16 @@ import { useSelector } from 'react-redux'
 import { AppState } from 'model'
 
 type useAmountAppliedNFTProps = {
-  owner: string
-  boosterAddress: string
+  orderAddress: string
 }
 
 export const useAmountAppliedNFT = ({
-  owner,
-  boosterAddress,
+  orderAddress,
 }: useAmountAppliedNFTProps) => {
   const vouchers = useSelector((state: AppState) => state.vouchers)
+  const orderData = useSelector((state: AppState) => state.orders[orderAddress])
+  const owner = orderData.authority.toBase58()
+  const retailerAddress = orderData.retailer.toBase58()
 
   const nftUsedInThisBooster = useMemo(() => {
     let count = 0
@@ -20,12 +21,12 @@ export const useAmountAppliedNFT = ({
       const { authority, retailer } = vouchers[address]
       if (
         authority.toBase58() === owner &&
-        boosterAddress === retailer.toBase58()
+        retailerAddress === retailer.toBase58()
       )
         count++
     }
     return count
-  }, [boosterAddress, owner, vouchers])
+  }, [retailerAddress, owner, vouchers])
 
   return { nftUsedInThisBooster }
 }
