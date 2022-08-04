@@ -7,20 +7,16 @@ import { useSenExchange } from 'hooks/useSenExchange'
 import { PayRateState } from 'actions/createBooster/payRate'
 import { notifyError, notifySuccess } from 'helper'
 import { Ipfs } from 'senUse/ipfs'
+import { BoosterMetadata } from 'constant'
 
 type UseInitializeBoosterProps = {
   payRate: PayRateState
   bidMint: string
   askMint: string
-  budget: string
+  budget: number
   startTime: number
   endTime: number
   collections: string[]
-}
-
-export type Metadata = {
-  payRate: PayRateState
-  budget: string
 }
 
 const MAX_AMOUNT_VOUCHER = 1_000_000
@@ -43,13 +39,13 @@ export const useInitializeBooster = () => {
     }: UseInitializeBoosterProps) => {
       try {
         setLoading(true)
-        const metadata: Metadata = {
+        const metadata: BoosterMetadata = {
           payRate,
           budget,
         }
         const { digest } = await Ipfs.methods.booster.set(metadata)
-        const startAfter = startTime - Date.now()
-        const endAfter = endTime - Date.now()
+        const startAfter = startTime ? startTime - Date.now() : startTime
+        const endAfter = endTime ? endTime - Date.now() : endTime
         const { provider } = senExchange
         const trans = new web3.Transaction()
         const retailer = web3.Keypair.generate()

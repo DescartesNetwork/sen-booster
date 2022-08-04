@@ -40,7 +40,9 @@ const DisplayMint = ({
     <Typography.Text>{label}</Typography.Text>
     <Space>
       <MintAvatar mintAddress={mintAddress} />
-      <MintSymbol mintAddress={mintAddress} />
+      <Typography.Title level={5}>
+        <MintSymbol mintAddress={mintAddress} />
+      </Typography.Title>
     </Space>
   </Space>
 )

@@ -1,17 +1,28 @@
-import { useUI } from '@sentre/senhub'
+import { useState } from 'react'
+import { useUI, util } from '@sentre/senhub'
 import moment from 'moment'
 
-import { Col, DatePicker, Input, Row, Typography } from 'antd'
+import {
+  Col,
+  DatePicker,
+  InputNumber,
+  Row,
+  Space,
+  Switch,
+  Tooltip,
+  Typography,
+} from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import { MintSelection } from '@sen-use/components'
 import Content from './content'
 
 import { DATE_FORMAT } from 'constant'
+import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
 
 export type GeneralData = {
   bidMint: string
   askMint: string
-  budget: string
+  budget: number
   startTime: number
   endTime: number
 }
@@ -39,10 +50,20 @@ const MINT_STYLE = {
 }
 
 const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
+  const [unlimited, setUnlimited] = useState(true)
   const { askMint, bidMint, budget, endTime, startTime } = generateData
   const {
     ui: { theme },
   } = useUI()
+  const { balance } = useAccountBalanceByMintAddress(bidMint)
+
+  const onSwitch = (checked: boolean) => {
+    if (checked) {
+      onChange(0, 'startTime')
+      onChange(0, 'endTime')
+    }
+    return setUnlimited(checked)
+  }
 
   return (
     <Row gutter={[8, 8]}>
@@ -51,7 +72,7 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          <Col span={24} className="retailer-mint-selection">
+          <Col span={12} className="retailer-mint-selection">
             <Content
               label="Buy-back"
               value={
@@ -64,29 +85,53 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
               }
             />
           </Col>
+          <Col span={12}>
+            <Content
+              label={
+                <Space align="center">
+                  <Typography.Text>Budget</Typography.Text>
+                  <Tooltip
+                    title={
+                      "You can set a budget to encourage users to buy the token, but it won't affect the balance of your assets."
+                    }
+                  >
+                    <IonIcon
+                      style={{ cursor: 'pointer' }}
+                      name="information-circle-outline"
+                    />
+                  </Tooltip>
+                </Space>
+              }
+              value={
+                <InputNumber
+                  onChange={(value) => onChange(value, 'budget')}
+                  value={budget ? budget : undefined}
+                  placeholder="Input the budget amount of paid token"
+                  size="large"
+                />
+              }
+            />
+          </Col>
           <Col span={24} className="retailer-mint-selection">
             <Content
-              label="Pay"
+              label={
+                <Row>
+                  <Col flex="auto">
+                    <Typography.Text>Pay</Typography.Text>
+                  </Col>
+                  <Col>
+                    <Typography.Text type="secondary">
+                      Available: {util.numeric(balance).format('0,0.[000]')}
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              }
               value={
                 <MintSelection
                   value={bidMint}
                   onChange={(value) => onChange(value, 'bidMint')}
                   placeholder="Select a token"
                   style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
-                />
-              }
-            />
-          </Col>
-          <Col span={24}>
-            <Content
-              label="Budget"
-              value={
-                <Input
-                  onChange={(e) => onChange(e.target.value, 'budget')}
-                  value={budget}
-                  placeholder="Input the budget amount of pay token"
-                  className="retailer-input"
-                  size="large"
                 />
               }
             />
@@ -107,6 +152,7 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                   showTime={{ showSecond: false }}
                   placement="bottomRight"
                   format={DATE_FORMAT}
+                  disabled={unlimited}
                 />
               }
             />
@@ -125,11 +171,18 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                   showTime={{ showSecond: false }}
                   placement="bottomRight"
                   format={DATE_FORMAT}
+                  disabled={unlimited}
                 />
               }
             />
           </Col>
         </Row>
+      </Col>
+      <Col span={24} style={{ textAlign: 'right' }}>
+        <Space>
+          <Typography.Text>No time limit</Typography.Text>
+          <Switch checked={unlimited} size="small" onChange={onSwitch} />
+        </Space>
       </Col>
     </Row>
   )

@@ -1,3 +1,5 @@
+import { PayRateState } from 'actions/createBooster/payRate'
+
 export const DATE_FORMAT = 'MMM DD, YYYY HH:mm'
 
 export const ALL = 'all'
@@ -17,8 +19,8 @@ export enum Mode {
 }
 // Booster's category with User Mode
 export enum UserBoosterCategory {
-  LPHighToLow = 'Lp paid: High to low',
-  LPLowToHigh = 'Lp paid: Low to high',
+  LPHighToLow = 'LP paid: High to low',
+  LPLowToHigh = 'LP paid: Low to high',
   RateHighToLow = 'Buy-back rate: High to low',
   RateLowToHigh = 'Buy-back rate: Low to high',
 }
@@ -33,6 +35,7 @@ export enum RetailerBoosterCategory {
 }
 
 export const LOCK_TIME_DAY: Record<string, number> = {
+  'No lock time': 0,
   '7 days': 7,
   '30 days': 30,
   '60 days': 60,
@@ -61,4 +64,9 @@ export const STATUS_OPTIONS = {
     { key: 'Done', value: 'done' },
     { key: 'Waiting', value: 'open' },
   ],
+}
+
+export type BoosterMetadata = {
+  payRate: PayRateState
+  budget: number
 }

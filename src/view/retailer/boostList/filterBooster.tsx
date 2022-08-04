@@ -28,7 +28,7 @@ const FilterBooster = ({ onChange }: FilterBoosterProps) => {
       let valid = true
 
       //Filter params
-      if (hideExpired && numEndAt < now) valid = false
+      if (hideExpired && numEndAt < now && numEndAt) valid = false
       if (hideFrozen && state.frozen) valid = false
       if (isBoost && !getAmountVoucher(address)) valid = false
 

@@ -3,6 +3,7 @@ import IonIcon from '@sentre/antd-ionicon'
 import Content from './content'
 
 export const DATES = [
+  'No lock time',
   '7 days',
   '30 days',
   '60 days',
@@ -25,24 +26,32 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
           <Typography.Title level={5}>Pay rate</Typography.Title>
           <Tooltip
             title={
-              "You can set the pay rate to 0 at the lock time you don't want to use. But there must be at least 1 field with a ratio greater than Zero."
+              "The min pay rate is 100% and equal to the market price. You need to input a higher rate to attract users You can leave blank the lock time you don't want to use, but there must be at least one field."
             }
           >
-            <IonIcon name="information-circle-outline" />
+            <IonIcon
+              style={{ cursor: 'pointer' }}
+              name="information-circle-outline"
+            />
           </Tooltip>
         </Space>
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
           {DATES.map((date) => (
-            <Col className="pay-rate" span={12} key={date}>
+            <Col
+              className="pay-rate"
+              span={date === 'No lock time' ? 24 : 12}
+              key={date}
+            >
               <Content
                 label={date}
                 value={
                   <InputNumber
+                    min={100}
                     className="retailer-input"
                     size="large"
-                    placeholder="Input rate"
+                    placeholder="Must be >= 100%"
                     value={payRate[date]}
                     onChange={(val) => setPayRate(val, date)}
                   />
