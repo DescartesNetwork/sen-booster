@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
-import moment from 'moment'
 import BN from 'bn.js'
 import { util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
@@ -13,7 +12,7 @@ import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
-import { DATE_FORMAT } from 'constant'
+import TimeCountDown from 'components/timeCountDown'
 
 type StatisticsProps = {
   boosterAddress: string
@@ -101,13 +100,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
         <Spin spinning={loading} size="small">
           <SpaceVertical
             label="End date"
-            value={
-              <Typography.Text>
-                {endAt.isZero()
-                  ? 'Unlimited'
-                  : moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
-              </Typography.Text>
-            }
+            value={<TimeCountDown endTime={endAt.toNumber()} />}
             size={4}
           />
         </Spin>
