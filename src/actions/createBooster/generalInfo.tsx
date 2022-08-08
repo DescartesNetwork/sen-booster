@@ -72,19 +72,6 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          <Col span={24} className="retailer-mint-selection">
-            <Content
-              label="Buy-back"
-              value={
-                <MintSelection
-                  value={askMint}
-                  onChange={(value) => onChange(value, 'askMint')}
-                  placeholder="Select LP"
-                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
-                />
-              }
-            />
-          </Col>
           <Col span={12} className="retailer-mint-selection">
             <Content
               label={
@@ -136,7 +123,19 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
               }
             />
           </Col>
-
+          <Col span={24} className="retailer-mint-selection">
+            <Content
+              label="Buy-back"
+              value={
+                <MintSelection
+                  value={askMint}
+                  onChange={(value) => onChange(value, 'askMint')}
+                  placeholder="Select LP"
+                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
+                />
+              }
+            />
+          </Col>
           <Col span={12}>
             <Content
               label="Start time"

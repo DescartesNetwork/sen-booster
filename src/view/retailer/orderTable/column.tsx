@@ -21,18 +21,17 @@ export const ORDER_COLUMNS = [
       </Typography.Text>
     ),
   },
-
-  {
-    title: 'BUY-BACK',
-    dataIndex: 'orderAddress',
-    key: 'orderAddress',
-    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
-  },
   {
     title: 'PAY',
     dataIndex: 'orderAddress',
     key: 'orderAddress',
     render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
+  },
+  {
+    title: 'BUY-BACK',
+    dataIndex: 'orderAddress',
+    key: 'orderAddress',
+    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
   },
   {
     title: 'LOCK TIME',

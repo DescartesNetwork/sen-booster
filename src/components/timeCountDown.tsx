@@ -1,18 +1,28 @@
 import { memo, useCallback, useEffect, useState } from 'react'
 import moment from 'moment'
+import { Space, Typography } from 'antd'
 
 const TimeCountDown = memo(({ endTime }: { endTime: number }) => {
-  const [countDown, setCountDown] = useState('0 days 00:00')
+  const startTime = Math.floor(Date.now() / 1000)
+  const duration = moment.duration(endTime - startTime, 'seconds')
+
+  const [countDown, setCountDown] = useState({
+    days: duration.days(),
+    hours: duration.hours(),
+    minutes: duration.minutes(),
+  })
 
   const updateCountDown = useCallback(async () => {
-    const startTime = Math.floor(new Date().getTime() / 1000)
+    if (!endTime) return
+    const startTime = Math.floor(Date.now() / 1000)
     // TODO: startTime > endTime  (finish)
     // TODO: unlimited
     const duration = moment.duration(endTime - startTime, 'seconds')
     const days = duration.days()
     const hours = duration.hours()
     const minutes = duration.minutes()
-    setCountDown(`${days} days ${hours}:${minutes}}`)
+
+    setCountDown({ days, hours, minutes })
   }, [endTime])
 
   useEffect(() => {
@@ -20,6 +30,19 @@ const TimeCountDown = memo(({ endTime }: { endTime: number }) => {
     return () => clearInterval(interval)
   }, [updateCountDown])
 
-  return <div>{countDown}</div>
+  if (!endTime) return <Typography.Text>Unlimited</Typography.Text>
+  return (
+    <Space size={4}>
+      <Typography.Text className="countdown">{countDown.days}d</Typography.Text>
+      :
+      <Typography.Text className="countdown">
+        {countDown.hours}h
+      </Typography.Text>
+      :
+      <Typography.Text className="countdown">
+        {countDown.minutes}m
+      </Typography.Text>
+    </Space>
+  )
 })
 export default TimeCountDown

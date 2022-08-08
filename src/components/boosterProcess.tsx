@@ -10,25 +10,36 @@ import { Col, Progress, Row, Space, Spin, Typography } from 'antd'
 import { AppState } from 'model'
 import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
+import { BN } from 'bn.js'
 
 type BoosterProcessProps = {
   boosterAddress: string
 }
 
 const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
-  const { bidReserve, bidMint, bidTotal } = useSelector(
-    (state: AppState) => state.boosters[boosterAddress],
+  const bidMint = useSelector(
+    (state: AppState) => state.boosters[boosterAddress].bidMint,
   )
+  const orders = useSelector((state: AppState) => state.orders)
   const {
     metaBooster: { budget },
     loading,
   } = useMetaBooster(boosterAddress)
   const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
 
-  const processAmount = utilsBN.undecimalize(
-    bidTotal.sub(bidReserve),
-    bidDecimal,
-  )
+  const processAmount = useMemo(() => {
+    let total = new BN(0)
+    for (const address in orders) {
+      const { retailer, bidAmount, state } = orders[address]
+      if (
+        retailer.toBase58() !== boosterAddress ||
+        (!state.approved && !state.done)
+      )
+        continue
+      total = total.add(bidAmount)
+    }
+    return utilsBN.undecimalize(total, bidDecimal)
+  }, [bidDecimal, boosterAddress, orders])
 
   const percentage = useMemo(() => {
     if (!Number(budget)) return 0

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useWallet } from '@sentre/senhub'
+import { useWalletAddress } from '@sentre/senhub'
 
 import { Mode } from 'constant'
 import { AppState } from 'model'
@@ -9,9 +9,7 @@ export const useMintFilterOptions = () => {
   const orders = useSelector((state: AppState) => state.orders)
   const boosters = useSelector((state: AppState) => state.boosters)
   const mode = useSelector((state: AppState) => state.settings.mode)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const walletAddress = useWalletAddress()
 
   const mintOptions = useMemo(() => {
     let mintItems: Set<string> = new Set()

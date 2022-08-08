@@ -15,8 +15,8 @@ export const useRejectOrder = () => {
         const order = new web3.PublicKey(orderAddress)
         const { txId } = await senExchange.rejectOrder({ order })
         notifySuccess('Rejected', txId)
-      } catch (error: any) {
-        notifyError(error.message)
+      } catch (error) {
+        notifyError(error)
       } finally {
         setLoading(false)
       }

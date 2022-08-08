@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { PDB, useWallet } from '@sentre/senhub'
+import { PDB, useWalletAddress } from '@sentre/senhub'
 
 import IonIcon from '@sentre/antd-ionicon'
 import {
@@ -44,9 +44,7 @@ const Header = ({ tabId, setTabId, scrollToFAQ }: HeaderProps) => {
   const { mode } = useSelector((state: AppState) => state.settings)
   const { pushHistory } = useAppRouter()
   const dispatch = useDispatch<AppDispatch>()
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const walletAddress = useWalletAddress()
 
   const pdb = new PDB(walletAddress).createInstance(appId)
   const isRetailerMode = useMemo(() => mode === Mode.Retailer, [mode])
@@ -60,7 +58,7 @@ const Header = ({ tabId, setTabId, scrollToFAQ }: HeaderProps) => {
   }
 
   return (
-    <Row>
+    <Row align="middle">
       <Col flex="auto">
         <Segmented
           options={isRetailerMode ? RETAILER_TABS : USER_TABS}
