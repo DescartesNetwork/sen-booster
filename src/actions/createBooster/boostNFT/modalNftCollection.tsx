@@ -17,10 +17,6 @@ const ModalNftCollection = ({ onSelect }: ModalNftCollectionProps) => {
 
   const onSelectNFT = (mintAddress: string) => {
     onSelect(mintAddress)
-    onCloseModal()
-  }
-
-  const onCloseModal = () => {
     setVisible(false)
   }
 
@@ -48,7 +44,7 @@ const ModalNftCollection = ({ onSelect }: ModalNftCollectionProps) => {
         className="modal-nft-selection"
         visible={visible}
         footer={false}
-        onCancel={onCloseModal}
+        onCancel={() => setVisible(false)}
         closeIcon={<IonIcon name="close-outline" />}
       >
         <Row gutter={[24, 24]}>
