@@ -7,13 +7,15 @@ import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
 import StatusTag from 'components/statusTag'
+import ColumnRedemptionTime from './columnRedemptionTime'
+import ColumnProfit from './columnProfit'
 
-import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
+import { DATE_FORMAT } from 'constant'
 import { OrderRequest } from 'view/retailer/orderList'
 
 export const REDEEM_COLUMNS = [
   {
-    title: 'TIME',
+    title: 'ORDERED TIME',
     dataIndex: 'createAt',
     render: (createAt: BN) => (
       <Typography.Text>
@@ -22,28 +24,37 @@ export const REDEEM_COLUMNS = [
     ),
   },
   {
-    title: 'PAY',
+    title: 'SELL',
     dataIndex: 'orderAddress',
     render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
   },
   {
-    title: 'RECEIVE',
+    title: 'BUY',
     dataIndex: 'orderAddress',
     render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
   },
+
   {
-    title: 'LOCK TIME',
-    dataIndex: 'lockTime',
-    render: (lockTime: BN) => (
-      <Typography.Text>
-        {lockTime.div(new BN(SECONDS_PER_DAY)).toString()} days
-      </Typography.Text>
+    title: 'REDEMPTION TIME',
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string) => (
+      <ColumnRedemptionTime orderAddress={orderAddress} />
+    ),
+  },
+  {
+    title: 'PROFIT',
+    key: 'orderAddress',
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string) => (
+      <ColumnProfit orderAddress={orderAddress} />
     ),
   },
   {
     title: 'STATUS',
     dataIndex: 'state',
-    render: (state: OrderState) => <StatusTag state={state} />,
+    render: (state: OrderState, { orderAddress }: OrderRequest) => (
+      <StatusTag state={state} orderAddress={orderAddress} />
+    ),
   },
   {
     title: 'ACTIONS',

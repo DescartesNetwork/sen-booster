@@ -20,6 +20,7 @@ const RejectOrder = ({ orderAddress }: RejectOrderProps) => {
       loading={loading}
       disabled={!state.open}
       onClick={() => rejectOrder({ orderAddress })}
+      size="small"
     >
       Reject
     </Button>

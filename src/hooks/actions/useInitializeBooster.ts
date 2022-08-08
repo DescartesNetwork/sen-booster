@@ -19,7 +19,7 @@ type UseInitializeBoosterProps = {
   collections: string[]
 }
 
-const MAX_AMOUNT_VOUCHER = 1_000_000
+const MAX_AMOUNT_VOUCHER = 1_000_000_000
 const DISCOUNT = 0.025
 export const DECIMAL_DISCOUNT = 9
 

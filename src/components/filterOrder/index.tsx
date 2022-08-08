@@ -1,53 +1,29 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { MintAvatar, MintSymbol } from '@sen-use/components'
-import { Col, Row, Select, Space, Typography } from 'antd'
+import { Col, Row, Select, Space } from 'antd'
+import FilterElement from './filterElement'
 
-import {
-  ALL,
-  SECONDS_PER_DAY,
-  TIME_FILTER_OPTIONS,
-  STATUS_OPTIONS,
-} from 'constant'
+import { ALL, TIME_FILTER_OPTIONS, STATUS_OPTIONS } from 'constant'
 import { useMintFilterOptions } from 'hooks/useMintFilterOptions'
 import { OrderRequest } from 'view/retailer/orderList'
 import { AppState } from 'model'
+import { useOrderFiltered } from 'hooks/boosters/useOrderFiltered'
 
 type FilterOrdersProps = {
   onChange: (orders: OrderRequest[]) => void
-  orderList: OrderRequest[]
 }
 
-const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
+const FilterOrders = ({ onChange }: FilterOrdersProps) => {
   const [filter, setFilter] = useState({
     token: ALL,
     time: TIME_FILTER_OPTIONS[0].value,
     status: ALL,
   })
   const mintOptions = useMintFilterOptions()
-  const boosters = useSelector((state: AppState) => state.boosters)
   const mode = useSelector((state: AppState) => state.settings.mode)
-
-  const filteredOrders = useMemo(() => {
-    const now = Date.now() / 1000
-    const pastTime = now - filter.time * SECONDS_PER_DAY
-    const orderRequest = orderList.filter((order) => {
-      const { retailer, createAt, state } = order
-      const { askMint, bidMint } = boosters[retailer.toBase58()]
-      const listMintAddress = [askMint.toBase58(), bidMint.toBase58()]
-      //Filter Params
-      if (filter.status !== ALL && Object.keys(state)[0] !== filter.status)
-        return false
-      if (createAt.toNumber() < pastTime) return false
-      if (filter.token !== ALL && !listMintAddress.includes(filter.token))
-        return false
-
-      return true
-    })
-
-    return orderRequest
-  }, [boosters, filter, orderList])
+  const { filteredOrders } = useOrderFiltered(filter)
 
   useEffect(() => {
     onChange(filteredOrders)
@@ -57,8 +33,7 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
     <Row gutter={[12, 12]}>
       {/* Filter Token */}
       <Col span={4}>
-        <Space size={4} direction="vertical" style={{ width: '100%' }}>
-          <Typography.Text type="secondary">Token</Typography.Text>
+        <FilterElement label="Token">
           <Select
             style={{ width: '100%' }}
             onChange={(mint) => setFilter({ ...filter, token: mint })}
@@ -75,12 +50,11 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
               </Select.Option>
             ))}
           </Select>
-        </Space>
+        </FilterElement>
       </Col>
       {/* Filter Time */}
       <Col span={4}>
-        <Space size={4} direction="vertical" style={{ width: '100%' }}>
-          <Typography.Text type="secondary">Time</Typography.Text>
+        <FilterElement label="Time">
           <Select
             style={{ width: '100%' }}
             onChange={(val) => setFilter({ ...filter, time: val })}
@@ -93,12 +67,11 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
               </Select.Option>
             ))}
           </Select>
-        </Space>
+        </FilterElement>
       </Col>
       {/* Filter Status */}
       <Col span={4}>
-        <Space size={4} direction="vertical" style={{ width: '100%' }}>
-          <Typography.Text type="secondary">Status</Typography.Text>
+        <FilterElement label="Status">
           <Select
             style={{ width: '100%' }}
             onChange={(val) => setFilter({ ...filter, status: val })}
@@ -111,7 +84,7 @@ const FilterOrders = ({ onChange, orderList }: FilterOrdersProps) => {
               </Select.Option>
             ))}
           </Select>
-        </Space>
+        </FilterElement>
       </Col>
     </Row>
   )
