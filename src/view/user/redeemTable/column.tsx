@@ -43,7 +43,9 @@ export const REDEEM_COLUMNS = [
   {
     title: 'STATUS',
     dataIndex: 'state',
-    render: (state: OrderState) => <StatusTag state={state} />,
+    render: (state: OrderState, { orderAddress }: OrderRequest) => (
+      <StatusTag state={state} orderAddress={orderAddress} />
+    ),
   },
   {
     title: 'ACTIONS',

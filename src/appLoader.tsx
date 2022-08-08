@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getAnchorProvider } from '@sen-use/web3'
-import { PDB, rpc, useWallet } from '@sentre/senhub'
+import { PDB, rpc, useWalletAddress } from '@sentre/senhub'
 import SenExchangeProgram from 'sen-exchange-core'
 
 import { setMode } from 'model/settings.controller'
@@ -16,9 +16,7 @@ const {
 } = configs
 
 export const AppLoader: React.FC = ({ children }) => {
-  const {
-    wallet: { address },
-  } = useWallet()
+  const address = useWalletAddress()
   const [loaded, setLoaded] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const { pushHistory } = useAppRouter()

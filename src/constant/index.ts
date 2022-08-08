@@ -55,7 +55,6 @@ export const TIME_FILTER_OPTIONS = [
 export const STATUS_OPTIONS = {
   retailer: [
     { key: 'All', value: ALL },
-    { key: 'Ready', value: 'ready' },
     { key: 'Approved', value: 'approved' },
     { key: 'Open', value: 'open' },
     { key: 'Done', value: 'done' },

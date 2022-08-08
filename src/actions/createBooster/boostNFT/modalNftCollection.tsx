@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import { useWallet } from '@sentre/senhub'
+import { useWalletAddress } from '@sentre/senhub'
 import { account } from '@senswap/sen-js'
 
 import { Button, Col, Empty, Modal, Row, Typography } from 'antd'
@@ -23,9 +23,7 @@ const ModalNftCollection = ({ onSelect }: ModalNftCollectionProps) => {
   const [collectionAddresses, setCollectionAddresses] = useState<string[]>([])
   const [searchText, setSearchText] = useState<string>('')
   const [loading, setLoading] = useState(false)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const walletAddress = useWalletAddress()
   const { nfts } = useOwnerNFT(walletAddress)
 
   const getNftCollectionInfo = useCallback(async () => {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useWallet } from '@sentre/senhub'
+import { useWalletAddress } from '@sentre/senhub'
 
 import { MetadataDataType } from 'lib/metaplex'
 import useOwnerNFT from './nft/useOwnerNFT'
@@ -9,9 +9,7 @@ export const useNFTByVoucher = (boosterAddress: string) => {
   const [ownerNFTsByVouchers, setOwnerNFTsByVouchers] = useState<
     MetadataDataType[]
   >([])
-  const {
-    wallet: { address },
-  } = useWallet()
+  const address = useWalletAddress()
   const { nfts } = useOwnerNFT(address)
   const vouchers = useVoucherPrintersByBooster(boosterAddress)
 

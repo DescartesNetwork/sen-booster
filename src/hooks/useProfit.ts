@@ -24,7 +24,7 @@ export const useProfit = (orderAddress: string) => {
   const totalAsk = numAskAmount * askPrice
 
   // Calculate current discount
-  const profit = (totalAsk - totalBid) / totalAsk
+  const profit = totalAsk ? (totalAsk - totalBid) / totalAsk : 0
 
   return { profit }
 }

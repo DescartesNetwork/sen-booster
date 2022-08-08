@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { web3 } from '@project-serum/anchor'
-import { useWallet } from '@sentre/senhub'
+import { useWalletAddress } from '@sentre/senhub'
 
 import { AppState } from 'model'
 
@@ -10,9 +10,7 @@ export const useEngageBoosterInfos = (boosterAddress: web3.PublicKey) => {
   const [loading, setLoading] = useState(false)
   // const [yourBought, setYourBought] = useState(0)
   // const [totalValuePaid, setTotalValuePair] = useState(0)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
+  const walletAddress = useWalletAddress()
 
   const calcEngagementInfos = useCallback(async () => {
     try {
