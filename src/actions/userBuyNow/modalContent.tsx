@@ -194,7 +194,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
                           disabled={!payRate[days]}
                           style={{
                             width: '100%',
-                            textAlign: isNone ? 'center' : 'left',
+                            textAlign: 'center',
                           }}
                           value={days}
                         >
@@ -243,7 +243,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
           checked={isAgree}
           onChange={(e) => setIsAgree(e.target.checked)}
         >
-          I agree with this transaction
+          I have read and agree with this transaction
         </Checkbox>
       </Col>
       <Col span={24}>

@@ -3,21 +3,19 @@ import { useSelector } from 'react-redux'
 import { notifyError } from '@sen-use/app'
 import { util } from '@sentre/senhub'
 
-import { Col, Row, Space, Typography } from 'antd'
-import ApproveOrder from 'actions/retailerApproveOrder'
-import RejectOrder from 'actions/retailerRejectOrder'
-import SpaceVertical from 'components/spaceVertical'
+import { Col, Row } from 'antd'
+import SpaceBetween from 'components/spaceBetween'
 
 import { AppState } from 'model'
 import { useMintPrice } from 'hooks/useMintPrice'
 import { Ipfs, OrderMetadata } from 'senUse/ipfs'
 import { useAmountAppliedNFT } from 'hooks/boosters/useAmountAppliedNFT'
 
-type ExplainCardProps = {
+type MetadataCardProps = {
   orderAddress: string
 }
 
-const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
+const MetadataCard = ({ orderAddress }: MetadataCardProps) => {
   const [orderMetadata, setOrderMetadata] = useState<OrderMetadata>({
     appliedNFTs: [],
     discount: 0,
@@ -43,43 +41,27 @@ const ExplainCard = ({ orderAddress }: ExplainCardProps) => {
   }, [fetchMetaData])
 
   return (
-    <Row gutter={[8, 8]} align="middle">
-      <Col flex="auto">
-        <Row gutter={[48, 48]}>
-          <Col>
-            <SpaceVertical
-              label="Market price"
-              value={
-                <Typography.Text>
-                  1 LP = {util.numeric(askPrice).format('0,0.[0000]')} USDC
-                </Typography.Text>
-              }
-            />
-          </Col>
-          <Col>
-            <SpaceVertical
-              label="Used NFT slot"
-              value={<Typography.Text>{nftUsedInThisBooster}</Typography.Text>}
-            />
-          </Col>
-          <Col>
-            <SpaceVertical
-              label="Total boost rate"
-              value={
-                <Typography.Text>{orderMetadata.discount}%</Typography.Text>
-              }
-            />
-          </Col>
-        </Row>
+    <Row gutter={[4, 4]}>
+      <Col span={24}>
+        <SpaceBetween
+          label="Market price"
+          value={` 1 LP = ${util.numeric(askPrice).format('0,0.[0000]')} USDC`}
+        />
       </Col>
-      <Col>
-        <Space>
-          <RejectOrder orderAddress={orderAddress} />
-          <ApproveOrder orderAddress={orderAddress} />
-        </Space>
+      <Col span={24}>
+        <SpaceBetween
+          label="Used NFT slot"
+          value={nftUsedInThisBooster.toString()}
+        />
+      </Col>
+      <Col span={24}>
+        <SpaceBetween
+          label="Total boost rate"
+          value={`${orderMetadata.discount}%`}
+        />
       </Col>
     </Row>
   )
 }
 
-export default ExplainCard
+export default MetadataCard

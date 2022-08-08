@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { useUI } from '@sentre/senhub'
 
 import { Button, Card, Col, Row } from 'antd'
 import RedeemTable from 'view/user/redeemTable'
-import FilterOrders from 'components/filterOrder'
+import RedeemMobileScreen from '../redeemMobileScreen'
 
-import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
 import { OrderRequest } from 'view/retailer/orderList'
 
 const DEFAULT_PAGE_SIZE = 10
@@ -12,16 +12,27 @@ const DEFAULT_PAGE_SIZE = 10
 const Redeem = () => {
   const [orders, setOrders] = useState<OrderRequest[]>([])
   const [page, setPage] = useState(1)
-  const { ownOrders } = useOwnOrders()
+  const {
+    ui: { width },
+  } = useUI()
+
+  const isMobile = width < 768
 
   return (
     <Card bodyStyle={{ padding: '24px 0px' }}>
       <Row gutter={[16, 16]}>
-        <Col span={24} style={{ paddingRight: 24, paddingLeft: 24 }}>
-          <FilterOrders orderList={ownOrders} onChange={setOrders} />
-        </Col>
         <Col span={24}>
-          <RedeemTable dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)} />
+          {isMobile ? (
+            <RedeemMobileScreen
+              dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)}
+              setOrders={setOrders}
+            />
+          ) : (
+            <RedeemTable
+              dataSource={orders.slice(0, page * DEFAULT_PAGE_SIZE)}
+              setOrders={setOrders}
+            />
+          )}
         </Col>
         <Col span={24} style={{ textAlign: 'center' }}>
           <Button

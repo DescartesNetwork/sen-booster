@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import moment from 'moment'
-import { OrderData, OrderState } from 'sen-exchange-core'
+import { OrderState } from 'sen-exchange-core'
 
 import { Typography } from 'antd'
 import StatusTag from 'components/statusTag'
@@ -50,11 +50,8 @@ export const ORDER_COLUMNS = [
     title: 'PROFIT',
     key: 'orderAddress',
     dataIndex: 'orderAddress',
-    render: (orderAddress: string, { retailer }: OrderData) => (
-      <ColumnProfit
-        orderAddress={orderAddress}
-        retailerAddress={retailer.toBase58()}
-      />
+    render: (orderAddress: string) => (
+      <ColumnProfit orderAddress={orderAddress} />
     ),
   },
   {
