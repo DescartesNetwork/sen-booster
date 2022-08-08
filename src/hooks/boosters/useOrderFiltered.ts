@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { useOwnOrders } from './useOwnOrders'
-import { ALL, SECONDS_PER_DAY } from 'constant'
+import { ALL, Mode, SECONDS_PER_DAY } from 'constant'
 import { AppState } from 'model'
 import { useRedeemTime } from 'hooks/useRedeemTime'
 
@@ -14,6 +14,7 @@ export type FilterParams = {
 
 export const useOrderFiltered = (filter: FilterParams) => {
   const boosters = useSelector((state: AppState) => state.boosters)
+  const mode = useSelector((state: AppState) => state.settings.mode)
   const { ownOrders } = useOwnOrders()
   const { getRedeemTime } = useRedeemTime()
 
@@ -26,7 +27,7 @@ export const useOrderFiltered = (filter: FilterParams) => {
       const listMintAddress = [askMint.toBase58(), bidMint.toBase58()]
 
       //Filter Params
-      if (filter.status !== ALL) {
+      if (filter.status !== ALL && mode === Mode.User) {
         const redeemTime = getRedeemTime(orderAddress) * 1000
         const currentTime = Date.now()
         if (
@@ -42,6 +43,13 @@ export const useOrderFiltered = (filter: FilterParams) => {
           return false
       }
 
+      if (
+        filter.status !== ALL &&
+        mode === Mode.Retailer &&
+        Object.keys(state)[0] !== filter.status
+      )
+        return false
+
       if (createAt.toNumber() < pastTime) return false
       if (filter.token !== ALL && !listMintAddress.includes(filter.token))
         return false
@@ -50,7 +58,7 @@ export const useOrderFiltered = (filter: FilterParams) => {
     })
 
     return orderRequest
-  }, [boosters, filter, getRedeemTime, ownOrders])
+  }, [boosters, filter, getRedeemTime, mode, ownOrders])
 
   return { filteredOrders }
 }

@@ -82,7 +82,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
       <Col xs={12} md={6} lg={4}>
         <Spin spinning={loading} size="small">
           <SpaceVertical
-            label="Total value paid"
+            label="Total value sold"
             value={
               <Typography.Text>
                 {util

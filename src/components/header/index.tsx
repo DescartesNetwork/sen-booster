@@ -58,7 +58,7 @@ const Header = ({ tabId, setTabId, scrollToFAQ }: HeaderProps) => {
   }
 
   return (
-    <Row>
+    <Row align="middle">
       <Col flex="auto">
         <Segmented
           options={isRetailerMode ? RETAILER_TABS : USER_TABS}
