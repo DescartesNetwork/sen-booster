@@ -48,7 +48,6 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
                 label={date}
                 value={
                   <InputNumber
-                    min={100}
                     className="retailer-input"
                     size="large"
                     placeholder="Must be >= 100%"

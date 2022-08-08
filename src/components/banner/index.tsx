@@ -18,7 +18,7 @@ const Banner = () => {
               level={1}
               style={{ color: '#0B358F', lineHeight: '120%' }}
             >
-              Buy your Fav Tokens at Better than Market price
+              Buy your Fav Tokens <br /> at Better than Market price
             </Typography.Title>
             <Space>
               <Space>

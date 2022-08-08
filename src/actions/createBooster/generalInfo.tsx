@@ -72,7 +72,7 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
       </Col>
       <Col span={24}>
         <Row gutter={[16, 16]}>
-          <Col span={12} className="retailer-mint-selection">
+          <Col span={24} className="retailer-mint-selection">
             <Content
               label="Buy-back"
               value={
@@ -80,6 +80,30 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                   value={askMint}
                   onChange={(value) => onChange(value, 'askMint')}
                   placeholder="Select LP"
+                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
+                />
+              }
+            />
+          </Col>
+          <Col span={12} className="retailer-mint-selection">
+            <Content
+              label={
+                <Row>
+                  <Col flex="auto">
+                    <Typography.Text>Pay</Typography.Text>
+                  </Col>
+                  <Col>
+                    <Typography.Text type="secondary">
+                      Available: {util.numeric(balance).format('0,0.[000]')}
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              }
+              value={
+                <MintSelection
+                  value={bidMint}
+                  onChange={(value) => onChange(value, 'bidMint')}
+                  placeholder="Select a token"
                   style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
                 />
               }
@@ -106,36 +130,13 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                 <InputNumber
                   onChange={(value) => onChange(value, 'budget')}
                   value={budget ? budget : undefined}
-                  placeholder="Input the budget amount of paid token"
+                  placeholder="Amount of paid token"
                   size="large"
                 />
               }
             />
           </Col>
-          <Col span={24} className="retailer-mint-selection">
-            <Content
-              label={
-                <Row>
-                  <Col flex="auto">
-                    <Typography.Text>Pay</Typography.Text>
-                  </Col>
-                  <Col>
-                    <Typography.Text type="secondary">
-                      Available: {util.numeric(balance).format('0,0.[000]')}
-                    </Typography.Text>
-                  </Col>
-                </Row>
-              }
-              value={
-                <MintSelection
-                  value={bidMint}
-                  onChange={(value) => onChange(value, 'bidMint')}
-                  placeholder="Select a token"
-                  style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
-                />
-              }
-            />
-          </Col>
+
           <Col span={12}>
             <Content
               label="Start time"

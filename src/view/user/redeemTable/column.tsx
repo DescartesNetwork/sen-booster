@@ -7,8 +7,9 @@ import BidColumn from 'components/bidColumn'
 import AskColumn from 'components/askColumn'
 import OrderAction from 'view/user/redeemTable/orderAction'
 import StatusTag from 'components/statusTag'
+import ColumnRedemptionTime from './columnRedemptionTime'
 
-import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
+import { DATE_FORMAT } from 'constant'
 import { OrderRequest } from 'view/retailer/orderList'
 
 export const REDEEM_COLUMNS = [
@@ -31,13 +32,12 @@ export const REDEEM_COLUMNS = [
     dataIndex: 'orderAddress',
     render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
   },
+
   {
-    title: 'LOCK TIME',
-    dataIndex: 'lockTime',
-    render: (lockTime: BN) => (
-      <Typography.Text>
-        {lockTime.div(new BN(SECONDS_PER_DAY)).toString()} days
-      </Typography.Text>
+    title: 'REDEMPTION TIME',
+    dataIndex: 'orderAddress',
+    render: (orderAddress: string) => (
+      <ColumnRedemptionTime orderAddress={orderAddress} />
     ),
   },
   {
