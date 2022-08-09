@@ -25,7 +25,7 @@ input {
       height: 98px;
       width: 173px !important;
       position: absolute !important;
-      top: 23px;
+      top: 53px;
       right: 32px;
     }
     .banner-body {
@@ -176,7 +176,6 @@ input {
   }
 }
 
-
 .sen_booster-collapse-content-box {
   padding-top: 0px !important;
 }
@@ -230,6 +229,27 @@ input {
 
 .typography-banner-5 {
   color: #212433 !important;
+}
+
+// Expend Card
+.expand-card {
+  border-bottom: solid 1px #e9e9eb;
+  padding: 16px;
+}
+.expand-card-collapse {
+  .sen_booster-collapse-header {
+    padding: 0 !important;
+    border: none !important;
+  }
+  .sen_booster-collapse-item {
+    border: none !important;
+  }
+  .sen_booster-collapse-content-box {
+    padding: 0 !important;
+  }
+  & *:not(button) {
+    background-color: transparent !important;
+  }
 }
 
 #dark {
@@ -291,10 +311,12 @@ input {
     &.upload-box {
       border: 1px dashed #4e4f5c !important;
     }
-    &.input-number-card { 
-      border-color: #4E4F5C !important;
+    &.input-number-card {
+      border-color: #4e4f5c !important;
       background: #232324 !important;
     }
   }
+  .expand-card {
+    border-color: #373947 !important;
+  }
 }
-

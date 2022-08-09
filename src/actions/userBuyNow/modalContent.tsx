@@ -89,9 +89,9 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     const lockDays = Object.keys(payRate)
     let defaultLockDay = ''
     for (const day of lockDays) {
-      const rate = payRate[day]
-      if (!rate || rate > payRate[defaultLockDay]) continue
+      if (!payRate[day]) continue
       defaultLockDay = day
+      break
     }
     return setLockDay(defaultLockDay)
   }, [payRate])
@@ -116,7 +116,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
           <Col span={24}>
             <Row>
               <Col flex="auto">
-                <Typography.Text>You Pay</Typography.Text>
+                <Typography.Text>You Sell</Typography.Text>
               </Col>
               <Col>
                 <Typography.Text type="secondary" className="caption">
@@ -179,16 +179,12 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
                   {Object.keys(payRate).map((days) => {
                     const isNone = days === 'No lock time'
                     return (
-                      <Col
-                        xs={isNone ? 24 : 12}
-                        md={isNone ? 24 : 8}
-                        key={days}
-                      >
+                      <Col xs={12} md={8} key={days}>
                         <Radio.Button
                           disabled={!payRate[days]}
                           style={{
                             width: '100%',
-                            textAlign: isNone ? 'center' : 'left',
+                            textAlign: 'center',
                           }}
                           value={days}
                         >
@@ -237,7 +233,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
           checked={isAgree}
           onChange={(e) => setIsAgree(e.target.checked)}
         >
-          I agree with this transaction
+          I have read and agree with this transaction
         </Checkbox>
       </Col>
       <Col span={24}>

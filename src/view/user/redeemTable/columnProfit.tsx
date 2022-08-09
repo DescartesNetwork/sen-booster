@@ -12,10 +12,10 @@ const ColumnProfit = ({ orderAddress }: ColumnProfitProps) => {
   return (
     <Typography.Text
       style={{
-        color: profit >= 0 ? '#14E041' : '#F9575E',
+        color: -profit >= 0 ? '#14E041' : '#F9575E',
       }}
     >
-      {util.numeric(profit).format('0,0.[00]%')}
+      {util.numeric(-profit).format('0,0.[00]%')}
     </Typography.Text>
   )
 }

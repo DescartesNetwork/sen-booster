@@ -4,7 +4,6 @@ import Content from './content'
 
 export const DATES = [
   'No lock time',
-  '7 days',
   '30 days',
   '60 days',
   '90 days',
@@ -39,16 +38,11 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
       <Col span={24}>
         <Row gutter={[16, 16]}>
           {DATES.map((date) => (
-            <Col
-              className="pay-rate"
-              span={date === 'No lock time' ? 24 : 12}
-              key={date}
-            >
+            <Col className="pay-rate" span={12} key={date}>
               <Content
                 label={date}
                 value={
                   <InputNumber
-                    min={100}
                     className="retailer-input"
                     size="large"
                     placeholder="Must be >= 100%"

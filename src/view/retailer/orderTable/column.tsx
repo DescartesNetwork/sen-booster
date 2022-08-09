@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import moment from 'moment'
-import { OrderData, OrderState } from 'sen-exchange-core'
+import { OrderState } from 'sen-exchange-core'
 
 import { Typography } from 'antd'
 import StatusTag from 'components/statusTag'
@@ -21,18 +21,17 @@ export const ORDER_COLUMNS = [
       </Typography.Text>
     ),
   },
-
-  {
-    title: 'BUY-BACK',
-    dataIndex: 'orderAddress',
-    key: 'orderAddress',
-    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
-  },
   {
     title: 'PAY',
     dataIndex: 'orderAddress',
     key: 'orderAddress',
     render: (orderAddress: string) => <BidColumn orderAddress={orderAddress} />,
+  },
+  {
+    title: 'BUY-BACK',
+    dataIndex: 'orderAddress',
+    key: 'orderAddress',
+    render: (orderAddress: string) => <AskColumn orderAddress={orderAddress} />,
   },
   {
     title: 'LOCK TIME',
@@ -50,11 +49,8 @@ export const ORDER_COLUMNS = [
     title: 'PROFIT',
     key: 'orderAddress',
     dataIndex: 'orderAddress',
-    render: (orderAddress: string, { retailer }: OrderData) => (
-      <ColumnProfit
-        orderAddress={orderAddress}
-        retailerAddress={retailer.toBase58()}
-      />
+    render: (orderAddress: string) => (
+      <ColumnProfit orderAddress={orderAddress} />
     ),
   },
   {

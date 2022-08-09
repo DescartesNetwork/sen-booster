@@ -21,6 +21,7 @@ const ApproveOrder = ({ orderAddress }: ApproveOrderProps) => {
       loading={loading}
       disabled={!state.open}
       onClick={() => approveOrder(orderAddress)}
+      size="small"
     >
       Approve
     </Button>
