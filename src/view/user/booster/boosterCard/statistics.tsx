@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import BN from 'bn.js'
 import { util, useMintDecimals } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
@@ -12,47 +12,50 @@ import TimeCountDown from 'components/timeCountDown'
 import { AppState } from 'model'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
 import { useOwnOrders } from 'hooks/boosters/useOwnOrders'
+import { useTotalLPSold } from 'hooks/useTotalLPSold'
 
 type StatisticsProps = {
   boosterAddress: string
 }
 
 const Statistics = ({ boosterAddress }: StatisticsProps) => {
-  const { endAt, askMint, bidMint } = useSelector(
+  const [totalLpSold, setTotalLpSold] = useState('0')
+  const { endAt, bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const askDecimal = useMintDecimals({ mintAddress: askMint.toBase58() }) || 0
   const bidDecimal = useMintDecimals({ mintAddress: bidMint.toBase58() }) || 0
   const {
     metaBooster: { payRate },
     loading,
   } = useMetaBooster(boosterAddress)
   const { ownOrders } = useOwnOrders()
+  const { getTotalLpSold } = useTotalLPSold()
 
-  const totalAmountTraded = useMemo(() => {
+  const totalBought = useMemo(() => {
     let totalToken = new BN(0)
-    let totalLP = new BN(0)
-
     const ordersByBooster = ownOrders.filter(
       ({ retailer }) => retailer.toBase58() === boosterAddress,
     )
 
-    for (const { state, bidAmount, askAmount } of ordersByBooster) {
+    for (const { state, bidAmount } of ordersByBooster) {
       if (!state.approved && !state.done) continue
       totalToken = totalToken.add(bidAmount)
-      totalLP = totalLP.add(askAmount)
     }
 
-    const boughtAmount = utilsBN.undecimalize(totalToken, bidDecimal)
-    const totalLPSold = utilsBN.undecimalize(totalLP, askDecimal)
-
-    return { boughtAmount, totalLPSold }
-  }, [askDecimal, bidDecimal, boosterAddress, ownOrders])
+    return utilsBN.undecimalize(totalToken, bidDecimal)
+  }, [bidDecimal, boosterAddress, ownOrders])
 
   const biggestDiscount = useMemo(() => {
     if (!Object.keys(payRate).length) return 0
     return Math.max(...Object.values(payRate))
   }, [payRate])
+
+  useEffect(() => {
+    ;(async () => {
+      const totalLP = await getTotalLpSold(boosterAddress)
+      return setTotalLpSold(totalLP)
+    })()
+  }, [boosterAddress, getTotalLpSold])
 
   return (
     <Row gutter={[48, 16]}>
@@ -74,9 +77,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
             label="Your bought"
             value={
               <Typography.Text>
-                {util
-                  .numeric(totalAmountTraded.boughtAmount)
-                  .format('0,0.[0000]')}{' '}
+                {util.numeric(totalBought).format('0,0.[0000]')}{' '}
                 <MintSymbol mintAddress={bidMint} />
               </Typography.Text>
             }
@@ -91,10 +92,7 @@ const Statistics = ({ boosterAddress }: StatisticsProps) => {
             label="Total value sold"
             value={
               <Typography.Text>
-                {util
-                  .numeric(totalAmountTraded.totalLPSold)
-                  .format('0,0.[0000]')}{' '}
-                LP
+                {util.numeric(totalLpSold).format('0,0.[0000]')} LP
               </Typography.Text>
             }
             size={4}
