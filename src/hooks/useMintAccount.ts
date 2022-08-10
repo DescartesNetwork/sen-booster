@@ -1,31 +1,36 @@
 import { useMemo } from 'react'
 import { utils } from '@senswap/sen-js'
-import { useAccount, useWallet } from '@sentre/senhub'
+import {
+  useAccounts,
+  useMintDecimals,
+  useWalletAddress,
+  useWalletBalance,
+} from '@sentre/senhub'
 
 import { SOL_ADDRESS } from 'constant/sol'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 export const useMintAccount = (accountAddress: string) => {
-  const { accounts } = useAccount()
-  const { wallet } = useWallet()
+  const accounts = useAccounts()
+  const walletAddress = useWalletAddress()
+  const lamports = useWalletBalance()
 
-  const { amount, mint } = useMemo(() => {
+  const { amount, mint: mintAddress } = useMemo(() => {
     // sol account
-    if (accountAddress === wallet.address)
-      return { amount: wallet.lamports, mint: SOL_ADDRESS }
+    if (accountAddress === walletAddress)
+      return { amount: lamports, mint: SOL_ADDRESS }
     // spl token account
     return accounts[accountAddress] || {}
-  }, [accountAddress, accounts, wallet.address, wallet.lamports])
+  }, [accountAddress, accounts, lamports, walletAddress])
 
-  const decimals = useMintDecimals(mint) || 0
+  const decimals = useMintDecimals({ mintAddress }) || 0
   const mintInfo = useMemo(() => {
     return {
       balance: utils.undecimalize(amount, decimals),
-      mint,
+      mintAddress,
       amount,
       decimals,
     }
-  }, [amount, decimals, mint])
+  }, [amount, decimals, mintAddress])
 
   return mintInfo
 }

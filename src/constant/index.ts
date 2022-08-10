@@ -36,19 +36,28 @@ export enum RetailerBoosterCategory {
 
 export const LOCK_TIME_DAY: Record<string, number> = {
   'No lock time': 0,
+  '1 day': 1,
+  '7 days': 7,
   '30 days': 30,
   '60 days': 60,
   '90 days': 90,
   '120 days': 120,
   '365 days': 365,
+  '1 month': 30,
+  '2 months': 60,
+  '3 months': 90,
+  '4 months': 120,
+  '1 year': 365,
+  '2 years': 730,
 }
 
 export const TIME_FILTER_OPTIONS = [
-  { key: 'Past 30 days', value: 30 },
-  { key: 'Past 60 days', value: 60 },
-  { key: 'Past 90 days', value: 90 },
-  { key: 'Past 120 days', value: 120 },
-  { key: 'Past 365 days', value: 365 },
+  { key: 'Last 1 month', value: 30 },
+  { key: 'Last 2 months', value: 60 },
+  { key: 'Last 3 months', value: 90 },
+  { key: 'Last 4 months', value: 120 },
+  { key: 'Last 1 year', value: 365 },
+  { key: 'Last 2 years', value: 730 },
 ]
 
 export const STATUS_OPTIONS = {

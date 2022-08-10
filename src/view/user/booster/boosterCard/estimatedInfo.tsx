@@ -1,13 +1,12 @@
 import { useSelector } from 'react-redux'
-import { util } from '@sentre/senhub'
+import { useMintDecimals, util } from '@sentre/senhub'
 import BN from 'bn.js'
 
 import { MintSymbol } from '@sen-use/components'
 import { Card, Col, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
-import { utilsBN } from '@sen-use/web3/dist'
+import { utilsBN } from '@sen-use/web3'
 
 type EstimatedInfoProps = {
   estimatedReceive: BN
@@ -24,7 +23,7 @@ const EstimatedInfo = ({
   const { bidMint } = useSelector(
     (state: AppState) => state.boosters[boosterAddress],
   )
-  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const bidDecimal = useMintDecimals({ mintAddress: bidMint.toBase58() }) || 0
 
   return (
     <Card

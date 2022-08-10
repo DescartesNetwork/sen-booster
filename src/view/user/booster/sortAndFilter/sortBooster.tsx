@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { utilsBN } from '@sen-use/web3'
-import { useMint } from '@sentre/senhub'
 
 import { Select } from 'antd'
 
 import { UserBoosterCategory, USER_BOOSTER_CATEGORIES } from 'constant'
 import { AppState } from 'model'
 import { Ipfs } from 'senUse/ipfs'
+import { useGetMintDecimals } from '@sentre/senhub'
 
 export type BoosterSort = {
   category: UserBoosterCategory
@@ -22,15 +22,17 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
     category: UserBoosterCategory.LPHighToLow,
   })
   const boosters = useSelector((state: AppState) => state.boosters)
-  const { getDecimals } = useMint()
+  const getMintDecimals = useGetMintDecimals()
 
   const getTotalLPPaid = useCallback(
     async (address: string) => {
       const { askTotal, askMint } = boosters[address]
-      const askDecimal = (await getDecimals(askMint.toBase58())) || 0
-      return Number(utilsBN.undecimalize(askTotal, askDecimal))
+      const askDecimal = await getMintDecimals({
+        mintAddress: askMint.toBase58(),
+      })
+      return Number(utilsBN.undecimalize(askTotal, askDecimal || 0))
     },
-    [boosters, getDecimals],
+    [boosters, getMintDecimals],
   )
 
   const sortBooster = useCallback(async () => {

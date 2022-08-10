@@ -4,11 +4,14 @@ import Content from './content'
 
 export const DATES = [
   'No lock time',
-  '30 days',
-  '60 days',
-  '90 days',
-  '120 days',
-  '365 days',
+  '1 day',
+  '7 days',
+  '1 month',
+  '2 months',
+  '3 months',
+  '4 months',
+  '1 year',
+  '2 years',
 ]
 export type PayRateState = Record<typeof DATES[number], number>
 
@@ -22,7 +25,7 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
     <Row gutter={[8, 8]}>
       <Col span={24}>
         <Space>
-          <Typography.Title level={5}>Pay rate</Typography.Title>
+          <Typography.Title level={5}>Pay Rate</Typography.Title>
           <Tooltip
             title={
               "The min pay rate is 100% and equal to the market price. You need to input a higher rate to attract users You can leave blank the lock time you don't want to use, but there must be at least one field."
@@ -38,7 +41,11 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
       <Col span={24}>
         <Row gutter={[16, 16]}>
           {DATES.map((date) => (
-            <Col className="pay-rate" span={12} key={date}>
+            <Col
+              className="pay-rate"
+              span={date === 'No lock time' ? 24 : 12}
+              key={date}
+            >
               <Content
                 label={date}
                 value={

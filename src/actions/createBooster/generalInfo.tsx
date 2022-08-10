@@ -18,6 +18,7 @@ import Content from './content'
 
 import { DATE_FORMAT } from 'constant'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
+import { useMintsLP } from 'hooks/useMintsLP'
 
 export type GeneralData = {
   bidMint: string
@@ -56,12 +57,11 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
     ui: { theme },
   } = useUI()
   const { balance } = useAccountBalanceByMintAddress(bidMint)
+  const { mintsLP } = useMintsLP()
 
   const onSwitch = (checked: boolean) => {
-    if (checked) {
-      onChange(0, 'startTime')
-      onChange(0, 'endTime')
-    }
+    if (checked) onChange(0, 'endTime')
+
     return setUnlimited(checked)
   }
 
@@ -132,6 +132,7 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                   onChange={(value) => onChange(value, 'askMint')}
                   placeholder="Select LP"
                   style={{ ...MINT_STYLE[theme], textAlign: 'left' }}
+                  mints={mintsLP}
                 />
               }
             />
@@ -148,18 +149,30 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                     onChange(date?.valueOf() || 0, 'startTime')
                   }
                   clearIcon={null}
-                  value={startTime ? moment(startTime) : null}
+                  value={startTime ? moment(startTime) : moment(Date.now())}
                   showTime={{ showSecond: false }}
                   placement="bottomRight"
                   format={DATE_FORMAT}
-                  disabled={unlimited}
                 />
               }
             />
           </Col>
           <Col span={12}>
             <Content
-              label="End time"
+              label={
+                <Row>
+                  <Col flex="auto">
+                    <Typography.Text>End time</Typography.Text>
+                  </Col>
+                  <Col>
+                    <Switch
+                      checked={unlimited}
+                      size="small"
+                      onChange={onSwitch}
+                    />
+                  </Col>
+                </Row>
+              }
               value={
                 <DatePicker
                   placeholder="Select time"
@@ -177,12 +190,6 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
             />
           </Col>
         </Row>
-      </Col>
-      <Col span={24} style={{ textAlign: 'right' }}>
-        <Space>
-          <Typography.Text>No time limit</Typography.Text>
-          <Switch checked={unlimited} size="small" onChange={onSwitch} />
-        </Space>
       </Col>
     </Row>
   )
