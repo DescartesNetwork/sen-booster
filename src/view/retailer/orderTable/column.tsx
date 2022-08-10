@@ -7,8 +7,9 @@ import StatusTag from 'components/statusTag'
 import ColumnProfit from './columnProfit'
 import AskColumn from 'components/askColumn'
 import BidColumn from 'components/bidColumn'
+import ColumnLockTime from './columnLockTime'
 
-import { DATE_FORMAT, SECONDS_PER_DAY } from 'constant'
+import { DATE_FORMAT } from 'constant'
 
 export const ORDER_COLUMNS = [
   {
@@ -37,13 +38,7 @@ export const ORDER_COLUMNS = [
     title: 'LOCK TIME',
     dataIndex: 'lockTime',
     key: 'lockTime',
-    render: (lockTime: BN) => {
-      return (
-        <Typography.Text>
-          {lockTime.div(new BN(SECONDS_PER_DAY)).toString()} days
-        </Typography.Text>
-      )
-    },
+    render: (lockTime: BN) => <ColumnLockTime lockTime={lockTime} />,
   },
   {
     title: 'PROFIT',

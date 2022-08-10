@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useMintDecimals } from '@sentre/senhub'
 import BN from 'bn.js'
 
 import { AppState } from 'model'
 import { useMintPrice } from 'hooks/useMintPrice'
 import { utilsBN } from '@sen-use/web3/dist'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 const ROUNDING_DECIMAL = 10 ** 9
 
@@ -25,8 +25,8 @@ export const useEstimatedReceive = ({
   )
   const bidPrice = useMintPrice(bidMint.toBase58())
   const askPrice = useMintPrice(askMint.toBase58())
-  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
-  const askDecimal = useMintDecimals(askMint.toBase58()) || 0
+  const bidDecimal = useMintDecimals({ mintAddress: bidMint.toBase58() }) || 0
+  const askDecimal = useMintDecimals({ mintAddress: askMint.toBase58() }) || 0
   const bidAmount = useMemo(() => {
     const bidPriceDecimal = utilsBN.decimalize(bidPrice, bidDecimal)
     const askPriceDecimal = utilsBN.decimalize(askPrice, askDecimal)

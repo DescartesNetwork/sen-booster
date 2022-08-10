@@ -29,11 +29,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
             <Col span={24}>
               <Row justify="space-between" align="middle">
                 <Col>
-                  <SpaceVertical
-                    align="end"
-                    label="Pay"
-                    mintAddress={bidMint.toBase58()}
-                  />
+                  <SpaceVertical label="Pay" mintAddress={bidMint.toBase58()} />
                 </Col>
                 <Col>
                   <IonIcon
@@ -45,6 +41,7 @@ const RetailCard = ({ boosterAddress }: RetailCardProps) => {
                   <SpaceVertical
                     label="Buy-back"
                     mintAddress={askMint.toBase58()}
+                    align="end"
                   />
                 </Col>
               </Row>

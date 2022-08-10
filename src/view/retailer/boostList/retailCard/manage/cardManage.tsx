@@ -112,7 +112,9 @@ const CardManage = ({ boosterAddress }: CardManageProps) => {
                 label="End date"
                 value={
                   <Typography.Text>
-                    {moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
+                    {endAt.isZero()
+                      ? 'Unlimited'
+                      : moment(endAt.toNumber() * 1000).format(DATE_FORMAT)}
                   </Typography.Text>
                 }
               />
