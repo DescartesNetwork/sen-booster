@@ -64,12 +64,6 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     discount: payRate[lockDay] + nftDiscount,
   })
 
-  const onSelectNFT = (nftAddress: string) => {
-    const currentNFTList = [...nftAddresses]
-    currentNFTList.push(nftAddress)
-    return setNFTAddresses(currentNFTList)
-  }
-
   const removeNFT = (nftAddress: string) => {
     const filteredNFT = [...nftAddresses].filter(
       (address) => address !== nftAddress,
@@ -219,7 +213,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
       {useBoost && (
         <Col span={24}>
           <NftUpload
-            onSelectNFT={onSelectNFT}
+            onSelectNFT={setNFTAddresses}
             boosterAddress={boosterAddress}
             selectedNFTs={nftAddresses}
             removeNFT={removeNFT}
