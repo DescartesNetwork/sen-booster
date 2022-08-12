@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { utilsBN } from '@sen-use/web3'
-import { useMint } from '@sentre/senhub'
 
 import { Select } from 'antd'
 
 import { UserBoosterCategory, USER_BOOSTER_CATEGORIES } from 'constant'
 import { AppState } from 'model'
 import { Ipfs } from 'senUse/ipfs'
+import { useTotalLPSold } from 'hooks/useTotalLPSold'
 
 export type BoosterSort = {
   category: UserBoosterCategory
@@ -22,16 +21,7 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
     category: UserBoosterCategory.LPHighToLow,
   })
   const boosters = useSelector((state: AppState) => state.boosters)
-  const { getDecimals } = useMint()
-
-  const getTotalLPPaid = useCallback(
-    async (address: string) => {
-      const { askTotal, askMint } = boosters[address]
-      const askDecimal = (await getDecimals(askMint.toBase58())) || 0
-      return Number(utilsBN.undecimalize(askTotal, askDecimal))
-    },
-    [boosters, getDecimals],
-  )
+  const { getTotalLpSold } = useTotalLPSold()
 
   const sortBooster = useCallback(async () => {
     const listTotalLpPaid: Record<string, number> = {}
@@ -40,11 +30,11 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
 
     for (const address of nextBooster) {
       const { metadata } = boosters[address]
-      const lpPaid = await getTotalLPPaid(address)
+      const lpPaid = await getTotalLpSold(address)
       const { payRate } = await Ipfs.methods.booster.get(metadata)
       const biggestDiscount = Math.max(...Object.values(payRate))
 
-      listTotalLpPaid[address] = lpPaid
+      listTotalLpPaid[address] = Number(lpPaid)
       listPayRate[address] = biggestDiscount
     }
 
@@ -71,7 +61,7 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
     )
 
     return onChange(sortedBooster)
-  }, [boosterAddress, boosters, getTotalLPPaid, onChange, sortBy])
+  }, [boosterAddress, boosters, getTotalLpSold, onChange, sortBy])
 
   useEffect(() => {
     sortBooster()

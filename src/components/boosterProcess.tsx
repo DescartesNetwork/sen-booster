@@ -1,16 +1,14 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { utilsBN } from '@sen-use/web3'
-import { util } from '@sentre/senhub'
-import { numeric } from '@sentre/senhub/dist/shared/util'
+import { useMintDecimals, util } from '@sentre/senhub'
+import { BN } from 'bn.js'
 
 import { MintSymbol } from '@sen-use/components'
 import { Col, Progress, Row, Space, Spin, Typography } from 'antd'
 
 import { AppState } from 'model'
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 import { useMetaBooster } from 'hooks/boosters/useMetaBooster'
-import { BN } from 'bn.js'
 
 type BoosterProcessProps = {
   boosterAddress: string
@@ -25,7 +23,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
     metaBooster: { budget },
     loading,
   } = useMetaBooster(boosterAddress)
-  const bidDecimal = useMintDecimals(bidMint.toBase58()) || 0
+  const bidDecimal = useMintDecimals({ mintAddress: bidMint.toBase58() }) || 0
 
   const processAmount = useMemo(() => {
     let total = new BN(0)
@@ -55,7 +53,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
               <Space direction="vertical" size={0}>
                 <Typography.Text type="secondary">Process</Typography.Text>
                 <Typography.Text>
-                  {numeric(processAmount).format('0.0,[0000]')}{' '}
+                  {util.numeric(processAmount).format('0.0,[0000]')}{' '}
                   <MintSymbol mintAddress={bidMint.toBase58()} />
                   <Typography.Text type="secondary">
                     {`(${util.numeric(percentage).format('0,0.[00]%')})`}
@@ -69,7 +67,7 @@ const BoosterProcess = ({ boosterAddress }: BoosterProcessProps) => {
               <Space direction="vertical" align="end" size={0}>
                 <Typography.Text type="secondary">Budget</Typography.Text>
                 <Typography.Text>
-                  {numeric(budget).format('0.0,[0000]')}{' '}
+                  {util.numeric(budget).format('0.0,[0000]')}{' '}
                   <MintSymbol mintAddress={bidMint.toBase58()} />
                 </Typography.Text>
               </Space>

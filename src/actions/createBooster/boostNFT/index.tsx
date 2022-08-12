@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-import { Col, Row, Switch, Space, Typography, Tooltip } from 'antd'
-import IonIcon from '@sentre/antd-ionicon'
+import { Col, Row, Switch, Space, Typography } from 'antd'
 import DisplayNFT from './displayNFT'
 import ModalNftCollection from './modalNftCollection'
 
@@ -11,7 +10,7 @@ type BoostNFTProps = {
 }
 
 const Explanation = () => (
-  <Typography.Text style={{ color: '#E9E9EB' }}>
+  <Typography.Text className="caption" type="secondary">
     Enable <span style={{ color: '#0FB5B8' }}>Boost</span> means that you allow
     an additional rate of payment when users use NFTs. <br /> There are 3 slots
     in all to use NFTs, with each slot used will increase the payout rate by
@@ -44,18 +43,19 @@ const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
 
   return (
     <Row gutter={[12, 12]}>
-      <Col flex="auto">
-        <Space>
-          <Typography.Title level={5}>Boost by NFT</Typography.Title>
-          <Tooltip placement="bottomRight" title={<Explanation />}>
-            <IonIcon name="information-circle-outline" />
-          </Tooltip>
-        </Space>
+      <Col span={24}>
+        <Row gutter={[8, 8]}>
+          <Col flex="auto">
+            <Typography.Title level={5}>Boost by NFT</Typography.Title>
+          </Col>
+          <Col>
+            <Switch size="small" onChange={onSwitch} />
+          </Col>
+          <Col span={24}>
+            <Explanation />
+          </Col>
+        </Row>
       </Col>
-      <Col>
-        <Switch size="small" onChange={onSwitch} />
-      </Col>
-
       {isBoostNFT && (
         <Col span={24}>
           <Space size={12} wrap={true}>

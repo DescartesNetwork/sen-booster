@@ -49,8 +49,8 @@ const PayRateDisplay = ({ boosterAddress }: PayRateDisplayProps) => {
               <Typography.Text type="secondary" className="caption">
                 Rate
               </Typography.Text>
-              {Object.values(payRate).map((date) => (
-                <Typography.Text key={date}>{date} %</Typography.Text>
+              {Object.values(payRate).map((date, idx) => (
+                <Typography.Text key={date + idx}>{date} %</Typography.Text>
               ))}
             </Space>
           </Col>

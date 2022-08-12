@@ -1,11 +1,9 @@
 import { utilsBN } from '@sen-use/web3'
-import { util } from '@sentre/senhub'
+import { useMintDecimals, util } from '@sentre/senhub'
 import BN from 'bn.js'
 
 import { Space, Typography } from 'antd'
 import { MintAvatar, MintSymbol } from '@sen-use/components'
-
-import useMintDecimals from 'shared/hooks/useMintDecimals'
 
 const OrderMintInfo = ({
   amount,
@@ -16,7 +14,7 @@ const OrderMintInfo = ({
   mintAddress: string
   size?: number
 }) => {
-  const decimals = useMintDecimals(mintAddress) || 0
+  const decimals = useMintDecimals({ mintAddress }) || 0
   return (
     <Space>
       <MintAvatar mintAddress={mintAddress} size={size} />

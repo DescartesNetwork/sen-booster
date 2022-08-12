@@ -24,7 +24,8 @@ const RevokeOrder = ({ orderAddress }: RevokeOrderProps) => {
       disabled={!state.rejected || askReserve.isZero()}
       onClick={() => revokeOrder(orderAddress)}
       size="small"
-      type="primary"
+      type="text"
+      style={{ color: '#0FB5B8' }}
     >
       Revoke
     </Button>

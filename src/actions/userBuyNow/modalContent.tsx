@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useMint, util } from '@sentre/senhub'
+import { useGetMintDecimals, util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 import BN from 'bn.js'
 
@@ -55,7 +55,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     metaBooster: { payRate },
     loading: metaLoading,
   } = useMetaBooster(boosterAddress)
-  const { getDecimals } = useMint()
+  const getDecimals = useGetMintDecimals()
   const { buy, loading } = useBuy()
   const nftDiscount = nftAddresses.length * ONE_NFT_DISCOUNT
   const estimatedReceive = useEstimatedReceive({
@@ -72,11 +72,11 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
   }
 
   const onBuy = async () => {
-    const askDecimal = await getDecimals(askMint.toBase58())
+    const askDecimal = await getDecimals({ mintAddress: askMint.toBase58() })
     const lockDayValue = LOCK_TIME_DAY[lockDay]
     await buy({
       retailer: boosterAddress,
-      askAmount: utilsBN.decimalize(amount, askDecimal),
+      askAmount: utilsBN.decimalize(amount, askDecimal || 0),
       lockTime: new BN(lockDayValue * ONE_DAY),
       bidAmount: estimatedReceive,
       appliedNFTs: nftAddresses,
