@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { useWidth } from '@sentre/senhub'
 
 import { Card, Col, Row, Space, Tag } from 'antd'
 import BoosterSymbol from 'components/boosterSymbol'
@@ -8,7 +9,6 @@ import Statistics from './statistics'
 import BuyNow from 'actions/userBuyNow'
 
 import { useTotalVoucherOfBooster } from 'hooks/boosters/useTotalVoucherOfBooster'
-import { useUI } from '@sentre/senhub'
 
 type BoosterCardProps = {
   boosterAddress: string
@@ -17,9 +17,7 @@ type BoosterCardProps = {
 const BoosterCard = memo(({ boosterAddress }: BoosterCardProps) => {
   const { getAmountVoucher } = useTotalVoucherOfBooster()
   const amountVoucher = getAmountVoucher(boosterAddress)
-  const {
-    ui: { width },
-  } = useUI()
+  const width = useWidth()
 
   const isMobile = width < 575
 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { useUI } from '@sentre/senhub'
+import { useSetBackground } from '@sentre/senhub'
 
 import User from './user'
 import Retailer from './retailer'
@@ -16,7 +16,7 @@ import BG_LIGHT from 'static/images/BG_LIGHT.png'
 import './index.less'
 
 const View = () => {
-  const { setBackground } = useUI()
+  const setBackground = useSetBackground()
   const { appRoute } = useAppRouter()
 
   useEffect(() => {

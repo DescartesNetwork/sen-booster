@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useUI, util } from '@sentre/senhub'
+import { useTheme, util } from '@sentre/senhub'
 import moment from 'moment'
 
 import {
@@ -13,8 +13,8 @@ import {
   Typography,
 } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
-import { MintSelection } from '@sen-use/components'
 import Content from './content'
+import { MintSelection } from '@sen-use/app'
 
 import { DATE_FORMAT } from 'constant'
 import { useAccountBalanceByMintAddress } from 'shared/hooks/useAccountBalance'
@@ -53,9 +53,7 @@ const MINT_STYLE = {
 const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
   const [unlimited, setUnlimited] = useState(true)
   const { askMint, bidMint, budget, endTime, startTime } = generateData
-  const {
-    ui: { theme },
-  } = useUI()
+  const theme = useTheme()
   const { balance } = useAccountBalanceByMintAddress(bidMint)
   const { mintsLP } = useMintsLP()
 
@@ -165,11 +163,14 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
                     <Typography.Text>End time</Typography.Text>
                   </Col>
                   <Col>
-                    <Switch
-                      checked={unlimited}
-                      size="small"
-                      onChange={onSwitch}
-                    />
+                    <Space>
+                      <Typography.Text>Unlimited</Typography.Text>
+                      <Switch
+                        checked={unlimited}
+                        size="small"
+                        onChange={onSwitch}
+                      />
+                    </Space>
                   </Col>
                 </Row>
               }

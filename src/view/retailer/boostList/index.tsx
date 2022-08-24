@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useUI } from '@sentre/senhub'
+import { useWidth } from '@sentre/senhub'
 
 import { Button, Col, Empty, Row } from 'antd'
 
@@ -11,9 +11,7 @@ import { useAppRouter } from 'hooks/useAppRouter'
 const BoostList = () => {
   const [filteredBoosters, setFilteredBoosters] = useState<string[]>([])
   const { pushHistory } = useAppRouter()
-  const {
-    ui: { width },
-  } = useUI()
+  const width = useWidth()
   const isMobile = width < 767
 
   return (

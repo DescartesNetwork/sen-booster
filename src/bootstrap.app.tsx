@@ -15,11 +15,7 @@ const {
 
 export const Page = () => {
   return (
-    <UIProvider
-      appId={appId}
-      antd={{ prefixCls: appId }}
-      style={{ paddingBottom: 24 }}
-    >
+    <UIProvider appId={appId} antd={{ prefixCls: appId }}>
       <Provider store={model}>
         <View />
       </Provider>

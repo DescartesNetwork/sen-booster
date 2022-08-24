@@ -24,43 +24,45 @@ const SortBooster = ({ onChange, boosterAddress }: SortBoosterProps) => {
   const { getTotalLpSold } = useTotalLPSold()
 
   const sortBooster = useCallback(async () => {
-    const listTotalLpPaid: Record<string, number> = {}
-    const listPayRate: Record<string, number> = {}
-    const nextBooster = [...boosterAddress]
+    try {
+      const listTotalLpPaid: Record<string, number> = {}
+      const listPayRate: Record<string, number> = {}
+      const nextBooster = [...boosterAddress]
 
-    for (const address of nextBooster) {
-      const { metadata } = boosters[address]
-      const lpPaid = await getTotalLpSold(address)
-      const { payRate } = await Ipfs.methods.booster.get(metadata)
-      const biggestDiscount = Math.max(...Object.values(payRate))
+      for (const address of nextBooster) {
+        const { metadata } = boosters[address]
+        const lpPaid = await getTotalLpSold(address)
+        const { payRate } = await Ipfs.methods.booster.get(metadata)
+        const biggestDiscount = Math.max(...Object.values(payRate))
 
-      listTotalLpPaid[address] = Number(lpPaid)
-      listPayRate[address] = biggestDiscount
-    }
+        listTotalLpPaid[address] = Number(lpPaid)
+        listPayRate[address] = biggestDiscount
+      }
 
-    const sortedBooster = nextBooster.sort(
-      (address_a: string, address_b: string) => {
-        const totalLP_a = listTotalLpPaid[address_a]
-        const totalLP_b = listTotalLpPaid[address_b]
-        const discount_a = listPayRate[address_a]
-        const discount_b = listPayRate[address_b]
+      const sortedBooster = nextBooster.sort(
+        (address_a: string, address_b: string) => {
+          const totalLP_a = listTotalLpPaid[address_a]
+          const totalLP_b = listTotalLpPaid[address_b]
+          const discount_a = listPayRate[address_a]
+          const discount_b = listPayRate[address_b]
 
-        switch (sortBy.category) {
-          case UserBoosterCategory.LPHighToLow:
-            return totalLP_b - totalLP_a
-          case UserBoosterCategory.LPLowToHigh:
-            return totalLP_a - totalLP_b
-          case UserBoosterCategory.RateHighToLow:
-            return discount_b - discount_a
-          case UserBoosterCategory.RateLowToHigh:
-            return discount_a - discount_b
-          default:
-            return 0
-        }
-      },
-    )
+          switch (sortBy.category) {
+            case UserBoosterCategory.LPHighToLow:
+              return totalLP_b - totalLP_a
+            case UserBoosterCategory.LPLowToHigh:
+              return totalLP_a - totalLP_b
+            case UserBoosterCategory.RateHighToLow:
+              return discount_b - discount_a
+            case UserBoosterCategory.RateLowToHigh:
+              return discount_a - discount_b
+            default:
+              return 0
+          }
+        },
+      )
 
-    return onChange(sortedBooster)
+      return onChange(sortedBooster)
+    } catch (error) {}
   }, [boosterAddress, boosters, getTotalLpSold, onChange, sortBy])
 
   useEffect(() => {

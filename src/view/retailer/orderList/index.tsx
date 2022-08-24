@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { OrderData } from 'sen-exchange-core'
-import { useUI } from '@sentre/senhub'
+import { useWidth } from '@sentre/senhub'
 
 import { Button, Card, Col, Row } from 'antd'
 import OrderTable from 'view/retailer/orderTable'
@@ -13,9 +13,7 @@ const DEFAULT_PAGE_SIZE = 10
 function OrderList() {
   const [orders, setOrders] = useState<OrderRequest[]>([])
   const [page, setPage] = useState(1)
-  const {
-    ui: { width },
-  } = useUI()
+  const width = useWidth()
 
   const isMobile = width < 768
 

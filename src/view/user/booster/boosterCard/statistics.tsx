@@ -5,7 +5,7 @@ import { util, useMintDecimals } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 
 import { Col, Row, Space, Spin, Typography } from 'antd'
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import SpaceVertical from 'components/spaceVertical'
 import TimeCountDown from 'components/timeCountDown'
 

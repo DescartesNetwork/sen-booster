@@ -1,26 +1,16 @@
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { useWallet } from '@sentre/senhub'
+import { useWalletAddress } from '@sentre/senhub'
 
-import {
-  Col,
-  Modal,
-  Row,
-  Tooltip,
-  Typography,
-  Space,
-  Card,
-  List,
-  Button,
-} from 'antd'
+import { Col, Modal, Row, Tooltip, Typography, Space, Card, Button } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
 import {
   SearchNFT as ModalContentListNFTs,
   AvatarNFT,
   useNFTsByOwnerAndCollection,
 } from '@sen-use/components'
+import ListNFT from './listNFT'
 
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
-
 import { getMetaData } from 'helper'
 
 type NftUploadProps = {
@@ -43,11 +33,12 @@ const NftUpload = ({
   )
   const [visible, setVisible] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
-  const {
-    wallet: { address: walletAddress },
-  } = useWallet()
-  const [collections, setCollections] = useState<string[]>([])
+  const walletAddress = useWalletAddress()
+  const [collections, setCollections] = useState<
+    { name: string; address: string }[]
+  >([])
   const vouchers = useVoucherPrintersByBooster(boosterAddress)
+
   const acceptedCollections = useMemo(
     () => vouchers.map((val) => val.collection.toBase58()),
     [vouchers],
@@ -65,8 +56,10 @@ const NftUpload = ({
   const getCollections = useCallback(async () => {
     const collectionsInfo = await Promise.all(
       vouchers.map(async (voucher) => {
+        const address = voucher.collection.toBase58()
         const metaData = await getMetaData(voucher.collection.toBase58())
-        return metaData?.data.data.name || 'Unknown NFT'
+        const name = metaData?.data.data.name || 'Unknown NFT'
+        return { name, address }
       }),
     )
     return setCollections(collectionsInfo)
@@ -120,7 +113,16 @@ const NftUpload = ({
           {NFTAdded.map((nftAddress, idx) => (
             <Tooltip
               placement="topLeft"
-              title="NFTs in the collections below will be approved for this booster"
+              title={
+                <Space direction="vertical">
+                  <Typography.Text style={{ color: '#E9E9EB' }}>
+                    NFTs in the collections below will be approved for this
+                    booster
+                  </Typography.Text>
+                  <ListNFT collections={collections} />
+                </Space>
+              }
+              key={nftAddress}
             >
               <Card
                 className="upload-box card-nft-image-only"
@@ -183,22 +185,7 @@ const NftUpload = ({
                   </Typography>
                 </Col>
                 <Col span={24}>
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={collections}
-                    renderItem={(name) => (
-                      <List.Item>
-                        <Space size={12}>
-                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
-                            &#x2022;
-                          </Typography.Text>
-                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
-                            {name}
-                          </Typography.Text>
-                        </Space>
-                      </List.Item>
-                    )}
-                  />
+                  <ListNFT collections={collections} />
                 </Col>
               </Row>
             </Col>

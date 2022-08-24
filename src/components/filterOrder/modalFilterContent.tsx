@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Button, Col, Radio, Row, Select, Space } from 'antd'
-import { MintAvatar, MintSymbol } from '@sen-use/components'
+import { MintAvatar, MintSymbol } from '@sen-use/app'
 import FilterElement from './filterElement'
 
 import { TIME_FILTER_OPTIONS, ALL, STATUS_OPTIONS } from 'constant'

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import { Typography } from 'antd'
 
 import { AppState } from 'model'
