@@ -1,34 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
-import { util, tokenProvider } from '@sentre/senhub'
+import { useEffect, useState } from 'react'
+import { useGetMintPrice } from '@sen-use/app'
 
 /**
  * @param mintAddress
  * @param strict true: if has token unknown => returns 0
  * @returns
  */
-export const useMintPrice = (mintAddress: string, strict?: boolean) => {
+export const useMintPrice = (mintAddress: string) => {
   const [mintPrice, setMintPrice] = useState(0)
-
-  const getMintPrice = useCallback(async (mintAddress: string) => {
-    try {
-      const tokenInfo = await tokenProvider.findByAddress(mintAddress)
-      // mint lpt
-      if (!tokenInfo) {
-        const mintLptPrice = 0
-        return setMintPrice(mintLptPrice)
-      }
-      // token
-      const ticket = tokenInfo.extensions?.coingeckoId
-      if (!ticket) return setMintPrice(0)
-      const cgkData = await util.fetchCGK(ticket)
-      return setMintPrice(cgkData.price)
-    } catch (error) {
-      return 0
-    }
-  }, [])
+  const getMintPrice = useGetMintPrice()
 
   useEffect(() => {
-    getMintPrice(mintAddress)
+    ;(async () => {
+      const price = await getMintPrice(mintAddress)
+      return setMintPrice(price)
+    })()
   }, [getMintPrice, mintAddress])
 
   return mintPrice

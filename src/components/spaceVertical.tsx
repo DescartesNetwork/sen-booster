@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { MintAvatar, MintSymbol } from '@sen-use/components'
+import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 import { Space, SpaceProps, Typography } from 'antd'
 

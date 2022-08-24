@@ -58,7 +58,7 @@ const BoostNFT = ({ collections, onChange }: BoostNFTProps) => {
       </Col>
       {isBoostNFT && (
         <Col span={24}>
-          <Space size={12}>
+          <Space size={12} wrap={true}>
             {collections.map((collection) => (
               <DisplayNFT
                 onDelete={onDelete}

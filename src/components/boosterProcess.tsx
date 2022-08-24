@@ -4,7 +4,7 @@ import { utilsBN } from '@sen-use/web3'
 import { useMintDecimals, util } from '@sentre/senhub'
 import { BN } from 'bn.js'
 
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import { Col, Progress, Row, Space, Spin, Typography } from 'antd'
 
 import { AppState } from 'model'

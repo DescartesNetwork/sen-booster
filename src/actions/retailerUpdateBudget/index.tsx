@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Button, Col, Row, Space, Typography } from 'antd'
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import InputNumberCard from 'components/inputNumberCard'
 
 import { useUpdateBudget } from 'hooks/actions/useUpdateBudget'

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 import { Space } from 'antd'
-import { MintAvatar } from '@sen-use/components'
+import { MintAvatar } from '@sen-use/app'
 import IonIcon from '@sentre/antd-ionicon'
 
 import { AppState } from 'model'

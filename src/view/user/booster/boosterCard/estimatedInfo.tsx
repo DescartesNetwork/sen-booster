@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useMintDecimals, util } from '@sentre/senhub'
 import BN from 'bn.js'
 
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import { Card, Col, Row, Space, Typography } from 'antd'
 
 import { AppState } from 'model'

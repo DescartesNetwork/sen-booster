@@ -5,7 +5,7 @@ import { utilsBN } from '@sen-use/web3'
 import BN from 'bn.js'
 
 import InputNumberCard from 'components/inputNumberCard'
-import { MintSymbol } from '@sen-use/components'
+import { MintSymbol } from '@sen-use/app'
 import IonIcon from '@sentre/antd-ionicon'
 import {
   Button,
@@ -64,12 +64,6 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     discount: payRate[lockDay] + nftDiscount,
   })
 
-  const onSelectNFT = (nftAddress: string) => {
-    const currentNFTList = [...nftAddresses]
-    currentNFTList.push(nftAddress)
-    return setNFTAddresses(currentNFTList)
-  }
-
   const removeNFT = (nftAddress: string) => {
     const filteredNFT = [...nftAddresses].filter(
       (address) => address !== nftAddress,
@@ -101,6 +95,12 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
     }
     return setLockDay(defaultLockDay)
   }, [payRate])
+
+  const onSwitch = (isBoost: boolean) => {
+    if (!isBoost) setNFTAddresses([])
+
+    return setUseBoost(isBoost)
+  }
 
   useEffect(() => {
     selectDefaultLockDay()
@@ -163,7 +163,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
               <Tooltip
                 placement="right"
                 title={
-                  <Typography.Text>
+                  <Typography.Text style={{ color: '#E9E9EB' }}>
                     For each lock time, there will be a corresponding Buy-back
                     rate, you will receive tokens after the selected lock time.
                   </Typography.Text>
@@ -210,7 +210,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
                 disabled={!voucherPrintersByBooster.length}
                 size="small"
                 checked={useBoost}
-                onChange={setUseBoost}
+                onChange={onSwitch}
               />
             </Space>
           </Col>
@@ -219,7 +219,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
       {useBoost && (
         <Col span={24}>
           <NftUpload
-            onSelectNFT={onSelectNFT}
+            onSelectNFT={setNFTAddresses}
             boosterAddress={boosterAddress}
             selectedNFTs={nftAddresses}
             removeNFT={removeNFT}

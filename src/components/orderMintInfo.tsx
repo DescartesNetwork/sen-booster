@@ -3,7 +3,7 @@ import { useMintDecimals, util } from '@sentre/senhub'
 import BN from 'bn.js'
 
 import { Space, Typography } from 'antd'
-import { MintAvatar, MintSymbol } from '@sen-use/components'
+import { MintAvatar, MintSymbol } from '@sen-use/app'
 
 const OrderMintInfo = ({
   amount,

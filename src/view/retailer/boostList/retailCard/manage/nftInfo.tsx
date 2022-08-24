@@ -6,7 +6,8 @@ import IonIcon from '@sentre/antd-ionicon'
 
 import { util } from '@sentre/senhub'
 import { shortenAddress } from '@sentre/senhub/dist/shared/util'
-import useNftMetaData from 'hooks/nft/useNFTMetaData'
+
+import { useNftMetaData } from '@sen-use/components'
 
 type NFTInfoProps = {
   mintAddress: string

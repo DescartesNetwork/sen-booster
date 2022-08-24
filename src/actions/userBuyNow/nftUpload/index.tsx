@@ -1,27 +1,20 @@
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { useWalletAddress } from '@sentre/senhub'
 
-import {
-  Col,
-  Modal,
-  Row,
-  Tooltip,
-  Typography,
-  Image,
-  Space,
-  Card,
-  List,
-  Button,
-} from 'antd'
+import { Col, Modal, Row, Tooltip, Typography, Space, Card, Button } from 'antd'
 import IonIcon from '@sentre/antd-ionicon'
-import CardNFT from './cardNFT'
+import {
+  SearchNFT as ModalContentListNFTs,
+  AvatarNFT,
+  useNFTsByOwnerAndCollection,
+} from '@sen-use/components'
+import ListNFT from './listNFT'
 
 import { useVoucherPrintersByBooster } from 'hooks/boosters/useVoucherPrintersByBooster'
-
 import { getMetaData } from 'helper'
-import { useNFTByVoucher } from 'hooks/useNFTByVoucher'
 
 type NftUploadProps = {
-  onSelectNFT: (nftAddress: string) => void
+  onSelectNFT: (nftAddresses: string[]) => void
   removeNFT: (nftAddress: string) => void
   boosterAddress: string
   selectedNFTs: string[]
@@ -29,57 +22,66 @@ type NftUploadProps = {
 
 const MAX_VOUCHER = 3
 
-type NFTAdded = {
-  nftAddress: string
-  img: string
-}
-
 const NftUpload = ({
   onSelectNFT,
   boosterAddress,
   selectedNFTs,
   removeNFT,
 }: NftUploadProps) => {
-  const [NFTAdded, setNFTAdded] = useState<NFTAdded[]>(
-    Array(MAX_VOUCHER).fill({ nftAddress: '', img: '' }),
+  const [NFTAdded, setNFTAdded] = useState<string[]>(
+    Array(MAX_VOUCHER).fill(''),
   )
   const [visible, setVisible] = useState(false)
   const [currentNFTIdx, seCurrentNFTIdx] = useState(0)
-  const [collections, setCollections] = useState<string[]>([])
-  const ownerNFTsByVouchers = useNFTByVoucher(boosterAddress)
+  const walletAddress = useWalletAddress()
+  const [collections, setCollections] = useState<
+    { name: string; address: string }[]
+  >([])
   const vouchers = useVoucherPrintersByBooster(boosterAddress)
 
+  const acceptedCollections = useMemo(
+    () => vouchers.map((val) => val.collection.toBase58()),
+    [vouchers],
+  )
+
+  const { nftsSortByCollection: ownerNFTsByVouchers } =
+    useNFTsByOwnerAndCollection(walletAddress, acceptedCollections)
+
   const unselectedOwnerNFTs = useMemo(() => {
-    return ownerNFTsByVouchers.filter((val) => !selectedNFTs.includes(val.mint))
+    return ownerNFTsByVouchers?.filter(
+      (val) => !selectedNFTs.includes(val.mint),
+    )
   }, [ownerNFTsByVouchers, selectedNFTs])
 
   const getCollections = useCallback(async () => {
     const collectionsInfo = await Promise.all(
       vouchers.map(async (voucher) => {
+        const address = voucher.collection.toBase58()
         const metaData = await getMetaData(voucher.collection.toBase58())
-        return metaData?.data.data.name || 'Unknown NFT'
+        const name = metaData?.data.data.name || 'Unknown NFT'
+        return { name, address }
       }),
     )
     return setCollections(collectionsInfo)
   }, [vouchers])
 
-  const onSelect = (nftAddress: string, img: string) => {
-    onSelectNFT(nftAddress)
+  const onSelect = (nftAddress: string) => {
     //Remove selected NFT from list
-    const currentImageUrls = [...NFTAdded]
-    currentImageUrls[currentNFTIdx] = { nftAddress, img }
-    setNFTAdded(currentImageUrls)
+    const currentNFTs = [...NFTAdded]
+    currentNFTs[currentNFTIdx] = nftAddress
+    onSelectNFT(currentNFTs)
+    setNFTAdded(currentNFTs)
     setVisible(false)
   }
 
-  const onDelete = (e: MouseEvent<HTMLElement>, img: string) => {
+  const onDelete = (e: MouseEvent<HTMLElement>, nftAddress: string) => {
     e.stopPropagation()
     const nextNFTAdded = [...NFTAdded]
-    const idx = nextNFTAdded.findIndex((nft) => img === nft.img)
+    const idx = nextNFTAdded.findIndex((nftAdded) => nftAddress === nftAdded)
 
-    removeNFT(nextNFTAdded[idx].nftAddress)
+    removeNFT(nextNFTAdded[idx])
 
-    if (idx !== -1) nextNFTAdded[idx] = { nftAddress: '', img: '' }
+    if (idx !== -1) nextNFTAdded[idx] = ''
     return setNFTAdded(nextNFTAdded)
   }
 
@@ -108,10 +110,19 @@ const NftUpload = ({
       </Col>
       <Col onClick={(e) => e} span={24}>
         <Space>
-          {NFTAdded.map(({ img }, idx) => (
+          {NFTAdded.map((nftAddress, idx) => (
             <Tooltip
               placement="topLeft"
-              title="NFTs in the collections below will be approved for this booster"
+              title={
+                <Space direction="vertical">
+                  <Typography.Text style={{ color: '#E9E9EB' }}>
+                    NFTs in the collections below will be approved for this
+                    booster
+                  </Typography.Text>
+                  <ListNFT collections={collections} />
+                </Space>
+              }
+              key={nftAddress}
             >
               <Card
                 className="upload-box card-nft-image-only"
@@ -120,24 +131,22 @@ const NftUpload = ({
                   setVisible(true)
                 }}
               >
-                {img ? (
-                  <Image
-                    src={img}
-                    alt="avatar"
-                    width={64}
-                    height={64}
-                    style={{ borderRadius: 8, marginTop: -1 }}
-                    preview={false}
-                    className="nft-image"
-                  />
+                {nftAddress ? (
+                  <div className="nft-image">
+                    <AvatarNFT
+                      mintAddress={nftAddress}
+                      size={64}
+                      style={{ borderRadius: 8, marginTop: -1 }}
+                    />
+                  </div>
                 ) : (
                   <IonIcon name="add-outline" />
                 )}
-                {img && (
+                {nftAddress && (
                   <Button
                     type="text"
                     className="icon-delete-nft"
-                    onClick={(e) => onDelete(e, img)}
+                    onClick={(e) => onDelete(e, nftAddress)}
                     icon={<IonIcon name="trash-outline" />}
                   />
                 )}
@@ -156,12 +165,14 @@ const NftUpload = ({
         style={{ paddingBottom: 0 }}
       >
         <Row gutter={[24, 24]} className="scrollbar" style={{ maxHeight: 400 }}>
-          {!!unselectedOwnerNFTs.length ? (
-            unselectedOwnerNFTs.map((nft) => (
-              <Col xs={12} md={12} key={nft.mint}>
-                <CardNFT nftAddress={nft.mint} onSelect={onSelect} />
-              </Col>
-            ))
+          {!!unselectedOwnerNFTs?.length ? (
+            <Col span={24}>
+              <ModalContentListNFTs
+                onSelect={(mintAddress) => onSelect(mintAddress)}
+                selectedNFTs={selectedNFTs}
+                collectionAddress={acceptedCollections}
+              />
+            </Col>
           ) : (
             <Col span={24}>
               <Row gutter={[4, 4]}>
@@ -174,22 +185,7 @@ const NftUpload = ({
                   </Typography>
                 </Col>
                 <Col span={24}>
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={collections}
-                    renderItem={(name) => (
-                      <List.Item>
-                        <Space size={12}>
-                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
-                            &#x2022;
-                          </Typography.Text>
-                          <Typography.Text style={{ color: '#0fb5b8 ' }}>
-                            {name}
-                          </Typography.Text>
-                        </Space>
-                      </List.Item>
-                    )}
-                  />
+                  <ListNFT collections={collections} />
                 </Col>
               </Row>
             </Col>

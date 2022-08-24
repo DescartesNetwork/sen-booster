@@ -33,8 +33,7 @@ export const useEstimatedReceive = ({
     const amountDecimal = utilsBN.decimalize(amount, askDecimal)
     const valuation = amountDecimal.mul(askPriceDecimal)
 
-    if (!bidPrice) return new BN(0)
-
+    if (bidPriceDecimal.isZero()) return new BN(0)
     return valuation
       .mul(new BN((discount / 100) * ROUNDING_DECIMAL))
       .div(bidPriceDecimal)
