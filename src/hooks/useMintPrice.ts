@@ -12,7 +12,7 @@ export const useMintPrice = (mintAddress: string) => {
 
   useEffect(() => {
     ;(async () => {
-      const price = await getMintPrice(mintAddress)
+      const price = (await getMintPrice(mintAddress)) || 0
       return setMintPrice(price)
     })()
   }, [getMintPrice, mintAddress])
