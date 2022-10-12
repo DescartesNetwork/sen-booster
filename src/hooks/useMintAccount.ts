@@ -17,7 +17,7 @@ export const useMintAccount = (accountAddress: string) => {
   const { amount, mint: mintAddress } = useMemo(() => {
     // sol account
     if (accountAddress === walletAddress)
-      return { amount: lamports, mint: SOL_ADDRESS }
+      return { amount: BigInt(lamports), mint: SOL_ADDRESS }
     // spl token account
     return accounts[accountAddress] || {}
   }, [accountAddress, accounts, lamports, walletAddress])

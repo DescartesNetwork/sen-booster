@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useEffect, useMemo, useState } from 'react'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 import { util, useMintDecimals } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
 

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useGetMintDecimals, util } from '@sentre/senhub'
 import { utilsBN } from '@sen-use/web3'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import InputNumberCard from 'components/inputNumberCard'
 import { MintSymbol } from '@sen-use/app'
@@ -136,7 +136,7 @@ const ModalContent = ({ boosterAddress, onClose }: ModalContentProps) => {
           <Col span={24}>
             <InputNumberCard
               value={amount}
-              onValue={setAmount}
+              onValue={(val) => setAmount(val || 0)}
               prefix={<MintSymbol mintAddress={askMint} />}
               max={Number(mintInfo.balance)}
               suffix={

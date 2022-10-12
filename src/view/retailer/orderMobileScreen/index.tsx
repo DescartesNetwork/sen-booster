@@ -1,5 +1,5 @@
 import moment from 'moment'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { Col, Row } from 'antd'
 import ExpandCard from 'components/expandCard'

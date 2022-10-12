@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { web3, Address } from '@project-serum/anchor'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useMintDecimals } from '@sentre/senhub'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { AppState } from 'model'
 import { useMintPrice } from 'hooks/useMintPrice'

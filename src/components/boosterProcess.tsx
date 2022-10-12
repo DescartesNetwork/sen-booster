@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { utilsBN } from '@sen-use/web3'
 import { useMintDecimals, util } from '@sentre/senhub'
-import { BN } from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { MintSymbol } from '@sen-use/app'
 import { Col, Progress, Row, Space, Spin, Typography } from 'antd'

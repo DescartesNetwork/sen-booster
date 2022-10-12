@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { utilsBN } from '@sen-use/web3'
 import { web3 } from '@project-serum/anchor'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { useSenExchange } from 'hooks/useSenExchange'
 import { PayRateState } from 'actions/createBooster/payRate'

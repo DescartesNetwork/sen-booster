@@ -1,7 +1,9 @@
-import { Typography } from 'antd'
-import BN from 'bn.js'
-import { SECONDS_PER_DAY } from 'constant'
 import { useMemo } from 'react'
+import { BN } from '@project-serum/anchor'
+
+import { Typography } from 'antd'
+
+import { SECONDS_PER_DAY } from 'constant'
 
 const LOCK_TIME: Record<number, string> = {
   0: 'None',

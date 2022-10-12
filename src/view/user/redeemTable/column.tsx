@@ -1,4 +1,4 @@
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 import moment from 'moment'
 import { OrderState } from 'sen-exchange-core'
 

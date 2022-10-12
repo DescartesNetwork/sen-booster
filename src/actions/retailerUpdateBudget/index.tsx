@@ -43,7 +43,7 @@ const RetailerUpdateBudget = ({
           <Typography.Text>Amount</Typography.Text>
           <InputNumberCard
             value={nextBudget}
-            onValue={setNextBudget}
+            onValue={(val) => setNextBudget(val || 0)}
             prefix={<MintSymbol mintAddress={bidMint} />}
             disabled={metaLoading}
           />

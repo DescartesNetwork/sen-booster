@@ -4,7 +4,7 @@ import { Card, Col, InputNumber, Row } from 'antd'
 
 type InputNumberCardProps = {
   value: number
-  onValue: (val: number) => void
+  onValue: (val: number | null) => void
   prefix?: ReactNode
   suffix?: ReactNode
   max?: number

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useMintDecimals, util } from '@sentre/senhub'
-import BN from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { MintSymbol } from '@sen-use/app'
 import { Card, Col, Row, Space, Typography } from 'antd'

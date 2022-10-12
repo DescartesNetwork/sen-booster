@@ -30,7 +30,7 @@ export const AppLoader: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (loaded) return
-    const provider = getAnchorProvider(rpc, address, window.sentre.wallet)
+    const provider = getAnchorProvider(rpc, address, window.sentre.solana)
     const senExchange = new SenExchangeProgram(provider, senExchangeProgram)
     window.senBooster = senExchange
     getCurrentMode()

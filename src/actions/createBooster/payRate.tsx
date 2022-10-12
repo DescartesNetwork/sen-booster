@@ -54,7 +54,7 @@ const PayRate = ({ payRate, setPayRate }: PayRateProps) => {
                     size="large"
                     placeholder="Must be >= 100%"
                     value={payRate[date]}
-                    onChange={(val) => setPayRate(val, date)}
+                    onChange={(val) => setPayRate(val || 0, date)}
                   />
                 }
               />

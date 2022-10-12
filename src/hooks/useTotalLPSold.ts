@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { utilsBN } from '@sen-use/web3'
 import { useGetMintDecimals } from '@sentre/senhub'
-import { BN } from 'bn.js'
+import { BN } from '@project-serum/anchor'
 
 import { AppState } from 'model'
 

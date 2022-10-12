@@ -113,7 +113,7 @@ const GeneralInfo = ({ onChange, generateData }: GeneralInfoProps) => {
               }
               value={
                 <InputNumber
-                  onChange={(value) => onChange(value, 'budget')}
+                  onChange={(value) => onChange(value || '0', 'budget')}
                   value={budget ? budget : undefined}
                   placeholder="Amount of paid token"
                   size="large"
